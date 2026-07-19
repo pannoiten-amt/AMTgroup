@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>วิถีกรรม: จากอารมณ์สู่ภพภูมิ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=Srisakdi:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#241f3d; --bg2:#3a2f5c; --panel:#3d3560; --panel2:#4a4174; --line:#5b527f;
+  --ivory:#faf3e7; --dim:#b3a9d4;
+  --gold:#ff9f4a; --gold-soft:#ffc07a;
+  --red:#ff6b6b; --red-soft:#ffb3ab;
+  --indigo:#8b7fd6; --indigo-soft:#c3b8ec;
+  --green:#4ecb8f; --teal:#5fd3c4;
+  --cream:#fdf6e9;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:linear-gradient(180deg,#2f2850 0%, var(--bg) 55%, #1c1832 100%);color:var(--ivory);font-family:'Sarabun',sans-serif;font-weight:300;line-height:1.65;min-height:100vh}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 90% 55% at 50% -10%,rgba(255,159,74,.14),transparent 60%);pointer-events:none}
+.wrap{max-width:760px;margin:0 auto;padding:40px 20px 80px;position:relative}
+header{text-align:center;margin-bottom:34px}
+.eyebrow{font-size:.74rem;letter-spacing:.35em;color:var(--gold);text-transform:uppercase;opacity:.85}
+h1{font-family:'Srisakdi',cursive;font-weight:700;font-size:clamp(1.8rem,6vw,2.6rem);color:var(--gold-soft);margin:.25em 0 .15em}
+.subtitle{color:var(--dim);font-size:.92rem;max-width:520px;margin:0 auto}
+
+/* ---- input stage ---- */
+.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:28px;margin-bottom:20px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.card h2{font-family:'Srisakdi';font-size:1.3rem;color:var(--gold-soft);margin-bottom:12px;font-weight:400}
+textarea{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:12px;color:var(--ivory);font-family:'Sarabun';font-size:1rem;padding:14px 16px;resize:none;min-height:64px;transition:border-color .2s}
+textarea:focus{outline:none;border-color:var(--gold)}
+.hint{font-size:.78rem;color:var(--dim);margin-top:8px}
+.examples{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.btn-row{display:flex;gap:10px;margin-top:16px}
+button.primary{flex:1;background:linear-gradient(135deg,var(--gold),#ffb85e);color:#3a2000;border:none;border-radius:999px;padding:15px;font-family:'Sarabun';font-size:1rem;font-weight:700;cursor:pointer;transition:transform .15s ease, filter .2s;box-shadow:0 6px 0 #c97a2e, 0 8px 16px rgba(0,0,0,.25)}
+button.primary:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-2px)}
+button.primary:active:not(:disabled){transform:translateY(2px);box-shadow:0 3px 0 #c97a2e}
+button.primary:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+button.ghost{background:transparent;color:var(--dim);border:1.5px dashed var(--line);border-radius:999px;padding:13px 20px;font-family:'Sarabun';font-size:.88rem;cursor:pointer;transition:all .15s}
+button.ghost:hover{border-color:var(--gold-soft);color:var(--gold-soft);transform:translateY(-1px)}
+
+.ex-chip{border:1.5px solid var(--line);background:var(--panel2);color:var(--dim);border-radius:999px;padding:7px 15px;font-size:.82rem;cursor:pointer;transition:all .18s ease}
+.ex-chip:hover{border-color:var(--gold);color:var(--gold-soft);transform:translateY(-2px) scale(1.03);background:var(--panel)}
+
+/* ---- quiz stage ---- */
+#quizStage{display:none}
+.q-block{margin-bottom:20px}
+.q-text{font-size:1rem;color:var(--ivory);margin-bottom:14px;font-weight:400}
+.q-opts{display:flex;flex-direction:column;gap:10px}
+.q-opt{border:1.5px solid var(--line);background:var(--panel2);color:var(--ivory);border-radius:16px;padding:14px 18px;font-family:'Sarabun';font-size:.92rem;text-align:right;cursor:pointer;transition:all .18s cubic-bezier(.34,1.56,.64,1)}
+.q-opt:hover{border-color:var(--gold);transform:translateX(-4px) scale(1.015)}
+.q-opt.sel{border-color:var(--gold);background:rgba(255,159,74,.14);color:var(--gold-soft);font-weight:600;transform:scale(1.02)}
+.progress{display:flex;gap:8px;margin-bottom:22px;justify-content:center}
+.progress span{width:11px;height:11px;border-radius:50%;background:var(--line);transition:all .25s}
+.progress span.done{background:var(--gold);transform:scale(1.15);box-shadow:0 0 8px rgba(255,159,74,.6)}
+
+/* ---- result stage ---- */
+#resultStage{display:none}
+.diagram-wrap{position:relative;background:radial-gradient(ellipse at 50% 20%,var(--zoneglow,rgba(232,201,58,.12)),var(--panel) 70%);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:20px;overflow:hidden}
+svg#pathSvg{width:100%;height:auto;display:block}
+.node-label{font-family:'Sarabun';fill:var(--ivory);text-anchor:middle;font-size:15px;font-weight:500}
+.node-sub{font-family:'Sarabun';fill:var(--dim);text-anchor:middle;font-size:11.5px;letter-spacing:.05em}
+.node-circle{stroke-width:2.5}
+.flow-line{fill:none;stroke-width:4;stroke-linecap:round}
+
+.result-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:24px;margin-bottom:16px;box-shadow:0 10px 30px rgba(0,0,0,.2)}
+.result-tag{display:inline-block;font-size:.7rem;letter-spacing:.12em;border-radius:999px;padding:4px 12px;margin-bottom:10px;font-weight:700}
+.result-title{font-family:'Srisakdi';font-size:1.4rem;color:var(--gold-soft);margin-bottom:6px;font-weight:400}
+.result-emoji{font-size:1.6rem;margin-right:6px;vertical-align:middle}
+
+/* ---- flip card (signature reveal) ---- */
+.flip-outer{perspective:1400px;margin-bottom:20px}
+.flip-back{background:linear-gradient(135deg,var(--panel2),var(--bg2));border:2.5px dashed var(--gold-soft);border-radius:26px;padding:70px 20px;text-align:center;cursor:pointer;transition:transform .4s cubic-bezier(.4,.1,.3,1), opacity .3s ease;box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.flip-back:hover{transform:scale(1.02) rotate(-.3deg)}
+.flip-back.flipping{transform:rotateY(95deg) scale(.85);opacity:0}
+.flip-back .fb-emoji{font-size:3.4rem;margin-bottom:14px;display:block;animation:fbfloat 2.4s ease-in-out infinite}
+.flip-back .fb-text{font-family:'Srisakdi';font-size:1.35rem;color:var(--gold-soft)}
+.flip-back .fb-sub{font-size:.84rem;color:var(--dim);margin-top:10px}
+@keyframes fbfloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-10px) rotate(4deg)}}
+
+.reveal-content{display:none}
+.reveal-content.show{display:block;animation:popIn .55s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.9) rotateY(12deg)}to{opacity:1;transform:scale(1) rotateY(0)}}
+
+.flip-back.legendary{border:2.5px solid var(--gold);animation:legendaryPulse 1.6s ease-in-out infinite;background:linear-gradient(135deg,#4a3a1f,#2a2440)}
+.flip-back.legendary .fb-emoji{animation:fbfloat 1.8s ease-in-out infinite, legendarySpin 4s linear infinite}
+.flip-back.legendary .fb-text{color:#ffd875;text-shadow:0 0 12px rgba(255,216,117,.6)}
+@keyframes legendaryPulse{0%,100%{box-shadow:0 0 18px rgba(255,216,117,.35), 0 14px 34px rgba(0,0,0,.3)}50%{box-shadow:0 0 42px rgba(255,216,117,.75), 0 14px 34px rgba(0,0,0,.3)}}
+@keyframes legendarySpin{0%{filter:drop-shadow(0 0 0px gold)}50%{filter:drop-shadow(0 0 10px gold)}100%{filter:drop-shadow(0 0 0px gold)}}
+
+.gold-burst{position:fixed;top:50%;left:50%;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff8dd 0%,#ffd875 35%,rgba(255,216,117,0) 72%);transform:translate(-50%,-50%) scale(0);pointer-events:none;z-index:70;animation:goldBurst 1.4s cubic-bezier(.15,.8,.3,1) forwards}
+@keyframes goldBurst{0%{transform:translate(-50%,-50%) scale(0);opacity:1}60%{opacity:.9}100%{transform:translate(-50%,-50%) scale(55);opacity:0}}
+.p-confetti{position:absolute;bottom:-30px;font-size:1.5rem;animation:riseUp 2.6s ease-out forwards}
+@keyframes riseUp{0%{transform:translateY(0) rotate(0deg);opacity:1}100%{transform:translateY(-105vh) rotate(380deg);opacity:0}}
+.p-smoke{position:absolute;bottom:-20px;width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,rgba(160,155,175,.55),transparent 70%);animation:smokeRise 2.8s ease-out forwards}
+@keyframes smokeRise{0%{transform:translateY(0) scale(.6);opacity:.6}100%{transform:translateY(-75vh) scale(2.4);opacity:0}}
+.result-pali{font-style:italic;color:var(--gold-soft);font-size:.82rem;margin-bottom:10px;opacity:.85}
+.result-desc{font-size:.92rem;color:#c9cde4}
+.result-bhumi{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+.bhumi-name{font-family:'Srisakdi';font-size:1.15rem;color:var(--teal);margin-bottom:4px;font-weight:400}
+.bhumi-desc{font-size:.88rem;color:#c9cde4}
+
+.restart-row{display:flex;gap:10px;margin-top:6px}
+
+footer.disclaimer{position:fixed;bottom:8px;right:12px;font-size:.66rem;color:rgba(139,144,173,.55);max-width:260px;text-align:right;line-height:1.4;pointer-events:none}
+@media(max-width:600px){footer.disclaimer{position:static;text-align:center;margin-top:30px;max-width:100%}}
+
+.spinner-tip{font-size:.8rem;color:var(--dim);text-align:center;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow">✨ ปฏิจจสมุปบาท · ทดลองพิจารณา ✨</div>
+    <h1>วิถีกรรม: จากอารมณ์สู่ภพภูมิ 🎴</h1>
+    <p class="subtitle">พิมพ์อารมณ์ล่าสุดของคุณ แล้วดูว่าอารมณ์นั้นสัมพันธ์กับจิตดวงใด และหากสังขารเช่นนี้ฝังลึกจนถึงวาระสุดท้าย จะโน้มนำไปสู่ภพภูมิใดใน 31 ภพ</p>
+  </header>
+
+  <!-- STAGE 1: input -->
+  <div id="inputStage" class="card">
+    <h2>🎯 อารมณ์ล่าสุดของคุณคืออะไร?</h2>
+    <textarea id="emoInput" placeholder="เช่น หงุดหงิดที่รถติดมาก, ดีใจที่ได้เจอเพื่อนเก่า, สงบใจหลังนั่งสมาธิ..." maxlength="200"></textarea>
+    <div class="hint">พิมพ์เป็นคำหรือประโยคสั้นๆ ก็ได้ ระบบจะพยายามจับความหมายให้</div>
+    <div class="examples" id="exampleChips"></div>
+    <div class="btn-row">
+      <button class="primary" id="analyzeBtn" disabled>🔮 ดูเส้นทางของอารมณ์นี้</button>
+    </div>
+  </div>
+
+  <!-- STAGE 2: fallback quiz -->
+  <div id="quizStage" class="card">
+    <h2>🧩 ขอถามเพิ่มอีกนิด เพื่อจับความรู้สึกให้แม่นขึ้น</h2>
+    <div class="progress" id="quizProgress"></div>
+    <div id="quizBody"></div>
+    <div class="btn-row">
+      <button class="ghost" id="quizBackBtn">← กลับไปพิมพ์ใหม่</button>
+    </div>
+  </div>
+
+  <!-- STAGE 3: result -->
+  <div id="resultStage">
+    <div class="flip-outer">
+      <div class="flip-back" id="flipBackCard">
+        <span class="fb-emoji">🔮</span>
+        <div class="fb-text">แตะเพื่อเปิดไพ่ดวงกรรม</div>
+        <div class="fb-sub">อารมณ์ของคุณกำลังจะเผยเส้นทางของมัน...</div>
+      </div>
+    </div>
+
+    <div class="reveal-content" id="revealContent">
+    <div class="diagram-wrap">
+      <svg id="pathSvg" viewBox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
+            <path d="M0,0 L7,3.5 L0,7 Z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <path id="lineA" class="flow-line" d="" />
+        <path id="lineB" class="flow-line" d="" />
+        <g id="nodeEmo"></g>
+        <g id="nodeCitta"></g>
+        <g id="nodeBhumi"></g>
+      </svg>
+    </div>
+
+    <div class="result-card">
+      <span class="result-tag" id="cittaTag"></span>
+      <div class="result-title"><span class="result-emoji" id="cittaEmoji"></span><span id="cittaTitle"></span></div>
+      <div class="result-pali" id="cittaPali"></div>
+      <div class="result-desc" id="cittaDesc"></div>
+
+      <div class="result-bhumi">
+        <div class="bhumi-name" id="bhumiName"></div>
+        <div class="bhumi-desc" id="bhumiDesc"></div>
+      </div>
+    </div>
+
+    <div class="restart-row">
+      <button class="ghost" id="restartBtn">↺ ลองพิมพ์อารมณ์ใหม่</button>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div class="particle-layer" id="particleLayer"></div>
+
+<footer class="disclaimer">เครื่องมือนี้สร้างขึ้นเพื่อชวนพิจารณาโยงกับหลักอภิธรรม/ปฏิจจสมุปบาท ไม่ใช่การทำนายภพภูมิจริงของผู้ใด</footer>
+
+<script>
+/* ============================================================
+   1) EMOTION DICTIONARY — คำอารมณ์ไทย จับคู่กับราก (root)
+   roots: lobha, dosa, moha, kusala, jhana, arupa
+   ============================================================ */
+const EMOTION_DICT = {
+  lobha: [
+    "ดีใจ","ชอบ","ปลื้ม","ปลื้มใจ","ตื่นเต้น","หลงใหล","เสียดาย","อิจฉา","โลภ","อยากได้",
+    "ตะกละ","หื่น","กำหนัด","รัก","เห่อ","คลั่งไคล้","ลุ่มหลง","เสพติด","อยาก","ใคร่",
+    "พอใจ","สุขใจ","สนุก","มันส์","เพลิดเพลิน","ติดใจ","หวงแหน","ตระหนี่","กระหาย",
+    "ยินดี","ปีติยินดี","อยากมี","อยากเป็น","หิว","โหยหา","คิดถึง","ปรารถนา","ใฝ่ฝัน",
+    "ทะเยอทะยาน","หวัง","ลุ้น","เร้าใจ","ฟิน","ว้าว","อิน","หลง","คลั่ง","ชื่นชอบ",
+    "ชื่นชม","อยากได้มากกว่านี้","ยึดติด","ผูกพัน","หวงแหนของ","อยากครอบครอง",
+    "รู้สึกดี","ฟินมาก","ปลาบปลื้ม","ปิติ","สมหวัง","สมใจ","ได้ดั่งใจ","ถูกใจ",
+    "อยากกิน","อยากซื้อ","ซื้อของคลายเครียด","ชอปปิงมันส์","อยากเที่ยว","หลงระเริง"
+  ],
+  dosa: [
+    "โกรธ","โมโห","หงุดหงิด","ฉุนเฉียว","เกลียด","ชัง","รำคาญ","พยาบาท","แค้น","เจ็บใจ",
+    "เสียใจ","น้อยใจ","ท้อแท้","เศร้า","เครียด","กังวล","กลัว","ตกใจ","สะเทือนใจ",
+    "ผิดหวัง","คับข้องใจ","หมดอาลัย","ขยะแขยง","รังเกียจ","อึดอัด","บึ้งตึง","ปวดใจ",
+    "เจ็บปวด","ทุกข์ใจ","ระอา","หัวเสีย","ฉุน","บ้าจี้","อารมณ์เสีย","ขุ่นเคือง","ขัดใจ",
+    "ไม่พอใจ","ขัดข้อง","อคติ","เคือง","แสบ","จี๊ด","จุก","อึ้ง","ช็อก","หวาดระแวง",
+    "หวาดกลัว","วิตก","กังวลใจ","หนักใจ","อ่อนไหว","น้อยเนื้อต่ำใจ","ไม่ยุติธรรม",
+    "ถูกเอาเปรียบ","ถูกดูถูก","อับอาย","ขายหน้า","อิจฉาริษยา","ริษยา","หึง","หวง",
+    "ทนไม่ได้","หมั่นไส้","เดือดดาล","คุมสติไม่อยู่","อารมณ์ร้อน","ระเบิดอารมณ์",
+    "เศร้าหมอง","หม่นหมอง","หดหู่","ท้อ","สิ้นหวัง","สิ้นหวังใจ","เจ็บช้ำ","แสนเสียใจ"
+  ],
+  moha: [
+    "สับสน","งง","มึนงง","ลังเล","ไม่แน่ใจ","เบื่อ","ง่วง","ซึม","เฉื่อยชา","ขี้เกียจ",
+    "ประมาท","ไม่รู้","หลงลืม","ฟุ้งซ่าน","วอกแวก","ไม่มีสมาธิ","สงสัย","กังขา",
+    "มืดมน","หมดหวังไม่รู้ทาง","เหนื่อยล้าทางใจ","ไร้จุดหมาย","ว่างเปล่า","เฉยชา",
+    "มึน","เบลอ","หลุด","หลุดโฟกัส","ไม่รู้จะทำอะไร","ไม่อยากคิด","เหม่อลอย",
+    "เหม่อ","ไม่มีแรงจูงใจ","หมดไฟ","เนือย","ล่องลอย","งุนงง","สับสนวุ่นวาย","มึนตึ้บ",
+    "เผลอ","ลืมตัว","ขาดสติ","สติหลุด","เผลอสติ","ไม่ทันรู้ตัว","ไม่ทันระวังตัว",
+    "เพลินจนลืมตัว","เพลินจนลืมเวลา","ทำไปโดยไม่ทันคิด","ไม่ทันยั้งคิด",
+    "ใจลอยจนพลาด","เหม่อจนพลาด","วอกแวกจนลืมตัว","ไม่รู้ตัวว่าทำอะไรลงไป",
+    "หลุดโฟกัสไปเลย","ขาดสติยั้งคิด","เผอเรอ","ประมาทเลินเล่อ","ไม่ทันระวัง"
+  ],
+  kusala: [
+    "เมตตา","กรุณา","มุทิตา","อุเบกขา","สงบ","ปลอดโปร่ง","โล่งใจ","สบายใจ","กตัญญู",
+    "ขอบคุณ","ให้อภัย","เอื้อเฟื้อ","เสียสละ","ศรัทธา","เบิกบาน","ผ่อนคลาย","ยินดีกับผู้อื่น",
+    "สงบเย็น","วางเฉย","ยอมรับ","สมดุล","อ่อนโยน","เห็นใจ","สงสาร","อยากช่วยเหลือ",
+    "ปีติในบุญ","ใจดี","ปล่อยวาง","วางใจได้","อบอุ่นใจ","อิ่มใจ","มีสติ","รู้สึกตัว",
+    "เข้าใจ","ยอมรับความจริง","ให้อโหสิกรรม","สันติ","เยือกเย็น","นิ่งสงบ","เบาสบาย"
+  ],
+  jhana: [
+    "ดิ่งลึก","นิ่งสงบมาก","จิตตั้งมั่น","เอกัคคตา","ปีติล้น","สุขล้ำลึก","สมาธิแน่วแน่",
+    "ดิ่งสมาธิ","จิตไม่แฉลบ","นิ่งเป็นหนึ่ง","สงบจนลืมกาย","ฌานสุข",
+    "นั่งสมาธิแล้วลืมกายลืมเวลา","ดิ่งจนไม่รู้สึกตัว","สงบจนลืมตัวไปเลย",
+    "นั่งสมาธิแล้วดิ่งลึกมาก","จิตนิ่งจนไม่รู้สึกอะไรเลย","ดิ่งลืมโลก",
+    "นั่งสมาธิแล้วตัวหายไปเลย","นิ่งจนไม่ได้ยินเสียงอะไรรอบตัว","ดิ่งจนลืมไปว่ามีร่างกาย"
+  ],
+  arupa: [
+    "ว่างเปล่าอันประณีต","ไร้ขอบเขต","จิตเป็นอนันต์","ว่างล้วนๆ","ไม่มีรูปเลย","อากาศไม่มีที่สิ้นสุด",
+    "ว่างจนไม่มีอะไรเหลือให้ยึด","ว่างจนไม่รู้สึกว่ามีร่างกาย","จิตว่างจนไม่มีขอบเขต",
+    "รู้สึกเป็นอนันต์ไม่มีที่สิ้นสุด","ว่างจนลืมไปว่ามีตัวตน","ว่างละเอียดยิ่งกว่าสมาธิทั่วไป"
+  ]
+};
+
+/* ============================================================
+   2) OUTCOME DATA — จิต + ภพภูมิ ตามอภิธัมมัตถสังคหะ
+   ============================================================ */
+const OUTCOMES = {
+  lobha: {
+    tag: "โลภมูลจิต · 8 ดวง", tagColor: "#e0393a",
+    title: "จิตที่ปรุงแต่งด้วยความอยากได้ (โลภมูลจิต)",
+    pali: "โลภสหคตํ จิตฺตํ — จิตที่ประกอบด้วยโลภะ ยินดีติดใจในอารมณ์",
+    desc: "เมื่อผัสสะเกิดเวทนาที่ถูกใจ แล้วจิตปรุงแต่งต่อด้วยความอยากได้ ยึดติด หรือพอใจโดยขาดสติ นี่คือโลภมูลจิต 1 ใน 12 จิตที่เป็นอกุศล เป็นเชื้อสร้างภพใหม่ฝ่ายต่ำ",
+    zoneGlow: "rgba(224,57,58,.14)",
+    bhumi: {
+      name: "เปตภูมิ / อสุรกายภูมิ",
+      desc: "ภูมิของผู้มีความหิวโหยไม่รู้จบ ยึดติดในสิ่งที่ไม่อาจครอบครองได้อย่างแท้จริง — เป็นผลจากสังขารฝ่ายโลภที่ฝังลึกจนถึงวาระสุดท้ายของชีวิต"
+    }
+  },
+  dosa: {
+    tag: "โทสมูลจิต · 2 ดวง", tagColor: "#e0393a",
+    title: "จิตที่ปรุงแต่งด้วยความขัดเคือง (โทสมูลจิต)",
+    pali: "โทมนสฺสสหคตํ ปฏิฆสมฺปยุตฺตํ — จิตที่ประกอบด้วยโทมนัสและความกระทบกระทั่ง",
+    desc: "เมื่อผัสสะเกิดเวทนาที่ไม่ถูกใจ แล้วจิตปรุงแต่งต่อด้วยความขัดเคือง โกรธ ผลักไส นี่คือโทสมูลจิต เป็นอกุศลจิตที่รุนแรง สร้างแรงกรรมฝ่ายต่ำ",
+    zoneGlow: "rgba(224,57,58,.18)",
+    bhumi: {
+      name: "นิรยภูมิ",
+      desc: "ภูมิที่เต็มไปด้วยความเร่าร้อนทุกข์ทรมาน สอดคล้องกับธรรมชาติของโทสะที่แผดเผาผู้ปรุงแต่งมันเองก่อนใครอื่น"
+    }
+  },
+  moha: {
+    tag: "โมหมูลจิต · 2 ดวง", tagColor: "#8b90ad",
+    title: "จิตที่ปรุงแต่งด้วยความหลง (โมหมูลจิต)",
+    pali: "อุทฺธจฺจสหคตํ วิจิกิจฺฉาสหคตํ — จิตที่ประกอบด้วยความฟุ้งซ่านหรือความลังเลสงสัย",
+    desc: "โมหมูลจิตไม่ได้มีแค่มิติ 'งงสงสัยลังเล' แต่ยังครอบคลุมถึงการขาดสติ เผลอ ลืมตัว ทำอะไรไปโดยไม่ทันรู้ตัว — เมื่อจิตเผลอหลุดจากปัจจุบันขณะ ไม่รู้เท่าทันผัสสะ นี่คือโมหมูลจิต รากเหง้าที่แฝงอยู่ในอกุศลจิตทุกดวง",
+    zoneGlow: "rgba(139,144,173,.16)",
+    bhumi: {
+      name: "ติรัจฉานภูมิ",
+      desc: "ภูมิของสัตว์เดรัจฉาน ซึ่งดำรงชีวิตด้วยสัญชาตญาณเป็นหลัก ขาดความสามารถไตร่ตรองด้วยปัญญา สอดคล้องกับธรรมชาติของโมหะที่บดบังความรู้แจ้ง"
+    }
+  },
+  kusala: {
+    tag: "มหากุศลจิต · 8 ดวง", tagColor: "#3fa34d",
+    title: "จิตที่สำนึกดีงาม (มหากุศลจิต)",
+    pali: "กามาวจรกุสลจิตฺตํ — จิตกุศลระดับกามาวจร ประกอบด้วยศรัทธา สติ หิริ โอตตัปปะ",
+    desc: "เมื่อจิตรับผัสสะด้วยสติ ประกอบด้วยเมตตา กรุณา หรือปัญญา โดยไม่ปรุงแต่งด้วยโลภ โทสะ โมหะ นี่คือมหากุศลจิต เป็นเหตุแห่งความสุขทั้งในปัจจุบันและอนาคต",
+    zoneGlow: "rgba(63,163,77,.14)",
+    bhumi: {
+      name: "มนุษยภูมิ / เทวภูมิ 6 ชั้น",
+      desc: "กุศลกรรมระดับนี้ส่งผลให้เกิดในสุคติภูมิฝ่ายกามาวจร คือมนุษย์หรือเทวดาทั้ง 6 ชั้น ได้เสวยผลบุญตามกำลังของกุศลที่สั่งสม"
+    }
+  },
+  jhana: {
+    tag: "รูปาวจรกุศลจิต · ฌาน", tagColor: "#e8c93a",
+    title: "จิตที่เข้าถึงฌานมีรูปเป็นอารมณ์ (รูปาวจรกุศล)",
+    pali: "รูปาวจรกุสลจิตฺตํ — จิตที่ตั้งมั่นในองค์ฌาน มีเอกัคคตาเป็นประธาน",
+    desc: "เมื่อจิตสงบตั้งมั่นจนข้ามพ้นกามคุณ เข้าสู่ฌานที่มีรูปกรรมฐานเป็นอารมณ์ (เช่น กสิณ) นี่คือรูปาวจรกุศลจิต ละเอียดประณีตกว่ามหากุศลจิตทั่วไป",
+    zoneGlow: "rgba(232,201,58,.16)",
+    bhumi: {
+      name: "รูปพรหมภูมิ 16 ชั้น",
+      desc: "ผลของฌานที่ยังไม่เสื่อม จะนำไปสู่การเกิดในรูปพรหมภูมิ ตามระดับฌานที่ทรงไว้ได้จนถึงวาระสุดท้าย เป็นภูมิที่ประณีต ปราศจากกามคุณ"
+    }
+  },
+  arupa: {
+    tag: "อรูปาวจรกุศลจิต", tagColor: "#a8abe0",
+    title: "จิตที่เข้าถึงอรูปฌาน (อรูปาวจรกุศล)",
+    pali: "อรูปาวจรกุสลจิตฺตํ — จิตที่ก้าวข้ามแม้แต่รูปนิมิต มีอรูปธรรมล้วนเป็นอารมณ์",
+    desc: "เมื่อจิตก้าวข้ามรูปฌานไปสู่ความว่างที่ประณีตยิ่งขึ้น ไม่ยึดแม้แต่รูปนิมิต นี่คืออรูปาวจรกุศลจิต ละเอียดที่สุดในบรรดาจิตฝ่ายโลกียะ",
+    zoneGlow: "rgba(168,171,224,.16)",
+    bhumi: {
+      name: "อรูปพรหมภูมิ 4 ชั้น",
+      desc: "ผลของอรูปฌานนำไปสู่อรูปพรหมภูมิ ซึ่งมีเพียงนามขันธ์ 4 ปราศจากรูปโดยสิ้นเชิง เป็นภูมิที่ประณีตที่สุดในสามภูมิ แต่ยังไม่พ้นวัฏสงสาร"
+    }
+  },
+  nibbana: {
+    tag: "โลกุตตรจิต · มรรค-ผล", tagColor: "#ffd875",
+    legendary: true,
+    title: "จิตที่รู้แจ้งแทงตลอด — สิ้นอาสวะ",
+    pali: "ขีณา ชาติ, วุสิตํ พฺรหฺมจริยํ, กตํ กรณียํ — ชาติสิ้นแล้ว พรหมจรรย์อยู่จบแล้ว กิจที่ควรทำได้ทำเสร็จแล้ว",
+    desc: "เมื่อปัญญาเห็นไตรลักษณ์แจ่มแจ้งครบถ้วน ตัณหาดับสนิทไม่มีส่วนเหลือ โลกุตตรจิตตัดรอยต่อ \"เวทนา→ตัณหา\" ได้เด็ดขาด กิเลสวัฏฏ์ไม่เกิด กรรมวัฏฏ์ไม่ถูกสร้าง วิปากวัฏฏ์ใหม่จึงไม่มี — วงล้อปฏิจจสมุปบาทหยุดหมุนโดยสิ้นเชิง",
+    zoneGlow: "rgba(255,216,117,.35)",
+    bhumi: {
+      name: "ไม่มีภพภูมิใดรองรับอีกต่อไป — วงล้อหยุดหมุน",
+      desc: "นิพพานไม่ใช่ 1 ใน 31 ภพภูมิ เพราะเป็นอสังขตธรรม ไม่เกิดไม่ดับ ไม่ใช่ที่ๆ ต้องไปเกิด — เป็นเพียงภาวะพ้นจากวัฏสงสารทั้งปวงเท่านั้น"
+    }
+  }
+};
+
+const EXAMPLES = ["😤 หงุดหงิดรถติด","😄 ดีใจได้โบนัส","🧘 สงบใจหลังนั่งสมาธิ","😵 งงไปหมดไม่รู้จะทำไง","💔 เศร้าที่แฟนจากไป","😒 เห็นคนอื่นสำเร็จแล้วอิจฉา"];
+const ROOT_EMOJI = { lobha:"💛", dosa:"🔥", moha:"💭", kusala:"🌿", jhana:"✨", arupa:"🌌", nibbana:"👑" };
+
+/* ============================================================
+   3) MATCHING LOGIC
+   ============================================================ */
+const NIBBANA_TRIGGERS = ["รู้แจ้งแทงตลอด"];
+
+function scoreInput(text){
+  const t = text.trim();
+  for (const trig of NIBBANA_TRIGGERS){
+    if (t.includes(trig)) return "nibbana";
+  }
+  const scores = {lobha:0, dosa:0, moha:0, kusala:0, jhana:0, arupa:0};
+  for (const root in EMOTION_DICT){
+    EMOTION_DICT[root].forEach(word=>{
+      if (t.includes(word)) scores[root] += word.length; // longer/more specific match weighs more
+    });
+  }
+  let best = null, bestScore = 0;
+  for (const root in scores){
+    if (scores[root] > bestScore){ bestScore = scores[root]; best = root; }
+  }
+  return bestScore > 0 ? best : null;
+}
+
+/* ============================================================
+   4) FALLBACK QUIZ
+   ============================================================ */
+const QUIZ = [
+  {
+    text: "เมื่อรู้สึกแบบนี้ คุณอยากทำอะไรมากที่สุด?",
+    opts: [
+      {label:"อยากวิ่งเข้าหา อยากได้มันมาอยู่กับตัว", root:"lobha"},
+      {label:"อยากผลักไสออกไป อยากให้มันหายไป", root:"dosa"},
+      {label:"เหมือนเผลอหลุดไปพักหนึ่ง ไม่ทันรู้ตัวว่ากำลังคิดหรือทำอะไรอยู่", root:"moha"},
+      {label:"แค่รับรู้เฉยๆ ไม่อยากทำอะไรกับมันเป็นพิเศษ", root:"kusala"}
+    ]
+  },
+  {
+    text: "ความรู้สึกนี้มาพร้อมความคิดแบบไหน?",
+    opts: [
+      {label:"อยากได้เพิ่ม อยากให้มันอยู่นานๆ", root:"lobha"},
+      {label:"อยากให้มันจบ อยากทำลาย อยากแก้แค้น", root:"dosa"},
+      {label:"ใจลอย คิดเรื่อยเปื่อย หรือทำอะไรไปโดยไม่ทันยั้งคิด", root:"moha"},
+      {label:"เข้าใจ ให้อภัย หรือรู้สึกอยากช่วยเหลือ", root:"kusala"}
+    ]
+  },
+  {
+    text: "ตอนที่อารมณ์นั้นเกิดขึ้น สติ (ความรู้ตัว) ของคุณเป็นอย่างไร?",
+    opts: [
+      {label:"รู้ตัวชัดเจนตลอด แค่รู้สึกเฉยๆ ไม่หวั่นไหว", root:"kusala"},
+      {label:"เผลอ ลืมตัวไปเลย ย้อนคิดดูแล้วจำรายละเอียดตอนนั้นไม่ค่อยได้", root:"moha"},
+      {label:"รู้ตัวดี แต่คุมความอยากได้ไว้ไม่อยู่", root:"lobha"},
+      {label:"รู้ตัวดี แต่คุมความโกรธ/ขัดเคืองไว้ไม่อยู่", root:"dosa"}
+    ]
+  }
+];
+
+const QUIZ_EXTRA = {
+  text: "ตอนสงบนั้น จิตของคุณเป็นแบบไหน?",
+  opts: [
+    {label:"สงบธรรมดา ยังรับรู้ทุกอย่างรอบตัวตามปกติ", root:"kusala"},
+    {label:"นิ่งจนรู้สึกตัวหายไปชั่วขณะ ดิ่งลึกมาก แทบลืมกาย", root:"jhana"},
+    {label:"ว่างจนไม่รู้สึกว่ามีร่างกายอยู่เลย ราวกับไร้ขอบเขต", root:"arupa"}
+  ]
+};
+
+let quizAnswers = [];
+let quizStep = 0;
+let inExtraStep = false;
+
+/* ============================================================
+   5) UI WIRING
+   ============================================================ */
+const inputStage = document.getElementById('inputStage');
+const quizStage = document.getElementById('quizStage');
+const resultStage = document.getElementById('resultStage');
+const emoInput = document.getElementById('emoInput');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const exampleChips = document.getElementById('exampleChips');
+
+EXAMPLES.forEach(ex=>{
+  const c = document.createElement('div');
+  c.className = 'ex-chip';
+  c.textContent = ex;
+  c.onclick = ()=>{
+    emoInput.value = ex.replace(/^[^\u0E00-\u0E7F]*\s*/,'').trim();
+    analyzeBtn.disabled = false;
+    emoInput.focus();
+  };
+  exampleChips.appendChild(c);
+});
+
+emoInput.addEventListener('input', ()=>{
+  analyzeBtn.disabled = emoInput.value.trim().length === 0;
+});
+
+let lastEmotionText = "";
+
+analyzeBtn.addEventListener('click', ()=>{
+  lastEmotionText = emoInput.value.trim();
+  const root = scoreInput(lastEmotionText);
+  if (root){
+    showResult(root, lastEmotionText);
+  } else {
+    startQuiz();
+  }
+});
+
+function startQuiz(){
+  quizAnswers = [];
+  quizStep = 0;
+  inExtraStep = false;
+  inputStage.style.display = 'none';
+  quizStage.style.display = 'block';
+  renderQuizStep();
+}
+
+function renderProgress(currentIndex, total){
+  const progressEl = document.getElementById('quizProgress');
+  progressEl.innerHTML = '';
+  for (let i=0;i<total;i++){
+    const s = document.createElement('span');
+    if (i < currentIndex) s.classList.add('done');
+    progressEl.appendChild(s);
+  }
+}
+
+function renderQuestionBlock(q, onSelect){
+  const body = document.getElementById('quizBody');
+  body.innerHTML = '';
+  const block = document.createElement('div');
+  block.className = 'q-block';
+  const qt = document.createElement('div');
+  qt.className = 'q-text';
+  qt.textContent = q.text;
+  block.appendChild(qt);
+  const opts = document.createElement('div');
+  opts.className = 'q-opts';
+  q.opts.forEach(opt=>{
+    const b = document.createElement('div');
+    b.className = 'q-opt';
+    b.textContent = opt.label;
+    b.onclick = ()=> onSelect(opt.root);
+    opts.appendChild(b);
+  });
+  block.appendChild(opts);
+  body.appendChild(block);
+}
+
+function renderQuizStep(){
+  renderProgress(quizStep, QUIZ.length + 1); // +1 เผื่อคำถามเสริมพิเศษ
+  const q = QUIZ[quizStep];
+  renderQuestionBlock(q, (root)=>{
+    quizAnswers.push(root);
+    quizStep++;
+    if (quizStep < QUIZ.length){
+      renderQuizStep();
+    } else {
+      finishQuiz();
+    }
+  });
+}
+
+function finishQuiz(){
+  const tally = {};
+  quizAnswers.forEach(r=>{ tally[r] = (tally[r]||0)+1; });
+  let best = null, bestCount = 0;
+  for (const r in tally){ if (tally[r] > bestCount){ bestCount = tally[r]; best = r; } }
+
+  // ถ้าทุกข้อชี้ไปทาง "กุศล" ล้วนๆ ให้ถามต่ออีก 1 ข้อ เพื่อแยกฌาน/อรูปฌานออกมา
+  if (best === 'kusala' && tally['kusala'] === QUIZ.length){
+    renderExtraStep();
+    return;
+  }
+  quizStage.style.display = 'none';
+  showResult(best, lastEmotionText, true);
+}
+
+function renderExtraStep(){
+  inExtraStep = true;
+  renderProgress(QUIZ.length, QUIZ.length + 1);
+  renderQuestionBlock(QUIZ_EXTRA, (root)=>{
+    quizStage.style.display = 'none';
+    showResult(root, lastEmotionText, true);
+  });
+}
+
+document.getElementById('quizBackBtn').addEventListener('click', ()=>{
+  quizStage.style.display = 'none';
+  inputStage.style.display = 'block';
+});
+
+document.getElementById('restartBtn').addEventListener('click', ()=>{
+  resultStage.style.display = 'none';
+  inputStage.style.display = 'block';
+  emoInput.value = '';
+  analyzeBtn.disabled = true;
+  document.querySelector('.diagram-wrap').style.setProperty('--zoneglow','rgba(255,159,74,.14)');
+  const fb = document.getElementById('flipBackCard');
+  fb.classList.remove('flipping');
+  fb.classList.remove('legendary');
+  fb.style.display = 'block';
+  document.getElementById('revealContent').classList.remove('show');
+});
+
+/* ============================================================
+   6) RESULT RENDER + SVG ANIMATION
+   ============================================================ */
+let pendingReveal = null;
+
+function showResult(root, emotionText, viaQuiz){
+  const data = OUTCOMES[root];
+  document.getElementById('cittaTag').textContent = data.tag;
+  document.getElementById('cittaTag').style.background = data.tagColor;
+  document.getElementById('cittaTag').style.color = '#241f3d';
+  document.getElementById('cittaEmoji').textContent = ROOT_EMOJI[root] || "";
+  document.getElementById('cittaTitle').textContent = data.title;
+  document.getElementById('cittaPali').textContent = data.pali;
+  document.getElementById('cittaDesc').textContent = data.desc + (viaQuiz ? " (ประเมินจากคำตอบแบบสอบถามเสริม)" : "");
+  document.getElementById('bhumiName').textContent = data.bhumi.name;
+  document.getElementById('bhumiDesc').textContent = data.bhumi.desc;
+  document.querySelector('.diagram-wrap').style.setProperty('--zoneglow', data.zoneGlow);
+
+  inputStage.style.display = 'none';
+  quizStage.style.display = 'none';
+  resultStage.style.display = 'block';
+
+  // เตรียมไว้ก่อน รอผู้เล่นแตะการ์ดเพื่อ "พลิกเปิด"
+  const fb = document.getElementById('flipBackCard');
+  fb.style.display = 'block';
+  fb.classList.remove('flipping');
+  if (root === 'nibbana'){
+    fb.classList.add('legendary');
+    fb.querySelector('.fb-text').textContent = 'มีบางอย่างพิเศษกำลังจะเกิดขึ้น...';
+    fb.querySelector('.fb-sub').textContent = 'แตะเมื่อพร้อม';
+  } else {
+    fb.classList.remove('legendary');
+    fb.querySelector('.fb-text').textContent = 'แตะเพื่อเปิดไพ่ดวงกรรม';
+    fb.querySelector('.fb-sub').textContent = 'อารมณ์ของคุณกำลังจะเผยเส้นทางของมัน...';
+  }
+  document.getElementById('revealContent').classList.remove('show');
+  pendingReveal = { emotionText: emotionText || "(ไม่ระบุ)", data, root };
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+document.getElementById('flipBackCard').addEventListener('click', function(){
+  if (!pendingReveal) return;
+  this.classList.add('flipping');
+  const { emotionText, data, root } = pendingReveal;
+  setTimeout(()=>{
+    this.style.display = 'none';
+    const rc = document.getElementById('revealContent');
+    rc.classList.add('show');
+    drawDiagram(emotionText, data, root);
+    if (root === 'nibbana'){
+      spawnGoldBurst();
+    } else {
+      spawnParticles(root);
+    }
+  }, 380);
+});
+
+function spawnGoldBurst(){
+  const layer = document.getElementById('particleLayer');
+  const burst = document.createElement('div');
+  burst.className = 'gold-burst';
+  layer.appendChild(burst);
+  setTimeout(()=>burst.remove(), 1500);
+  // แสงระยิบระยับตามหลังแสงหลัก เบาๆ
+  for (let i=0;i<10;i++){
+    const s = document.createElement('div');
+    s.className = 'p-confetti';
+    s.textContent = "✨";
+    s.style.left = (35 + Math.random()*30)+"%";
+    s.style.bottom = "45%";
+    s.style.animationDelay = (0.3 + Math.random()*0.5)+"s";
+    s.style.animationDuration = (1.8 + Math.random()*0.6)+"s";
+    layer.appendChild(s);
+    setTimeout(()=>s.remove(), 3000);
+  }
+}
+
+function spawnParticles(root){
+  const layer = document.getElementById('particleLayer');
+  const good = (root === 'kusala' || root === 'jhana' || root === 'arupa');
+  const count = 18;
+  for (let i=0; i<count; i++){
+    const el = document.createElement('div');
+    const left = Math.random()*100;
+    const delay = Math.random()*0.4;
+    const duration = 2.2 + Math.random()*0.8;
+    if (good){
+      el.className = 'p-confetti';
+      el.textContent = ["✨","🌸","💫","🌟","🍃"][Math.floor(Math.random()*5)];
+      el.style.left = left+"%";
+      el.style.animationDelay = delay+"s";
+      el.style.animationDuration = duration+"s";
+    } else {
+      el.className = 'p-smoke';
+      el.style.left = left+"%";
+      el.style.animationDelay = delay+"s";
+      el.style.animationDuration = duration+"s";
+    }
+    layer.appendChild(el);
+    setTimeout(()=>el.remove(), (duration+delay)*1000 + 200);
+  }
+}
+
+function truncate(s, n){ return s.length > n ? s.slice(0,n-1)+'…' : s; }
+
+function drawDiagram(emotionText, data, root){
+  const colorMap = {
+    lobha:"#ff6b6b", dosa:"#ff6b6b", moha:"#b3a9d4",
+    kusala:"#4ecb8f", jhana:"#ff9f4a", arupa:"#c3b8ec", nibbana:"#ffd875"
+  };
+  const c = colorMap[root];
+  const isNibbana = (root === 'nibbana');
+
+  const nodeEmo = document.getElementById('nodeEmo');
+  const nodeCitta = document.getElementById('nodeCitta');
+  const nodeBhumi = document.getElementById('nodeBhumi');
+  const lineA = document.getElementById('lineA');
+  const lineB = document.getElementById('lineB');
+
+  const p1 = {x:100, y:170}, p2 = {x:370, y:170}, p3 = {x:620, y:170};
+  const r1 = 54, r2 = 62, r3 = 82; // ภพภูมิ (ผลลัพธ์) ใหญ่สุด
+
+  nodeEmo.innerHTML = `
+    <circle class="node-circle" cx="${p1.x}" cy="${p1.y}" r="${r1}" fill="#232849" stroke="#333a63"/>
+    <text class="node-label" x="${p1.x}" y="${p1.y-2}">${truncate(emotionText,9)}</text>
+    <text class="node-sub" x="${p1.x}" y="${p1.y+17}">อารมณ์</text>`;
+
+  nodeCitta.innerHTML = `
+    <circle class="node-circle" cx="${p2.x}" cy="${p2.y}" r="${r2}" fill="${c}22" stroke="${c}"/>
+    <text class="node-label" x="${p2.x}" y="${p2.y-5}" style="fill:${c};font-weight:600">${truncate(data.title.replace(/\(.*\)/,'').trim(),13)}</text>
+    <text class="node-sub" x="${p2.x}" y="${p2.y+17}">จิต</text>`;
+
+  if (isNibbana){
+    nodeBhumi.innerHTML = `
+      <circle class="node-circle" cx="${p3.x}" cy="${p3.y}" r="${r3}" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="6 8" opacity="0.55"/>
+      <text class="node-label" x="${p3.x}" y="${p3.y-6}" style="fill:${c};font-weight:700;font-size:14px">ไม่มีภพรองรับ</text>
+      <text class="node-sub" x="${p3.x}" y="${p3.y+16}" style="font-size:12px">วงล้อหยุดหมุน</text>`;
+  } else {
+    nodeBhumi.innerHTML = `
+      <circle class="node-circle" cx="${p3.x}" cy="${p3.y}" r="${r3}" fill="#7fc2b02e" stroke="#7fc2b0" stroke-width="3.5"/>
+      <text class="node-label" x="${p3.x}" y="${p3.y-6}" style="fill:#7fc2b0;font-weight:700;font-size:16px">${truncate(data.bhumi.name,11)}</text>
+      <text class="node-sub" x="${p3.x}" y="${p3.y+16}" style="font-size:12px">ภพภูมิ (ผลลัพธ์)</text>`;
+  }
+
+  const dA = `M${p1.x+r1},${p1.y} L${p2.x-r2},${p2.y}`;
+  const dB = `M${p2.x+r2},${p2.y} L${p3.x-r3},${p3.y}`;
+  lineA.setAttribute('d', dA);
+  lineB.setAttribute('d', dB);
+  lineA.setAttribute('stroke', c);
+  lineB.setAttribute('stroke', isNibbana ? c : '#7fc2b0');
+  if (isNibbana){ lineB.setAttribute('stroke-dasharray-base','1'); lineB.style.opacity = 0.5; } else { lineB.style.opacity = 1; }
+  lineA.setAttribute('marker-end','url(#arrow)');
+  lineB.setAttribute('marker-end', isNibbana ? '' : 'url(#arrow)');
+
+  [lineA, lineB].forEach((el, i)=>{
+    const len = el.getTotalLength();
+    el.style.strokeDasharray = len;
+    el.style.strokeDashoffset = len;
+    el.style.transition = 'none';
+    void el.offsetWidth;
+    el.style.transition = `stroke-dashoffset 0.9s ease ${i*0.5 + 0.15}s`;
+    requestAnimationFrame(()=>{ el.style.strokeDashoffset = 0; });
+  });
+
+  [nodeEmo, nodeCitta, nodeBhumi].forEach((el, i)=>{
+    el.style.opacity = 0;
+    el.style.transform = 'scale(.85)';
+    el.style.transformOrigin = 'center';
+    el.style.transition = 'none';
+    void el.getBoundingClientRect();
+    el.style.transition = `opacity .5s ease ${i*0.5}s, transform .5s ease ${i*0.5}s`;
+    requestAnimationFrame(()=>{ el.style.opacity = 1; el.style.transform = 'scale(1)'; });
+  });
+}
+</script>
+</body>
+</html>
