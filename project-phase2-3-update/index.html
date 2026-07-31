@@ -4,35 +4,46 @@
 <meta charset="UTF-8">
 <title>AMT Group — AI for Audit Project: Setup + Workflow Update</title>
 <style>
-  body{font-family:'Sarabun','Angsana New',sans-serif;margin:0;padding:24px;background:#f4f6f8;color:#1f2937;}
-  h1{font-size:20px;color:#1F4E79;margin-bottom:4px;}
-  h2.section-title{font-size:16px;color:#1F4E79;margin:28px 0 10px;border-bottom:3px solid #1F4E79;padding-bottom:6px;}
-  .sub{color:#555;font-size:13px;margin-bottom:16px;}
-  .phase{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:14px;overflow:hidden;}
-  .phase-head{background:#1F4E79;color:#fff;padding:10px 16px;font-weight:600;font-size:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
-  .phase-head span.tag{background:#FFEB9C;color:#5c4a00;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;}
-  table{width:100%;border-collapse:collapse;font-size:12.5px;}
-  td,th{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top;text-align:left;}
-  th{background:#f0f4f8;font-size:11.5px;color:#1F4E79;}
-  td.k{width:14%;color:#374151;font-weight:600;white-space:nowrap;}
-  .ref{color:#0f766e;font-weight:600;}
+  body{font-family:'Sarabun','Angsana New',sans-serif;margin:0;padding:28px;background:#f4f6f8;color:#1f2937;font-size:16px;}
+  h1{font-size:26px;color:#1F4E79;margin-bottom:6px;}
+  h2.section-title{font-size:21px;color:#1F4E79;margin:32px 0 14px;border-bottom:3px solid #1F4E79;padding-bottom:8px;}
+  .sub{color:#555;font-size:16px;margin-bottom:18px;}
+  .phase{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.08);margin-bottom:16px;overflow:hidden;}
+  .phase-head{background:#1F4E79;color:#fff;padding:12px 18px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;}
+  .phase-head span.tag{background:#FFEB9C;color:#5c4a00;padding:3px 10px;border-radius:12px;font-size:14px;font-weight:700;}
+  table{width:100%;border-collapse:collapse;font-size:15.5px;}
+  td,th{padding:10px 12px;border-bottom:1px solid #eee;vertical-align:top;text-align:left;}
+  th{background:#f0f4f8;font-size:14.5px;color:#1F4E79;}
+  td.k{width:14%;color:#374151;font-weight:700;white-space:nowrap;}
+  .ref{color:#0f766e;font-weight:700;}
   .out{color:#7c2d12;}
-  .gap{background:#fef2f2;color:#991b1b;font-weight:600;}
-  .new{background:#dcfce7;color:#166534;font-weight:600;}
-  .status{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;}
+  .gap{background:#fef2f2;color:#991b1b;font-weight:700;}
+  .new{background:#dcfce7;color:#166534;font-weight:700;}
+  .status{padding:3px 10px;border-radius:10px;font-size:14px;font-weight:700;}
   .st-done{background:#dcfce7;color:#166534;}
   .st-progress{background:#fef9c3;color:#854d0e;}
   .st-plan{background:#e0e7ff;color:#3730a3;}
-  .note{background:#fff7ed;border-left:4px solid #f59e0b;padding:10px 14px;font-size:12.5px;margin:14px 0;border-radius:6px;}
-  .keynote{background:#eff6ff;border-left:4px solid #2563eb;padding:10px 14px;font-size:12.5px;margin:14px 0;border-radius:6px;}
-  .footer{font-size:11px;color:#888;text-align:center;margin-top:20px;}
-  .month-hdr{text-align:center;background:#dbeafe;}
+  .note{background:#fff7ed;border-left:5px solid #f59e0b;padding:12px 16px;font-size:15.5px;margin:16px 0;border-radius:6px;}
+  .keynote{background:#eff6ff;border-left:5px solid #2563eb;padding:12px 16px;font-size:15.5px;margin:16px 0;border-radius:6px;}
+  .linkbox{background:#f0fdf4;border:2px solid #166534;padding:14px 18px;font-size:16px;margin:16px 0;border-radius:8px;}
+  .linkbox a{color:#166534;font-weight:700;text-decoration:underline;}
+  .footer{font-size:13px;color:#888;text-align:center;margin-top:24px;}
+  .month-hdr{text-align:center;background:#dbeafe;font-size:14.5px;}
+  .person{display:inline-block;padding:2px 10px;border-radius:8px;font-size:14px;font-weight:700;}
+  .p-toon{background:#fde68a;color:#78350f;}
+  .p-ming{background:#bfdbfe;color:#1e3a8a;}
+  .p-nuch{background:#fbcfe8;color:#831843;}
 </style>
 </head>
 <body>
 
 <h1>Project: AI for Audit — Setup Project &amp; Update Workflow</h1>
 <div class="sub">อัปเดตประชุมทีม 24 ก.ค. 2569 | ต่อเนื่องจาก Phase 1 (สรุป Workflow เดิม) → เน้น Phase 2-3 ตามที่คุยกันวันนี้</div>
+
+<div class="linkbox">
+🔗 <b>อ้างอิงกระบวนการหลัก:</b> เอกสารนี้ต่อยอดจาก <a href="../tsa-lce-workflow/" target="_blank">Workflow สอบทานงบการเงิน AMT Group อ้างอิง TSA for LCE (10 Phase)</a> —
+Phase 2 (ทะเบียนคุมพอร์ต) และ Phase 3 (กระดาษทำการ 3 ชั้น) ในเอกสารนี้ คือชั้นบริหารจัดการที่ครอบ 10 Phase มาตรฐานนั้นไว้อีกที
+</div>
 
 <h2 class="section-title">ภาพรวมโครงการ (Phase 1-5)</h2>
 <table>
@@ -45,53 +56,55 @@
   <td class="k">Phase 1</td>
   <td>สรุปขั้นตอนการทำงาน (Work Flow) เดิม + ระบุปัญหา/เครื่องมือที่ใช้อยู่ — ได้ 15 ขั้นตอนจริงจากหน้างาน</td>
   <td colspan="2" style="background:#dcfce7;text-align:center">●</td><td></td><td></td><td></td>
-  <td>ทีมทั้งหมด</td><td><span class="status st-done">เสร็จแล้ว</span></td>
+  <td><span class="person p-toon">ตูน</span> <span class="person p-ming">พี่มิ่ง</span> <span class="person p-nuch">พี่นุช</span></td><td><span class="status st-done">เสร็จแล้ว</span></td>
 </tr>
 <tr>
   <td class="k">Phase 2</td>
   <td><b>จัดทำแผนงาน Setup Project ใหญ่</b> — ทะเบียนคุมพอร์ตงานลูกค้า (รายละเอียดด้านล่าง)</td>
   <td></td><td style="background:#fef9c3;text-align:center">●</td><td style="background:#fef9c3;text-align:center">●</td><td></td><td></td>
-  <td>พี่มิ่ง / ตูน</td><td><span class="status st-progress">กำลังทำ</span></td>
+  <td><span class="person p-ming">พี่มิ่ง</span> <span class="person p-toon">ตูน</span></td><td><span class="status st-progress">กำลังทำ</span></td>
 </tr>
 <tr>
   <td class="k">Phase 3</td>
   <td><b>Update Work Flow การทำงาน</b> — กระดาษทำการ 3 ชั้น + แทรกขั้นตอนที่ขาด (รายละเอียดด้านล่าง)</td>
   <td></td><td></td><td style="background:#fef9c3;text-align:center">●</td><td style="background:#fef9c3;text-align:center">●</td><td></td>
-  <td>ทีมทั้งหมด</td><td><span class="status st-progress">กำลังทำ</span></td>
+  <td><span class="person p-toon">ตูน</span> <span class="person p-ming">พี่มิ่ง</span> <span class="person p-nuch">พี่นุช</span></td><td><span class="status st-progress">กำลังทำ</span></td>
 </tr>
 <tr>
   <td class="k">Phase 4</td>
   <td>UAT — ทดลองใช้ Workflow ใหม่กับงานจริง 1 บริษัท ครบวงจร</td>
   <td></td><td></td><td></td><td style="background:#e0e7ff;text-align:center">●</td><td style="background:#e0e7ff;text-align:center">●</td>
-  <td>ตูน / พี่นิสา</td><td><span class="status st-plan">วางแผน</span></td>
+  <td><span class="person p-toon">ตูน</span> <span class="person p-nuch">พี่นุช</span></td><td><span class="status st-plan">วางแผน</span></td>
 </tr>
 <tr>
   <td class="k">Phase 5</td>
   <td>Rollout เต็มพอร์ต + อบรมทีมทั้งหมด + สรุปนโยบายใช้ AI ระยะยาว</td>
   <td></td><td></td><td></td><td></td><td style="background:#e0e7ff;text-align:center">●</td>
-  <td>พี่มิ่ง / พี่นุช</td><td><span class="status st-plan">วางแผน</span></td>
+  <td><span class="person p-ming">พี่มิ่ง</span> <span class="person p-nuch">พี่นุช</span></td><td><span class="status st-plan">วางแผน</span></td>
 </tr>
 </table>
 
 <h2 class="section-title">Phase 2 — Setup Project ใหญ่: ทะเบียนคุมพอร์ตงานลูกค้า</h2>
-<div class="note">ต่อยอดจาก 15 ขั้นตอนจริงที่ทีมทำอยู่ (Phase 1) มาจัดกลุ่มเป็น <b>6 Gate สถานะ</b> เพื่อใช้เป็นทะเบียนคุมภาพรวมพอร์ตลูกค้าทั้งหมด — ลูกค้า 1 ราย = 1 แถว ไล่สถานะผ่านแต่ละ Gate</div>
+<div class="note">ต่อยอดจาก 15 ขั้นตอนจริงที่ทีมทำอยู่ (Phase 1) มาจัดกลุ่มเป็น <b>6 Gate สถานะ</b> เพื่อใช้เป็นทะเบียนคุมภาพรวมพอร์ตลูกค้าทั้งหมด — ลูกค้า 1 ราย = 1 แถว ไล่สถานะผ่านแต่ละ Gate<br>
+<b>เทียบกับมาตรฐาน 10 Phase เดิม:</b> G1-G2 ครอบ <a href="../tsa-lce-workflow/" target="_blank">Phase 1 (รับเอกสาร)</a>, G3 ครอบ Phase 2-5 (Planning ถึง Automated Check), G4 คือรอบตามเอกสารเพิ่มระหว่าง Phase 5-7, G5 ครอบ Phase 7-8 (Cross-Check + จัดทำ T1), G6 ครอบ Phase 9-10 (QC Review + พิมพ์ส่ง)</div>
 
 <div class="phase">
 <table>
 <tr><th style="width:8%">Gate</th><th style="width:30%">รวมขั้นตอนเดิม (จาก Workflow Phase 1)</th><th style="width:30%">สิ่งที่ทะเบียนคุมต้องบันทึก</th><th>ผู้รับผิดชอบ Gate</th></tr>
-<tr><td class="k">G1<br>ประสานขอเอกสาร</td><td>ขั้นตอน 1-3: เตรียมเลื่อนแท่ง → เช็ค DBD (หน้าทะเบียน) → รับ TB/GL/Detail รอบแรก</td><td>วันที่ขอ / วันที่ได้รับรอบแรก / ครบหรือไม่ครบ</td><td>ตูน / ผู้ช่วย</td></tr>
-<tr><td class="k">G2<br>บันทึกเข้าระบบ</td><td>ขั้นตอน 4: หยอดข้อมูลในทะเบียนคุม</td><td>วันที่บันทึก / ผู้บันทึก</td><td>ตูน</td></tr>
-<tr><td class="k">G3<br>จัดทำ Draft</td><td>ขั้นตอน 5-7: Draft งบ T1-3 → Pending ขอเอกสาร → ส่งพี่มิ่งตรวจก่อนขอเอกสารเพิ่ม/สอบถามลูกค้า</td><td>วันที่ Draft เสร็จ / รายการเอกสาร Pending</td><td>ตูน → พี่มิ่งตรวจ</td></tr>
-<tr><td class="k gap">G4<br>วนรอบขอเอกสารเพิ่ม</td><td>ขั้นตอน 8-11: ส่งเมลครั้งที่ 1+โทร → รับรอบ 1 → ส่งเมลครั้งที่ 2+โทร → รับรอบ 2 (ครบ)</td><td><b>รอบที่กำลังวน (1/2/3...) + วันที่ส่งเมลแต่ละรอบ</b><br>⚠ จุดที่งานค้างนานสุด — ควร Alert ถ้าเกิน 7 วันไม่ตอบ (เดิม Sheet รองรับแค่ 2 รอบ ควรเปิดให้ไม่จำกัดรอบ)</td><td>ตูน / ผู้ประสานลูกค้า</td></tr>
-<tr><td class="k">G5<br>ยืนยันกับผู้สอบ</td><td>ขั้นตอน 12-13: ปริ้นงบคุยกับผู้สอบ → ส่งเมล Final Draft Confirm (T1-T3)</td><td>วันที่คุยผู้สอบ / วันที่ลูกค้า Confirm</td><td>พี่มิ่ง / ผู้สอบบัญชี</td></tr>
-<tr><td class="k">G6<br>ปิดงาน</td><td>ขั้นตอน 14-15: ปริ้น Final ให้ผู้สอบลงนาม → ส่งงบ Final PDF + หนังสือรับรองผู้บริหาร</td><td>วันที่ลงนาม / วันที่ส่งจริง / เทียบ Deadline 30 เม.ย.</td><td>ผู้สอบบัญชี</td></tr>
+<tr><td class="k">G1<br>ประสานขอเอกสาร</td><td>ขั้นตอน 1-3: เตรียมเลื่อนแท่ง → เช็ค DBD (หน้าทะเบียน) → รับ TB/GL/Detail รอบแรก</td><td>วันที่ขอ / วันที่ได้รับรอบแรก / ครบหรือไม่ครบ</td><td><span class="person p-toon">ตูน</span></td></tr>
+<tr><td class="k">G2<br>บันทึกเข้าระบบ</td><td>ขั้นตอน 4: หยอดข้อมูลในทะเบียนคุม</td><td>วันที่บันทึก / ผู้บันทึก</td><td><span class="person p-toon">ตูน</span></td></tr>
+<tr><td class="k">G3<br>จัดทำ Draft</td><td>ขั้นตอน 5-7: Draft งบ T1-3 → Pending ขอเอกสาร → ส่งพี่มิ่งตรวจก่อนขอเอกสารเพิ่ม/สอบถามลูกค้า</td><td>วันที่ Draft เสร็จ / รายการเอกสาร Pending</td><td><span class="person p-toon">ตูน</span> → <span class="person p-ming">พี่มิ่ง</span></td></tr>
+<tr><td class="k gap">G4<br>วนรอบขอเอกสารเพิ่ม</td><td>ขั้นตอน 8-11: ส่งเมลครั้งที่ 1+โทร → รับรอบ 1 → ส่งเมลครั้งที่ 2+โทร → รับรอบ 2 (ครบ)</td><td><b>รอบที่กำลังวน (1/2/3...) + วันที่ส่งเมลแต่ละรอบ</b><br>⚠ จุดที่งานค้างนานสุด — ควร Alert ถ้าเกิน 7 วันไม่ตอบ (เดิม Sheet รองรับแค่ 2 รอบ ควรเปิดให้ไม่จำกัดรอบ)</td><td><span class="person p-toon">ตูน</span></td></tr>
+<tr><td class="k">G5<br>ยืนยันกับผู้สอบ</td><td>ขั้นตอน 12-13: ปริ้นงบคุยกับผู้สอบ → ส่งเมล Final Draft Confirm (T1-T3)</td><td>วันที่คุยผู้สอบ / วันที่ลูกค้า Confirm</td><td><span class="person p-ming">พี่มิ่ง</span></td></tr>
+<tr><td class="k">G6<br>ปิดงาน</td><td>ขั้นตอน 14-15: ปริ้น Final ให้ผู้สอบลงนาม → ส่งงบ Final PDF + หนังสือรับรองผู้บริหาร</td><td>วันที่ลงนาม / วันที่ส่งจริง / เทียบ Deadline 30 เม.ย.</td><td><span class="person p-ming">พี่มิ่ง</span> <span class="person p-nuch">พี่นุช</span></td></tr>
 </table>
 </div>
 
 <div class="keynote"><b>มติที่ต้องตกลงวันนี้:</b> รูปแบบทะเบียนคุม (Excel Dashboard แยกไฟล์ หรือฝังใน Google Sheet เดิม) และใครเป็นผู้ดูแล Dashboard ประจำวัน</div>
 
 <h2 class="section-title">Phase 3 — Update Work Flow: กระดาษทำการ 3 ชั้น</h2>
-<div class="note">Map ขั้นตอนเดิมเข้ากับ 3 ชั้นกระดาษทำการที่ต้องสอดคล้อง TSA for LCE — พบว่า <b>ชั้น 3 ยังเป็นช่องว่าง</b> ต้องแทรกขั้นตอนใหม่เข้าไป</div>
+<div class="note">Map ขั้นตอนเดิมเข้ากับ 3 ชั้นกระดาษทำการที่ต้องสอดคล้อง TSA for LCE — พบว่า <b>ชั้น 3 ยังเป็นช่องว่าง</b> ต้องแทรกขั้นตอนใหม่เข้าไป<br>
+<b>เทียบกับมาตรฐาน 10 Phase เดิม:</b> ชั้น 1 = <a href="../tsa-lce-workflow/" target="_blank">Phase 4</a>, ชั้น 2 = Phase 5, ชั้น 3 = Phase 1-3 และ Phase 6-9 (เอกสารตามข้อบังคับที่กระจายอยู่หลาย Phase)</div>
 
 <div class="phase">
 <table>
