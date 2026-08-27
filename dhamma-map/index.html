@@ -200,6 +200,8 @@ h1{font-family:'Srisakdi',cursive;font-weight:700;font-size:clamp(2rem,5vw,3.1re
 .v12-table td:first-child,.v12-table th:first-child{text-align:left;color:var(--ivory)}
 .v12-table tr.dim td{color:var(--dim);font-style:italic}
 .v12-note{font-size:.74rem;color:var(--dim);line-height:1.6;margin-bottom:10px}
+.lh-btn{background:none;border:1px solid var(--line);color:var(--ivory);border-radius:8px;padding:8px 12px;cursor:pointer;font-family:'Sarabun';font-size:.8rem;text-align:left;width:100%}
+.lh-btn:active{background:rgba(232,201,58,.12)}
 .v1-line{font-size:.82rem;color:#c9cde4;background:var(--panel2);border-radius:8px;padding:8px 12px;margin-bottom:12px}
 .v2-details summary.visuddhi-title{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
 .v2-details summary::-webkit-details-marker{display:none}
@@ -705,72 +707,78 @@ footer a{color:var(--indigo-soft)}
 
 <details class="card" id="cittaFlow8Section" style="margin-top:14px">
   <summary class="visuddhi-title" style="cursor:pointer">🔀 ภาพรวม Flow: วิถีจิต — กระบวนการรับรู้ ๑๗ ขณะ <span class="v2-hint">— แตะเพื่อย่อ/ขยาย</span></summary>
-  <div style="margin-top:10px;overflow-x:auto">
-  <svg viewBox="0 0 1500 260" style="width:100%;min-width:900px;height:auto;display:block" role="img" aria-label="แผนภาพวิถีจิตทางปัญจทวาร 17 ขณะ">
-    <text x="750" y="22" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="13">วิถีจิตทางปัญจทวาร (กรณีอารมณ์ชัดมาก — อติมหันตารมณ์)</text>
+  <div style="margin-top:10px">
+  <div class="v12-note" style="border-left-color:#8bb4e0">ℹ️ วิถีนี้คือ<b>กรณีปกติขณะมีชีวิต</b> (ชวนะ×7) — สำหรับวิถีจิตช่วงใกล้ตาย (ชวนะ×5, จุติจิต) ต่างออกไป ดูที่ปฏิจจสมุปบาท → Workflow 3</div>
+  <button onclick="gotoTOC('wf-newbhava')" class="lh-btn" style="margin-top:6px">ดูวิถีจิตช่วงใกล้ตาย — มรณาสันนวิถี (ชวนะ×5) →</button>
+  <svg viewBox="0 0 360 780" style="width:100%;max-width:420px;height:auto;display:block;margin:10px auto 0" role="img" aria-label="แผนภาพวิถีจิตทางปัญจทวาร 17 ขณะ (แนวตั้ง)">
+    <defs>
+      <marker id="vithiArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path d="M0,0 L10,5 L0,10 z" fill="#8b90ad"/>
+      </marker>
+    </defs>
+    <text x="180" y="17" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="12">วิถีจิตทางปัญจทวาร</text>
+    <text x="180" y="33" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="12">(กรณีอารมณ์ชัดมาก — อติมหันตารมณ์)</text>
+
     <g stroke="#8b90ad" stroke-width="1.4" stroke-dasharray="6 4" fill="none">
-      <path d="M145,97 L160,97"/>
-      <path d="M290,97 L305,97"/>
-      <path d="M435,97 L450,97"/>
-      <path d="M580,97 L595,97"/>
-      <path d="M725,97 L740,97"/>
-      <path d="M870,97 L885,97"/>
-      <path d="M1015,97 L1030,97"/>
-      <path d="M1160,97 L1175,97"/>
-      <path d="M1330,97 L1345,97"/>
+      <path d="M180,95 L180,111" marker-end="url(#vithiArrow)"/>
+      <path d="M180,163 L180,179" marker-end="url(#vithiArrow)"/>
+      <path d="M180,231 L180,247" marker-end="url(#vithiArrow)"/>
+      <path d="M180,299 L180,315" marker-end="url(#vithiArrow)"/>
+      <path d="M180,367 L180,383" marker-end="url(#vithiArrow)"/>
+      <path d="M180,435 L180,451" marker-end="url(#vithiArrow)"/>
+      <path d="M180,503 L180,519" marker-end="url(#vithiArrow)"/>
+      <path d="M180,571 L180,587" marker-end="url(#vithiArrow)"/>
+      <path d="M180,654 L180,670" marker-end="url(#vithiArrow)"/>
     </g>
 
     <g style="cursor:pointer" onclick="openVithiInfo('bhavanga1')">
-      <rect x="15" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
-      <text x="80" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ภวังค์ปกติ</text>
-      <text x="80" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(อตีตภวังค์)</text>
+      <rect x="30" y="45" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
+      <text x="180" y="67" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ภวังค์ปกติ <tspan fill="var(--dim)" font-size="10">(อตีตภวังค์)</tspan></text>
     </g>
     <g style="cursor:pointer" onclick="openVithiInfo('bhavanga2')">
-      <rect x="160" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
-      <text x="225" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ภวังคจลนะ</text>
-      <text x="225" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(ภวังค์ไหว)</text>
+      <rect x="30" y="113" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
+      <text x="180" y="135" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ภวังคจลนะ <tspan fill="var(--dim)" font-size="10">(ภวังค์ไหว)</tspan></text>
     </g>
     <g style="cursor:pointer" onclick="openVithiInfo('bhavanga3')">
-      <rect x="305" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
-      <text x="370" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ภวังคุปัจเฉทะ</text>
-      <text x="370" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(ภวังค์ขาด)</text>
+      <rect x="30" y="181" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#57545c" stroke-width="1.3"/>
+      <text x="180" y="203" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ภวังคุปัจเฉทะ <tspan fill="var(--dim)" font-size="10">(ภวังค์ขาด)</tspan></text>
     </g>
     <g style="cursor:pointer" onclick="openCittaFlowGroup(5)">
-      <rect x="450" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#178a3c" stroke-width="1.3"/>
-      <text x="515" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ปัญจทวาราวัชชนะ</text>
-      <text x="515" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(เปิดทวารรับ)</text>
+      <rect x="30" y="249" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#178a3c" stroke-width="1.3"/>
+      <text x="180" y="271" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ปัญจทวาราวัชชนะ</text>
+      <text x="180" y="287" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(เปิดทวารรับ)</text>
     </g>
     <g style="cursor:pointer" onclick="openVithiLink('ทวิปัญจวิญญาณ','จิตรู้อารมณ์ทางทวารนั้นๆ (เห็น/ได้ยิน/ได้กลิ่น/รู้รส/สัมผัส) เป็นวิบากจิต — ถ้าอารมณ์ไม่น่าปรารถนาจะเป็นอกุศลวิบาก ถ้าน่าปรารถนาจะเป็นกุศลวิบาก',[3,4])">
-      <rect x="595" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
-      <text x="660" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ทวิปัญจวิญญาณ</text>
-      <text x="660" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(รู้อารมณ์)</text>
+      <rect x="30" y="317" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
+      <text x="180" y="339" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ทวิปัญจวิญญาณ</text>
+      <text x="180" y="355" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(รู้อารมณ์)</text>
     </g>
     <g style="cursor:pointer" onclick="openVithiLink('สัมปฏิจฉันนะ','จิตรับอารมณ์ต่อจากทวิปัญจวิญญาณ เป็นวิบากจิตเช่นกัน แยกเป็นฝ่ายดี/ไม่ดีตามอารมณ์',[3,4])">
-      <rect x="740" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
-      <text x="805" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">สัมปฏิจฉันนะ</text>
-      <text x="805" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(รับอารมณ์)</text>
+      <rect x="30" y="385" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
+      <text x="180" y="407" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">สัมปฏิจฉันนะ</text>
+      <text x="180" y="423" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(รับอารมณ์)</text>
     </g>
     <g style="cursor:pointer" onclick="openVithiLink('สันตีรณะ','จิตไต่สวนพิจารณาอารมณ์ เป็นวิบากจิต แยกฝ่ายดี/ไม่ดีตามอารมณ์เช่นกัน',[3,4])">
-      <rect x="885" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
-      <text x="950" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">สันตีรณะ</text>
-      <text x="950" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(ไต่สวนอารมณ์)</text>
+      <rect x="30" y="453" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
+      <text x="180" y="475" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">สันตีรณะ</text>
+      <text x="180" y="491" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(ไต่สวนอารมณ์)</text>
     </g>
     <g style="cursor:pointer" onclick="openCittaFlowGroup(5)">
-      <rect x="1030" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#178a3c" stroke-width="1.3"/>
-      <text x="1095" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">โวฏฐัพพนะ</text>
-      <text x="1095" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(ตัดสินอารมณ์)</text>
+      <rect x="30" y="521" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#178a3c" stroke-width="1.3"/>
+      <text x="180" y="543" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">โวฏฐัพพนะ</text>
+      <text x="180" y="559" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(ตัดสินอารมณ์)</text>
     </g>
     <g style="cursor:pointer" onclick="openJavanaInfo()">
-      <rect x="1175" y="65" width="155" height="65" rx="9" fill="rgba(232,201,58,.16)" stroke="#e8c93a" stroke-width="2"/>
-      <text x="1252" y="92" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13" font-weight="700">ชวนะ ×๗</text>
-      <text x="1252" y="110" text-anchor="middle" fill="var(--gold-soft)" font-family="Sarabun" font-size="9.5">(จุดสร้างกรรม)</text>
+      <rect x="20" y="589" width="320" height="65" rx="9" fill="rgba(232,201,58,.16)" stroke="#e8c93a" stroke-width="2"/>
+      <text x="180" y="617" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="14" font-weight="700">ชวนะ ×๗</text>
+      <text x="180" y="636" text-anchor="middle" fill="var(--gold-soft)" font-family="Sarabun" font-size="10.5">(จุดสร้างกรรม)</text>
     </g>
     <g style="cursor:pointer" onclick="openVithiLink('ตทาลัมพนะ ×2','จิตที่รับอารมณ์ต่อจากชวนะอีก 2 ขณะ (เกิดเฉพาะเมื่ออารมณ์ชัดมากและเป็นกามอารมณ์) ก่อนกลับคืนสู่ภวังค์ ส่วนใหญ่เป็นมหาวิบากจิต หรืออเหตุกวิบาก(สันตีรณะ)ในบางกรณี',[4,7])">
-      <rect x="1345" y="70" width="130" height="55" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
-      <text x="1410" y="94" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="11">ตทาลัมพนะ ×๒</text>
-      <text x="1410" y="110" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="9">(รับผลต่อ)</text>
+      <rect x="30" y="672" width="300" height="50" rx="8" fill="var(--panel2)" stroke="#a8abe0" stroke-width="1.3"/>
+      <text x="180" y="694" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="12">ตทาลัมพนะ ×๒</text>
+      <text x="180" y="710" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="10">(รับผลต่อ)</text>
     </g>
-    <text x="1410" y="155" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="11">↻ กลับสู่ภวังค์</text>
+    <text x="180" y="750" text-anchor="middle" fill="var(--dim)" font-family="Sarabun" font-size="12">↻ กลับสู่ภวังค์</text>
   </svg>
   <div class="g-desc" style="margin-top:12px;font-size:.78rem"><b>ชวนะ (javana)</b> คือขณะที่จิต "แล่นเข้าเสพอารมณ์" ซ้ำกัน 7 ขณะ — เป็นจุดเดียวในวิถีจิตทั้งหมดที่กรรม (กุศล/อกุศล) ถูกสร้างขึ้นจริง ขณะอื่นในวิถีล้วนเป็นเพียงวิบากหรือกิริยาที่ไม่สร้างกรรมใหม่</div>
   </div>
@@ -838,8 +846,28 @@ footer a{color:var(--indigo-soft)}
   <details class="card" id="personalPracticeCard" style="margin-bottom:14px;padding:16px 18px;border-color:var(--gold)">
     <summary class="visuddhi-title" style="color:var(--gold);cursor:pointer">🧭 แนวปฏิบัติส่วนตัว <span class="v2-hint">— แตะเพื่อย่อ/ขยาย</span></summary>
     <ol class="stage-points" style="list-style:decimal;padding-left:26px;margin-top:8px">
-      <li>นั่งท่าสบาย ผ่อนคลายสมองและร่างกาย (นั่งตรง มีสติเฉพาะหน้า)</li>
-      <li>ปรับสมดุลลมหายใจ (4-7-8) ให้ร่างกายหายใจแบบธรรมชาติ ไม่เกร็ง ไม่บังคับลมหายใจ</li>
+      <li>นั่งท่าสบาย ผ่อนคลายสมองและร่างกาย (นั่งตรง มีสติเฉพาะหน้า)
+        <details class="v2-details" style="margin-top:6px">
+          <summary style="cursor:pointer;font-size:.82rem;color:var(--gold-soft)">ท่านั่งสมาธิ สำหรับการนั่งต่อเนื่องระยะยาว <span class="v2-hint">— แตะดูรายละเอียด</span></summary>
+          <div style="margin-top:8px;font-size:.88rem;line-height:1.7">
+            <ol style="margin:0;padding-left:20px">
+              <li><b>สะโพกสูงกว่าเข่า</b> — นั่งบนเบาะสูงที่ช่วยให้สะโพกเทมาข้างหน้าเล็กน้อย ให้กระดูกสันหลังเว้าโค้งตามธรรมชาติ</li>
+              <li><b>น้ำหนักกระจาย 3 จุด</b> — ลงที่เบาะรองนั่ง (กระดูกนั่ง) และเข่า/หน้าแข้งทั้งสองข้างที่แตะพื้นด้านล่าง ทำให้ฐานมั่นคง ไม่โอนเอียง</li>
+              <li><b>ไร้แรงบิดที่ข้อต่อ</b> — ขาทั้งสองข้างวางเรียงต่อกันบนพื้น ไม่มีการทับกันของข้อเท้าหรือหลังเท้า ลดแรงกดทับเส้นเลือดและอาการชา</li>
+            </ol>
+            <div style="margin-top:8px"><b>วิธี:</b> นั่งลงบนเบาะ นำขาข้างหนึ่งเข้าหาตัว และวางขาอีกข้างไว้ด้านหน้า ไม่วางขาซ้อนทับกัน ให้หน้าแข้งทั้งสองแตะพื้นราบ ปรับสะโพกให้รู้สึกว่ากระดูกนั่ง (Sit Bones) กดลงกลางเบาะ ยืดลำตัวขึ้นตรงแบบผ่อนคลาย ไม่เกร็งแอ่นหรือหลังค่อม</div>
+            <div style="margin-top:8px;color:var(--dim);font-size:.82rem"><b>Tip:</b> หากเข่าลอยหรือไม่แตะพื้น ให้หาหมอนหรือผ้าหนาๆ มายันใต้เข่าไว้ เพื่อป้องกันไม่ให้กล้ามเนื้อสะโพกและหลังต้องรับน้ำหนักดึงรั้งตลอดเวลา</div>
+          </div>
+        </details>
+        <details class="v2-details" style="margin-top:6px">
+          <summary style="cursor:pointer;font-size:.82rem;color:var(--gold-soft)">สมาธิระดับที่นิวรณ์จะเข้าครอบงำไม่ได้ <span class="v2-hint">— แตะดูรายละเอียด</span></summary>
+          <div style="margin-top:8px;font-size:.88rem;line-height:1.7">
+            <div class="v12-note">ความบริสุทธิ์แห่งจิต (จิตตวิสุทธิ) คือจิตที่ปราศจากนิวรณ์ 5 — ขณะใดจิตมีสมาธิระดับใดใน 3 ระดับนี้ นิวรณ์จะเข้าครอบงำไม่ได้ในขณะนั้น</div>
+            <div class="link-box" style="background:rgba(232,201,58,.12);border-color:var(--gold);margin-top:8px"><button onclick="toggleNana(); setTimeout(()=>{ const d=document.getElementById('v2Details'); if(d){ d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); } },80)">ดูรายละเอียดสมาธิ 3 ระดับ (จิตตวิสุทธิ) →</button></div>
+          </div>
+        </details>
+      </li>
+      <li>เฝ้าสังเกตดูลมหายใจเข้า-ออกตามธรรมชาติอย่างที่เป็นอยู่ ให้ร่างกายหายใจแบบธรรมชาติ ไม่เกร็ง ไม่บังคับลมหายใจ</li>
       <li>ตั้งสติระลึกรู้ที่ (1) และ (2)
         <ul style="margin:6px 0 0 18px;padding:0">
           <li><b>(1) รู้ลมหายใจ</b> เข้า-ออกตามธรรมชาติ</li>
@@ -872,6 +900,8 @@ footer a{color:var(--indigo-soft)}
       </ul>
       <div style="margin-top:10px">"ปฏิบัติถูกต้อง (ทุกขณะจิต) 7 วัน 7 เดือน 7 ปี ย่อมเห็นผล"</div>
       <div style="margin-top:8px">"เพราะเห็นทุกข์ จึงทำให้มีศรัทธาปฏิบัติเพื่อให้พ้นจากทุกข์"</div>
+      <div style="margin-top:10px">"หน้าที่เรา <b>แค่รู้ แค่ดู</b> — เมื่อจิตแค่รู้ ไม่ปรุงต่อ ตัณหา/อุปาทานจึงไม่มีที่เกาะ"</div>
+      <div style="margin-top:6px">"เธอย่อมไม่ยึดติดอยู่กับสิ่งใดๆ ในโลก"</div>
     </details>
     <details class="v2-details smatha-note" style="border-left-color:#c2483a;margin-top:14px;color:#f2f0ff">
       <summary class="visuddhi-title" style="color:#f2f0ff">⚠️ เตือนตัวเอง</summary>
@@ -883,6 +913,80 @@ footer a{color:var(--indigo-soft)}
         <li>อย่าหลงเชื่อความคิด เพราะความคิดไม่ใช่ของจริง รู้สภาวะปัจจุบันต่างหากคือของจริง</li>
         <li>ความคิดระหว่างปฏิบัติคือการสร้างสังขารอันเป็นเมล็ดพันธุ์ความทุกข์ (คิดอดีต-อนาคต เวียนวนซ้ำๆ)</li>
       </ol>
+    </details>
+    <details class="v2-details" id="lostAwareCard" style="border-left-color:#e8c93a;margin-top:14px">
+      <summary class="visuddhi-title" style="cursor:pointer">🔄 แผนที่หลง–รู้ตัว <span class="v2-hint">— แตะเพื่อย่อ/ขยาย</span></summary>
+      <div style="margin-top:10px;font-size:.85rem;color:var(--dim)">บันทึกช่วยสังเกตตัวเองระหว่างนั่ง — เมื่อจิตหลงจากลม/เวทนา มักไปทางใดทางหนึ่งใน 4 ทางนี้ แต่ละตัวอย่างกดดูรายละเอียดเจตสิกได้</div>
+
+      <div style="margin-top:14px;padding:12px;border-radius:10px;background:rgba(232,201,58,.1);border:1px solid #e8c93a;text-align:center;font-weight:600">🫁 อารมณ์กรรมฐาน: ลม + เวทนาทั่วร่างกาย</div>
+      <div style="text-align:center;color:var(--dim);font-size:1.2rem;margin:4px 0">↓ หลงไป ↓</div>
+
+      <details class="v2-details" style="margin-top:10px;border-left-color:#e0a95c">
+        <summary style="cursor:pointer;font-weight:600">🟠 กลุ่มโลภมูล — อยาก/ติดใจ <span class="v2-hint">(4 ตัวอย่าง)</span></summary>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <button onclick="openCittaFlowGroup(0)" class="lh-btn">คิดพิจารณาธรรมะ (ขันธ์5/นิวรณ์/ไตรลักษณ์/ปฏิจจสมุปบาท) <b>แบบเพลิน</b> →</button>
+          <button onclick="openCittaFlowGroup(0)" class="lh-btn">คิดวางแผนงาน (อยากให้สำเร็จ) →</button>
+          <button onclick="openCittaFlowGroup(0)" class="lh-btn">คิดเรื่องกาม/ความสุขทางกาม →</button>
+          <button onclick="openCittaFlowGroup(0)" class="lh-btn">ฝันกลางวัน/จินตนาการอนาคตที่อยากให้เป็น →</button>
+        </div>
+        <div class="g-desc" style="margin-top:8px;font-size:.78rem">⚠️ ถ้ามีอาการง่วงซึม (ถีนมิทธะ) ร่วมด้วย มักเกิดกับจิตกลุ่มนี้แบบ<b>สสังขาริก</b> (ถูกกระตุ้น ไม่กระตือรือร้นเอง) เท่านั้น</div>
+      </details>
+
+      <details class="v2-details" style="margin-top:10px;border-left-color:#c2483a">
+        <summary style="cursor:pointer;font-weight:600">🔴 กลุ่มโทสมูล — ผลัก/ขัดเคือง <span class="v2-hint">(4 ตัวอย่าง)</span></summary>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <button onclick="openCittaFlowGroup(1)" class="lh-btn">หงุดหงิดกับความปวด/เสียงรบกวน/คัน →</button>
+          <button onclick="openCittaFlowGroup(1)" class="lh-btn">คิดวนกังวลเรื่องที่ยังแก้ไม่ได้ →</button>
+          <button onclick="openCittaFlowGroup(1)" class="lh-btn">คิดถึงเรื่องที่ผ่านมาแล้วโกรธ/แค้น →</button>
+          <button onclick="openCittaFlowGroup(1)" class="lh-btn">รำคาญใจ/เสียใจกับสิ่งที่ทำหรือไม่ได้ทำไปแล้ว (กุกกุจจะ) →</button>
+        </div>
+        <div class="g-desc" style="margin-top:8px;font-size:.78rem">⚠️ ถ้ามีอาการง่วงซึม (ถีนมิทธะ) ร่วมด้วย มักเกิดกับจิตกลุ่มนี้แบบ<b>สสังขาริก</b>เช่นกัน</div>
+      </details>
+
+      <details class="v2-details" style="margin-top:10px;border-left-color:#8b90ad">
+        <summary style="cursor:pointer;font-weight:600">⚪ กลุ่มโมหมูล — หลงไม่มีทิศทาง <span class="v2-hint">(2 ตัวอย่าง)</span></summary>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <button onclick="openCittaFlowGroup(2)" class="lh-btn">ใจลอยฟุ้งซ่านเรื่อยเปื่อย อดีต-อนาคต ไม่มีเป้าหมายชัด →</button>
+          <button onclick="openCittaFlowGroup(2)" class="lh-btn">ลังเลสงสัยในการปฏิบัติ ("ทำถูกไหมนะ") →</button>
+        </div>
+      </details>
+
+      <details class="v2-details" style="margin-top:10px;border-left-color:#4a9b6e">
+        <summary style="cursor:pointer;font-weight:600">🟢 กลุ่มโสภณ (กุศล) — คิดดีแต่ยังหลุดเทคนิค <span class="v2-hint">(1 ตัวอย่าง)</span></summary>
+        <div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+          <button onclick="openCittaFlowGroup(6)" class="lh-btn">คิดเรื่องทำบุญ/ช่วยเหลือคน →</button>
+        </div>
+        <div class="g-desc" style="margin-top:8px;font-size:.78rem">แม้เป็นมหากุศลจิต ก็ยังคือการหลุดจากอารมณ์กรรมฐาน — เทคนิคไม่แยกดี/ไม่ดี ให้กลับมาที่เวทนาเสมอ</div>
+      </details>
+
+      <div style="text-align:center;color:var(--dim);font-size:1.2rem;margin:10px 0 4px">↓</div>
+      <div style="padding:12px;border-radius:10px;background:rgba(74,155,110,.12);border:1px solid #4a9b6e">
+        <div style="font-weight:600;text-align:center">💛 รู้ตัว — สติกลับมา</div>
+        <div style="margin-top:10px;font-size:.78rem;color:var(--dim)">"รู้ตัว" ไม่ได้มีแบบเดียว — สังเกตว่าครั้งนี้เป็นแบบไหน:</div>
+
+        <div style="margin-top:10px;padding:10px;border-radius:8px;background:rgba(0,0,0,.15);border-left:3px solid #8bb4e0">
+          <div style="font-weight:600;font-size:.85rem">1. รู้เวทนาชัดเจน</div>
+          <div style="font-size:.75rem;color:var(--dim);margin-top:2px">มักเป็น<b style="color:#8bb4e0">อุเบกขา</b>เวทนา (รู้เฉยๆ ไม่ปรุง) — ตรงเป้าหมายวิปัสสนาที่สุด</div>
+        </div>
+
+        <div style="margin-top:8px;padding:10px;border-radius:8px;background:rgba(0,0,0,.15);border-left:3px solid #8bb4e0">
+          <div style="font-weight:600;font-size:.85rem">2. รู้ลมหายใจชัดเจน</div>
+          <div style="font-size:.75rem;color:var(--dim);margin-top:2px">มักเป็น<b style="color:#8bb4e0">อุเบกขา</b>หรือ<b style="color:#e0a95c">โสมนัส</b>เบาๆ — ฐานของอานาปานสติที่ถูกต้อง</div>
+        </div>
+
+        <div style="margin-top:8px;padding:10px;border-radius:8px;background:rgba(194,72,58,.1);border-left:3px solid #c2483a">
+          <div style="font-weight:600;font-size:.85rem">3. จิตสงบ เบาสบาย</div>
+          <div style="font-size:.75rem;color:var(--dim);margin-top:2px">เป็น<b style="color:#e0a95c">โสมนัส</b>เวทนาชัด — ผลข้างเคียงที่ดี แต่ไม่ใช่เป้าหมาย</div>
+          <div style="margin-top:6px;font-size:.72rem;color:#e8a89c">⚠️ 3D Discourse: "เครื่องวัดความก้าวหน้ามีเพียงอุเบกขาจิตเท่านั้น" — ถ้าเริ่ม<b>ยินดี/อยากให้อยู่ต่อ</b> จิตจะพลิกเป็นโลภมูลจิตทันที (วนกลับกิ่งที่ 1 ด้านบน)</div>
+        </div>
+
+        <button onclick="openCittaFlowGroup(6)" class="lh-btn" style="margin-top:10px">ดูมหากุศลจิต 8 ดวง (ทั้ง 3 กรณี) →</button>
+        <button onclick="toggleBodhi();setTimeout(()=>{const n=document.getElementById('janamattaNote');if(n){const d=n.closest('details');if(d)d.open=true;n.scrollIntoView({behavior:'smooth',block:'center'});}},120)" class="lh-btn" style="margin-top:6px">ดูความหมาย "เพียงแต่เข้าใจ เพียงแต่ระลึกรู้" →</button>
+        <div style="margin-top:10px;font-size:.78rem;color:var(--dim)"><b>เช็คตัวเอง 3 ข้อเสมอ</b> — ไม่ใช่แค่จัดหมวดจิต แต่ใช้ดูคุณภาพการรู้ตัวของตัวเอง: (1) เวทนาแบบไหน — โสมนัส/อุเบกขา? <i>(ยินดีบ่อยไหม หรือรู้เฉยๆ)</i> (2) มีปัญญาร่วมไหม — เห็นว่า "อ๋อ หลงไปแล้ว" หรือแค่กลับมาเฉยๆ? <i>(สติกำลังเข้าใจ หรือแค่ทำตามความเคยชิน)</i> (3) ทันทีหรือค่อยดึงกลับ — อสังขาริก/สสังขาริก? <i>(ตัววัดว่าสติเข้มแข็งขึ้นไหม — ถ้าเร็วขึ้นเรื่อยๆ = ก้าวหน้า)</i></div>
+      </div>
+      <div style="text-align:center;color:var(--dim);font-size:1.2rem;margin:4px 0">↻ กลับสู่อารมณ์กรรมฐาน</div>
+
+      <div class="v12-note" style="margin-top:14px;border-left-color:#c2483a">⚠️ <b>คำเตือน อ.โกเอ็นก้า</b> (3D Discourse): "โดยทั่วไปผู้คนมักสนใจธรรมะในแง่ของการขบคิดมากกว่าการลงมือปฏิบัติ... <b>ธรรมะไม่ได้มีไว้เพื่อประลองปัญญา</b> จงระวังให้ดี" — "พวกเขาจะไม่มีทางได้ฝึกปฏิบัติอย่างจริงจังเพราะ<b>มัวแต่เพลิดเพลินกับการขบคิด</b>" — จุดนี้อันตรายเพราะดูเหมือนดี (คิดเรื่องธรรมะ) แต่จริงๆ เป็นการหนีจากการปฏิบัติจริง</div>
     </details>
   </details>
   <div class="main">
@@ -1738,78 +1842,79 @@ function bhumiPanelHTML(){
         <div class="visuddhi-block" style="margin-top:14px;background:var(--panel);border-radius:10px;padding:12px 14px">
           <div class="visuddhi-title" style="font-size:.82rem">🔄 Workflow: สังขารนำสู่ภพใหม่ (จุติ → ปฏิสนธิ)</div>
 
-          <svg viewBox="0 0 1080 380" style="width:100%;height:auto;display:block;margin-top:8px">
+          <svg viewBox="0 0 360 630" style="width:100%;max-width:420px;height:auto;display:block;margin:8px auto 0">
             <defs>
-              <marker id="arrowWF" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
-                <path d="M0,0 L7,3.5 L0,7 Z" fill="#8b90ad"/>
+              <marker id="arrowWF" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#8b90ad"/>
               </marker>
-              <marker id="arrowWFGold" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
-                <path d="M0,0 L7,3.5 L0,7 Z" fill="#e8c93a"/>
+              <marker id="arrowWFGold" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="#e8c93a"/>
               </marker>
             </defs>
 
-            <!-- ===== ชั้นที่ 1: node ทั้งหมด (วาดก่อน) ===== -->
+            <!-- ===== ชั้นที่ 1: node ทั้งหมด ===== -->
 
             <!-- node 1: ขันธ์5 เดิม -->
-            <rect x="15" y="205" width="130" height="70" rx="10" fill="#232849" stroke="#a8abe0" stroke-width="1.6"/>
-            <text x="80" y="235" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">ขันธ์ 5 (รูป-นาม)</text>
-            <text x="80" y="254" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="11">ชาติปัจจุบันดับ</text>
+            <rect x="30" y="10" width="300" height="55" rx="10" fill="#232849" stroke="#a8abe0" stroke-width="1.6"/>
+            <text x="180" y="33" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">ขันธ์ 5 (รูป-นาม)</text>
+            <text x="180" y="51" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="11">ชาติปัจจุบันดับ</text>
 
             <!-- node 2: ภวสังขาร (highlight) -->
-            <rect x="175" y="200" width="140" height="80" rx="12" fill="rgba(232,201,58,.14)" stroke="#e8c93a" stroke-width="2.2"/>
-            <text x="245" y="235" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="14.5" font-weight="700">ภวสังขาร</text>
-            <text x="245" y="254" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="11">(ฝังลึกที่สุด)</text>
+            <g style="cursor:pointer" onclick="openBhavasankharaInfo()">
+            <rect x="20" y="95" width="320" height="60" rx="12" fill="rgba(232,201,58,.14)" stroke="#e8c93a" stroke-width="2.2"/>
+            <text x="180" y="120" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="14.5" font-weight="700">ภวสังขาร</text>
+            <text x="180" y="140" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="11">(ฝังลึกที่สุด)</text>
+            </g>
 
             <!-- node 3: ชวนะ×5 (highlight เด่นสุด - จุดสร้างกรรม) -->
             <g style="cursor:pointer" onclick="openMaranaJavanaInfo()">
-            <rect x="345" y="195" width="150" height="90" rx="12" fill="rgba(232,201,58,.2)" stroke="#e8c93a" stroke-width="2.6"/>
-            <text x="420" y="232" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="15" font-weight="700">ชวนะ ×5</text>
-            <text x="420" y="252" text-anchor="middle" fill="#f0938f" font-family="Sarabun" font-size="10.5">(มรณาสันนวิถี)</text>
-            <text x="420" y="268" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="9.5">จุดสร้างกรรมส่งภพใหม่</text>
+            <rect x="15" y="185" width="330" height="75" rx="12" fill="rgba(232,201,58,.2)" stroke="#e8c93a" stroke-width="2.6"/>
+            <text x="180" y="212" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="15" font-weight="700">ชวนะ ×5</text>
+            <text x="180" y="232" text-anchor="middle" fill="#f0938f" font-family="Sarabun" font-size="10.5">(มรณาสันนวิถี)</text>
+            <text x="180" y="249" text-anchor="middle" fill="#c9cde4" font-family="Sarabun" font-size="9.5">จุดสร้างกรรมส่งภพใหม่</text>
             </g>
 
             <!-- node 4: จุติจิต -->
             <g style="cursor:pointer" onclick="openCittaBhumiTable()">
-            <circle cx="565" cy="240" r="45" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
-            <text x="565" y="236" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">จุติจิต</text>
-            <text x="565" y="253" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="10.5">(ขณะตาย)</text>
+            <rect x="30" y="278" width="300" height="55" rx="10" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
+            <text x="180" y="301" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">จุติจิต</text>
+            <text x="180" y="319" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="10.5">(ขณะตาย)</text>
             </g>
 
             <!-- node 5: ปฏิสนธิวิญญาณ (highlight) -->
-            <circle cx="695" cy="240" r="50" fill="rgba(232,201,58,.14)" stroke="#e8c93a" stroke-width="2.2"/>
-            <text x="695" y="236" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="13.5" font-weight="700">ปฏิสนธิ</text>
-            <text x="695" y="253" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="13.5" font-weight="700">วิญญาณ</text>
+            <g style="cursor:pointer" onclick="openPatisandhiInfo()">
+            <rect x="20" y="363" width="320" height="55" rx="12" fill="rgba(232,201,58,.14)" stroke="#e8c93a" stroke-width="2.2"/>
+            <text x="180" y="396" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="15" font-weight="700">ปฏิสนธิวิญญาณ</text>
+            </g>
 
             <!-- node 6: นามรูปใหม่ -->
-            <rect x="775" y="205" width="120" height="70" rx="10" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
-            <text x="835" y="245" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">นามรูปใหม่</text>
+            <rect x="30" y="448" width="300" height="50" rx="10" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
+            <text x="180" y="479" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13.5" font-weight="600">นามรูปใหม่</text>
 
             <!-- node 7: ภพใหม่ -->
-            <ellipse cx="1005" cy="240" rx="65" ry="50" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
-            <text x="1005" y="236" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13" font-weight="600">ภพใหม่</text>
-            <text x="1005" y="253" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="10.5">(1 ใน 31 ภูมิ)</text>
+            <rect x="30" y="516" width="300" height="55" rx="10" fill="#232849" stroke="#333a63" stroke-width="1.6"/>
+            <text x="180" y="539" text-anchor="middle" fill="#ede6d2" font-family="Sarabun" font-size="13" font-weight="600">ภพใหม่</text>
+            <text x="180" y="557" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="10.5">(1 ใน 31 ภูมิ)</text>
 
-            <!-- ===== ชั้นที่ 2: ลูกศร + ป้ายกำกับ (วาดทับบนสุด เพื่อไม่ให้กล่องบัง) ===== -->
+            <!-- ===== ชั้นที่ 2: ลูกศร + ป้ายกำกับ (label ชิดขวา ไม่ทับเส้น) ===== -->
 
-            <path d="M145,240 L173,240" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
-            <text x="159" y="300" text-anchor="middle" fill="#8b90ad" font-family="Sarabun" font-size="9.5">ผุดขึ้นผิวจิต</text>
+            <path d="M180,65 L180,93" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
+            <text x="196" y="82" text-anchor="start" fill="#8b90ad" font-family="Sarabun" font-size="9.5">ผุดขึ้นผิวจิต</text>
 
-            <path d="M315,240 L343,240" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
-            <text x="329" y="300" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="9.5">ชวนะเสพอารมณ์นี้</text>
+            <path d="M180,155 L180,183" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
+            <text x="196" y="172" text-anchor="start" fill="#f5df8a" font-family="Sarabun" font-size="9.5">ชวนะเสพอารมณ์นี้</text>
 
-            <path d="M495,240 L518,240" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
+            <path d="M180,260 L180,276" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
 
-            <path d="M610,240 L643,240" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
-            <text x="626" y="316" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="10.2" font-style="italic">สังขาระ ปัจจยา วิญญาณัง</text>
+            <path d="M180,333 L180,361" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
+            <text x="196" y="350" text-anchor="start" fill="#f5df8a" font-family="Sarabun" font-size="9.8" font-style="italic">สังขาระ ปัจจยา วิญญาณัง</text>
 
-            <path d="M745,240 L773,240" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
-            <text x="759" y="300" text-anchor="middle" fill="#f5df8a" font-family="Sarabun" font-size="9.5" font-style="italic">วิญญาณะ ปัจจยา นามะรูปัง</text>
+            <path d="M180,418 L180,446" stroke="#e8c93a" stroke-width="2.2" marker-end="url(#arrowWFGold)"/>
+            <text x="196" y="435" text-anchor="start" fill="#f5df8a" font-family="Sarabun" font-size="9.2" font-style="italic">วิญญาณะ ปัจจยา นามะรูปัง</text>
 
-            <path d="M895,240 L938,240" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
+            <path d="M180,498 L180,514" stroke="#8b90ad" stroke-width="2" marker-end="url(#arrowWF)"/>
 
-            <!-- loop arc: สะสมสังขารใหม่ (วาดบนสุด ไม่ให้ node บัง) -->
-            <path d="M1005,190 C1005,45 80,45 80,203" fill="none" stroke="#c2483a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arrowWF)"/>
-            <text x="542" y="32" text-anchor="middle" fill="#f0938f" font-family="Sarabun" font-size="13" font-weight="600">สะสมสังขารใหม่ (อวิชชาก่อตัวใหม่)</text>
+            <text x="180" y="605" text-anchor="middle" fill="#f0938f" font-family="Sarabun" font-size="11.5" font-weight="600">↻ สะสมสังขารใหม่ (อวิชชาก่อตัวใหม่)</text>
           </svg>
 
           <div class="smatha-note" style="border-left-color:#c2483a;margin-top:10px">
@@ -1820,9 +1925,7 @@ function bhumiPanelHTML(){
         </div>
 
         <div style="margin-top:8px"><b>อุปมาต้นไทร:</b> สังขารเหมือนเมล็ดพันธุ์ — เมื่อรดน้ำด้วยอวิชชา (ปรุงแต่งซ้ำๆ) เมล็ดจะงอกเป็นต้น ออกผล แต่ละผลมีเมล็ดพันธุ์ชนิดเดียวกันอยู่ข้างใน "จากผลเป็นเมล็ด จากเมล็ดเป็นผล" ไม่มีวันสิ้นสุด — นี่คือสังขารเก่าสู่<b>สังขารภพใหม่</b></div>
-        <div style="margin-top:8px;font-size:.78rem">หมายเหตุ: คำว่า "ภวสังขาร" ได้ยินมาจากคอร์ส 10 วันพิเศษ หมายถึงสังขารที่ฝังลึกที่สุด เป็นเมล็ดพันธุ์กำหนดภพใหม่</div>
-        <div style="margin-top:8px"><b>สรุปเชื่อมกับปฏิจจสมุปบาท:</b> "ภพ" (ข้อ 10 ในวงล้อ 12 องค์) คือช่วงที่สังขารฝังลึกนี้กลายเป็น "แรงเหวี่ยง" พร้อมส่งวิญญาณไปปฏิสนธิ — คุณภาพของสังขารตัวสุดท้ายก่อนตาย (หวานหรือขม) จึงเป็นตัวกำหนดว่าจะไปภพไหนใน 31 ภพภูมิ</div>
-        <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">อ้างอิง: ธรรมบรรยายหลักสูตร 10 วัน วันที่ 8 · 10 Days Summary วันที่ 4, 8</div>
+        <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">💡 แตะกล่อง "ภวสังขาร" หรือ "ปฏิสนธิวิญญาณ" ในแผนภาพด้านบนเพื่อดูรายละเอียดเพิ่มเติม</div>
         </div>
       </details>
       <div class="v12-note"><b>วิญญาณ→นามรูป:</b> ปฏิสนธิวิญญาณหยั่งลงภูมิใด นามรูปที่สอดคล้องกับภูมินั้นจะปรากฏขึ้นทันที</div>
@@ -1923,6 +2026,8 @@ function bhumiPanelHTML(){
         <tr><td>อรหันต์</td><td>1-10 ครบ</td><td>ไม่มี (0 ภูมิ)</td><td>ไม่เกิดอีกเลย</td></tr>
       </table>
       <div class="v12-note" id="sanyojanaSection"><b>สังโยชน์ 10 — รายชื่อครบ:</b></div>
+      <div style="margin-top:4px;font-size:.75rem;color:var(--dim)">สังโยชน์แต่ละข้อในตารางนี้ ก่อตัว/แน่นขึ้นทุกครั้งที่อายตนะกระทบกันแล้วขาดสัมปชัญญะตรงจุดเวทนา (ดูกลไกเต็มที่หมวดธัมมานุปัสสนา → อายตนบรรพ)</div>
+      <button onclick="toggleBodhi();setTimeout(()=>{const n=document.getElementById('ayatanaSanyojanaNote');if(n){const d=n.closest('details');if(d)d.open=true;n.scrollIntoView({behavior:'smooth',block:'center'});}},200)" class="lh-btn" style="margin-top:6px;margin-bottom:6px">ดูกลไก อายตนะ→ผัสสะ→เวทนา→สัมปชัญญะ →</button>
       <table class="v12-table">
         <tr><th>#</th><th>ชื่อ</th><th>ความหมาย</th><th>ละหมดตอนไหน</th></tr>
         <tr><td>1</td><td>สักกายทิฏฐิ</td><td>เห็นว่าขันธ์ 5 เป็นตัวตน</td><td>โสดาบัน</td></tr>
@@ -2112,7 +2217,107 @@ function bodhiPanelHTML(){
             <span class="p-th">"ธรรมทั้งปวงที่เกิดขึ้นในจิตมีเวทนาเป็นที่ประชุมลง" — อังคุตตรนิกาย ทสกนิบาต ข้อ 58</span>
           </div>
           <div style="margin-top:8px">จึงกล่าวได้ว่า <b>เวทนาเป็นสิ่งเดียวที่ทำให้เฝ้าสังเกตทั้ง 4 หมวดได้พร้อมกัน</b> หากมองข้ามเวทนาทางกาย การปฏิบัติสติปัฏฐานก็จะไม่สามารถหยั่งลงลึกถึงระดับจิตไร้สำนึกได้</div>
-          <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">อ้างอิง: Mahasati translation (มหาสติปัฏฐานสูตรแปล)</div>
+          <div class="v12-note" style="margin-top:10px"><b>หลักร่วม "X ในX"</b> — คำซ้ำที่ปรากฏทุกหมวด ("กายในกาย", "เวทนาในเวทนา" ฯลฯ) เน้นย้ำว่าต้องรู้ตัวสภาวะนั้นด้วย<b>ประสบการณ์ตรง</b> ไม่ใช่ด้วยการคิด/จินตนาการ/วิเคราะห์เอาเอง:</div>
+          <table class="v12-table" style="margin-top:8px">
+            <tr><th>หมวด</th><th>X ในX หมายถึง</th><th>ไม่ใช่</th></tr>
+            <tr><td>กายในกาย</td><td>รับรู้ตัวกาย/ลมหายใจที่กำลังเกิดขึ้นจริง</td><td>คิดเรื่องร่างกาย, จินตนาการภาพร่างกาย</td></tr>
+            <tr><td>เวทนาในเวทนา</td><td>รับรู้ตัวความรู้สึกที่กำลังเกิดขึ้นจริงบนกาย</td><td>คิดวิเคราะห์ว่าความรู้สึกนี้คืออะไร ควรเป็นแบบไหน</td></tr>
+            <tr><td>จิตในจิต</td><td>รับรู้สภาพจิตที่กำลังเป็นอยู่จริง (มีราคะ/ไม่มี ฯลฯ)</td><td>คิดครุ่นคำนึงเกี่ยวกับจิตตนเอง วิเคราะห์ทฤษฎีจิต</td></tr>
+            <tr><td>ธรรมในธรรม</td><td>รับรู้สภาวธรรมที่กำลังปรากฏจริง (นิวรณ์ ขันธ์ ฯลฯ)</td><td>ท่องจำทฤษฎีธรรมะ คิดวิเคราะห์ตามตำรา</td></tr>
+          </table>
+          <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">อ้างอิง: มหาสติปัฏฐานสูตรแปล เชิงอรรถ 4 (4.Book_Mahasati trans.pdf) — ยืนยันตรง</div>
+
+          <div class="v12-note" style="margin-top:14px"><b>รายละเอียดเจาะลึกแต่ละฐาน</b> — ทฤษฎีตามพระสูตร + แนวปฏิบัติ + ภายใน-ภายนอก:</div>
+          <div class="v12-note" style="margin-top:8px;border-left-color:#e8c93a" id="vedanaSamosaranaNote">🔗 <b>จุดเชื่อมทั้ง 4 ฐาน:</b> "<b>เวทนาสโมสรณา สัพเพ ธัมมา</b>" — ธรรมทั้งปวงที่เกิดขึ้นในจิตมีเวทนาเป็นที่ประชุมลง (อังคุตตรนิกาย ทสกนิบาต ข้อ๕๘) — ไม่ว่าจะกาย/เวทนา/จิต/ธรรม สุดท้ายล้วนกลับมาประจักษ์ได้ผ่านเวทนาเสมอ นี่คือเหตุผลที่การเฝ้าสังเกตเวทนาเป็นแกนกลางของการปฏิบัติทั้งหมด</div>
+
+          <div class="v12-note" style="margin-top:8px;border-left-color:#e8c93a" id="janamattaNote">🔗 <b>สูตรปิดท้ายทุกบรรพ:</b> "<b>ยาวเทว ญาณมัตตาย ปฏิสสติมัตตาย</b>" — พัฒนาสติจนถึงขั้นเพียงแต่เข้าใจ เพียงแต่ระลึกรู้ — จิตทำหน้าที่แค่ "รู้เฉยๆ" ไม่ปรุงต่อ ไม่วิเคราะห์ ไม่ตัดสิน ไม่ยินดียินร้าย
+            <div style="margin-top:8px;font-size:.78rem;color:var(--dim)">⚠️ ระดับพัฒนาการ 3 ขั้น (เชิงอรรถ๑๑): <b>ชานาติ</b> (รู้) → <b>ปชานาติ</b> (รู้อย่างมั่นใจลึกซึ้งด้วยปัญญา) → <b>สัมปชานาติ</b> (รู้ชัดเข้าใจชัดในความไม่เที่ยงต่อเนื่อง) — "เพียงแต่เข้าใจ เพียงแต่ระลึกรู้" คือขั้นที่ปัญญา (ปชานาติ) เข้าที่จนกลายเป็นสัมปชัญญะต่อเนื่อง (สัมปชานาติ)</div>
+            <div style="margin-top:6px;font-size:.78rem">ผลที่ตามมา: "เธอย่อมไม่ยึดติดอยู่กับสิ่งใดๆ ในโลก" — เพราะจิตแค่รู้ ไม่ปรุงต่อ ตัณหา/อุปาทานจึงไม่มีที่เกาะ</div>
+          </div>
+
+          <details class="v2-details" style="margin-top:8px">
+            <summary class="visuddhi-title" style="font-size:.84rem">1. กายานุปัสสนา <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+            <div class="v12-note"><b>ทฤษฎี:</b> พระสูตรแบ่งเป็น 6 บรรพ — อานาปานบรรพ (ลมหายใจ) · อิริยาบถบรรพ (ยืน/เดิน/นั่ง/นอน) · สัมปชัญญบรรพ (รู้ชัดในความไม่เที่ยงทุกอิริยาบถย่อย) · ปฏิกูลมนสิการบรรพ (อวัยวะ 32) · ธาตุมนสิการบรรพ (ธาตุ 4) · นวสีวถิกาบรรพ (ซากศพ 9 ระยะ)</div>
+            <div style="margin-top:6px;font-size:.78rem;color:var(--dim)">⚠️ แยกอิริยาบถ/สัมปชัญญบรรพ: <b>อิริยาบถบรรพ</b> = ท่าใหญ่ 4 อย่าง (ยืน/เดิน/นั่ง/นอน) ต่อเนื่องยาว | <b>สัมปชัญญบรรพ</b> = การเคลื่อนไหวย่อยทุกจังหวะ (ก้าวเท้า เอื้อมมือ มองซ้ายขวา กิน ดื่ม) ด้วยความรู้ตัวทั่วพร้อม</div>
+            <div style="margin-top:6px;font-size:.85rem">คอร์สปฏิบัติเน้นเฉพาะ<b>อานาปานบรรพ</b>เป็นประตูเข้า — รู้ลมหายใจตามธรรมชาติที่ปลายจมูก ไม่บังคับ ไม่ปรับ</div>
+            <div style="margin-top:6px;font-size:.75rem;color:var(--dim)">⚠️ ขอบเขตปฏิบัติจริง: คอร์ส 10 วันใช้เฉพาะอานาปานบรรพ + เชื่อมกับธาตุมนสิการทางอ้อม (ผ่านการรู้ธาตุ 4 ในกลาปะระหว่างสแกนกาย) — ปฏิกูลมนสิการ (32 อวัยวะ) และนวสีวถิกา (ซากศพ 9 ระยะ) เป็นของพระสูตรที่ไม่ได้สอนตรงในคอร์ส</div>
+            <table class="v12-table" style="margin-top:8px">
+              <tr><th>ภายใน</th><th>ภายนอก</th></tr>
+              <tr><td>อวัยวะ/ธาตุลึกในร่างกายตนเอง</td><td>ผิวหนัง/พื้นผิวร่างกายตนเอง</td></tr>
+            </table>
+            <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">✅ ยืนยันตรงจากมหาสติปัฏฐานสูตรแปล</div>
+          </details>
+
+          <details class="v2-details" style="margin-top:8px">
+            <summary class="visuddhi-title" style="font-size:.84rem">2. เวทนานุปัสสนา <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+            <div class="v12-note"><b>ทฤษฎี:</b> เวทนา 3 ชนิด<b>ทางกาย</b> (สุข/ทุกข์/อทุกขมสุข) × 2 มิติซ้อน — สามิสัง (มีเหยื่อล่อทางโลก/ยึดติด) และนิรามิสัง (ไม่มีเหยื่อล่อ/ไม่ยึดติด) — เวทนาชนิดเดียวกันต่างกันที่มีตัณหาปนหรือไม่</div>
+            <div style="margin-top:6px;font-size:.78rem;color:var(--dim)">✅ ทำไมแค่ 3 ชนิด (ไม่รวมใจ): พระพุทธเจ้าแบ่งเวทนาแบบกว้างไว้ 5 ชนิด (สุข-ทุกข์-<b>โสมนัส</b>-<b>โทมนัส</b>-อทุกขมสุข) — 2 ตัวที่เป็นใจ (โสมนัส/โทมนัส) ถูกจัดไปอยู่ในจิตตานุปัสสนาแทน เพราะมักมาพร้อมราคะ/โทสะ/โมหะอยู่แล้ว — เวทนานุปัสสนาในมหาสติปัฏฐานสูตรจึงเหลือแค่ 3 ชนิดที่เป็นกายล้วนๆ</div>
+            <div style="margin-top:6px;font-size:.85rem">ไม่ต้องแยกวิเคราะห์ชนิด แค่วางอุเบกขาเท่ากันทุกชนิด — มีอุเบกขา=นิรามิสัง, ไม่มี=สามิสัง</div>
+            <table class="v12-table" style="margin-top:8px">
+              <tr><th>ภายใน</th><th>ภายนอก</th></tr>
+              <tr><td>ความรู้สึกที่เกิดลึกในเนื้อ/อวัยวะ</td><td>ความรู้สึกที่เกิดที่ผิวกาย</td></tr>
+            </table>
+            <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">✅ ยืนยันตรงจากมหาสติปัฏฐานสูตรแปล</div>
+          </details>
+
+          <details class="v2-details" style="margin-top:8px">
+            <summary class="visuddhi-title" style="font-size:.84rem">3. จิตตานุปัสสนา <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+            <div class="v12-note"><b>ทฤษฎี:</b> สังเกตคู่ตรงข้าม 8 คู่ (16 สภาพจิต) — สราคะ/วีตราคะ, สโทสะ/วีตโทสะ, สโมหะ/วีตโมหะ, สังขิตตัง(หดหู่)/วิกขิตตัง(ฟุ้งซ่าน), มหัคคตัง(จิตที่ได้ฌานขั้นสูง)/อมหัคคตัง, สอุตตรัง(ยังมีภาวะอื่นสูงกว่า)/อนุตตรัง(ถึงภาวะสูงสุดแล้ว), สมาหิตัง(สมาธิระดับอุปจาร/อัปปนา)/อสมาหิตัง, วิมุตตัง(หลุดพ้น)/อวิมุตตัง</div>
+            <table class="v12-table" style="margin-top:8px">
+              <tr><th>คู่</th><th>แปลง่ายๆ</th></tr>
+              <tr><td>สราคะ/วีตราคะ</td><td>มีความอยาก / ไม่มี</td></tr>
+              <tr><td>สโทสะ/วีตโทสะ</td><td>มีความขัดเคือง / ไม่มี</td></tr>
+              <tr><td>สโมหะ/วีตโมหะ</td><td>มีความหลง / ไม่มี</td></tr>
+              <tr><td>สังขิตตัง/วิกขิตตัง</td><td>จิตหดหู่รวมตัว / จิตฟุ้งกระจาย</td></tr>
+              <tr><td>มหัคคตัง/อมหัคคตัง</td><td>⚠️ จิตได้ฌานขั้นสูงจริง (ไม่ใช่แค่รู้สึกจิตใหญ่ทั่วไป) / ไม่ได้</td></tr>
+              <tr><td>สอุตตรัง/อนุตตรัง</td><td>ยังติดโลกียวิสัย ยังมีภาวะสูงกว่า / ถึงภาวะสูงสุดแล้ว</td></tr>
+              <tr><td>สมาหิตัง/อสมาหิตัง</td><td>⚠️ สมาธิระดับอุปจาร/อัปปนาจริง (ไม่ใช่แค่ใจนิ่งทั่วไป) / ยังไม่ถึง</td></tr>
+              <tr><td>วิมุตตัง/อวิมุตตัง</td><td>จิตหลุดพ้นแล้ว / ยังไม่หลุดพ้น</td></tr>
+            </table>
+            <div style="margin-top:6px;font-size:.85rem">แค่แว่บรู้ว่าตอนนี้จิตอยู่ฝั่งไหนใน 8 คู่นี้ ไม่ต้องวิเคราะห์ลึก — รู้ตรงๆ ไม่ใช่ครุ่นคิด</div>
+            <div style="margin-top:8px;font-size:.78rem;color:var(--dim)">⚠️ "ภายใน-ภายนอก" ของฐานนี้มี <b>3 สายตีความที่ต่างกัน</b> — ยังไม่ใช่ประเด็นที่ยุติแล้ว:</div>
+            <table class="v12-table" style="margin-top:6px">
+              <tr><th>สาย</th><th>ภายใน</th><th>ภายนอก</th></tr>
+              <tr><td>1. วิชาการกระแสหลัก</td><td>จิตตนเอง</td><td>จิตของผู้อื่น (อนุมานจากพฤติกรรม)</td></tr>
+              <tr><td>2. Mahasati trans./โกเอ็นก้า</td><td>สภาวะจิตที่กำลังสำรวจตนเอง</td><td>การกระทบทวาร 6 จากภายนอก (รูป/เสียง/กลิ่น/รส/สัมผัส/ความคิด) ที่ก่อปฏิกิริยาภายใน→เวทนา</td></tr>
+              <tr><td>3. ปรากฏการณ์วิทยา (ส่วนน้อย)</td><td>มุมมองซับเจ็กทีฟ</td><td>มุมมองออบเจ็กทีฟ (คนละมิติ ไม่ใช่ตน-อื่น)</td></tr>
+            </table>
+            <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">✅ สาย 1: วิภังค์/อรรถกถา/อภิธรรม — Ven. Anālayo (นักวิชาการสติปัฏฐานชั้นนำ) สรุปว่าเหมาะสมที่สุด | ✅ สาย 2: เชิงอรรถ๑๙+หน้า48 มหาสติปัฏฐานสูตรแปล — วิจารณ์สาย 1 ว่าต้องการญาณขั้นสูงเกินไปสำหรับผู้ปฏิบัติทั่วไป และคำสอน อ.โกเอ็นก้าจริง (10 Days Discourse) ไม่เน้นแยกตน-อื่น แต่ให้จิตตานุปัสสนา/ธัมมานุปัสสนาย้อนกลับไปที่เวทนาเสมอ | ⚠️ สาย 3: แนวทางส่วนน้อย (Ñāṇavīra Thera)</div>
+          </details>
+
+          <details class="v2-details" style="margin-top:8px">
+            <summary class="visuddhi-title" style="font-size:.84rem">4. ธัมมานุปัสสนา <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+            <div class="v12-note"><b>ทฤษฎี:</b> 5 บรรพ — นิวรณบรรพ (นิวรณ์ 5) · ขันธบรรพ (ขันธ์ 5) · อายตนบรรพ (อายตนะ 6 คู่ + สังโยชน์) · โพชฌงคบรรพ (โพชฌงค์ 7) · สัจจบรรพ (อริยสัจ 4)</div>
+            <div style="margin-top:6px;font-size:.85rem">ไม่ใช่ท่องจำ 5 หมวดนี้ แต่เป็นความเข้าใจที่ผุดขึ้นเองจากการฝึก 3 ฐานบน เช่น เจอถีนมิทธะ(ง่วง)จริงระหว่างนั่ง=เห็นนิวรณ์, เห็นเวทนาเกิด-ดับจริง=เห็นขันธ์กำลังทำงาน</div>
+
+            <div class="v12-note" style="margin-top:10px;border-left-color:#e8c93a" id="ayatanaSanyojanaNote">🔗 <b>อายตนะ 6 คู่ สัมพันธ์กับสังโยชน์ 10 อย่างไร:</b> พระสูตร (อายตนบรรพ) ให้สูตร 4 ขั้น — "ภิกษุรู้ชัดว่าตา รู้ชัดว่ารูป <b>และรู้ชัดว่ากิเลสเครื่องผูกรัดย่อมเกิดขึ้นโดยอาศัยสองสิ่งนี้</b> รู้ชัดว่าสังโยชน์ที่ยังไม่เกิดเกิดขึ้นได้อย่างไร ที่เกิดแล้วถูกขจัดได้อย่างไร ที่ขจัดแล้วจะไม่เกิดอีกอย่างไร"</div>
+            <div style="margin-top:8px;font-size:.78rem;color:var(--dim)">✅ จุดสำคัญ (Glimpse of Buddha): ไม่ใช่ "อายตนะกระทบ→ตัณหาทันที" แต่เป็น <b>อายตนะ→ผัสสะ→เวทนา→ตัณหา</b> — มี "ช่องว่าง" ตรงเวทนาที่แทรกสัมปชัญญะได้ก่อนสังโยชน์จะทันเกิด</div>
+            <div style="margin-top:10px;padding:12px;border-radius:10px;background:var(--panel2);text-align:center;font-size:.82rem;line-height:2.1">
+              อายตนะภายใน+ภายนอกกระทบกัน<br>↓<br>ผัสสะ<br>↓<br>
+              <span style="color:#f5df8a;font-weight:700">เวทนา ← 🎯 จุดแทรกสัมปชัญญะ</span><br>↓<br>
+              <span style="color:#8ec98a">มีสัมปชัญญะ → สังโยชน์ไม่เกิด/คลายลง</span><br>
+              <span style="color:#e8a89c">ไม่มีสัมปชัญญะ → สังโยชน์ก่อตัว/แน่นขึ้น</span>
+            </div>
+            <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">อ้างอิง: Mahasati trans. หน้า 36-38 (อายตนบรรพ) · Glimpse of Buddha (ช่องว่างผัสสะ-เวทนา) · discourses of 10 days หน้า 121-122 (ปฏิจจสมุปบาทเต็มสาย)</div>
+
+            <div style="margin-top:8px;font-size:.75rem;color:var(--dim)">เนื้อหาแต่ละบรรพมีรายละเอียดเต็มอยู่แล้วในไฟล์ — กดดูได้เลย:</div>
+            <div style="margin-top:6px;display:flex;flex-direction:column;gap:6px">
+              <button onclick="gotoTOC('nivarana5')" class="lh-btn">นิวรณ์ 5 (นิวรณบรรพ) →</button>
+              <button onclick="gotoTOC('wf-khandha5')" class="lh-btn">ขันธ์ 5 — Workflow เต็ม (ขันธบรรพ) →</button>
+              <button onclick="gotoTOC('bhumi-sanyojana')" class="lh-btn">สังโยชน์ 10 (ส่วนหนึ่งของอายตนบรรพ) →</button>
+              <button onclick="toggleBodhi()" class="lh-btn">โพชฌงค์ 7 (โพชฌงคบรรพ) →</button>
+              <button onclick="gotoTOC('sacca')" class="lh-btn">อริยสัจ 4 (สัจจบรรพ) →</button>
+            </div>
+            <div style="margin-top:6px;font-size:.72rem;color:var(--dim)">⚠️ อายตนะ 6 คู่ (ตา-รูป/หู-เสียง/จมูก-กลิ่น/ลิ้น-รส/กาย-สัมผัส/ใจ-ธรรมารมณ์) ยังไม่มีเนื้อหาลึกแยกในไฟล์นี้ — สังโยชน์ 10 มีอยู่แล้วตามลิงก์ข้างบน</div>
+            <div style="margin-top:8px;font-size:.78rem;color:var(--dim)">⚠️ "ภายใน-ภายนอก" ของฐานนี้มี <b>2 ชั้นที่ไม่ใช่เรื่องเดียวกัน</b> — อย่าปนกัน:</div>
+            <div class="v12-note" style="margin-top:6px"><b>ชั้นที่ 1 — หัวข้อของอายตนบรรพเอง (✅ ชัดเจน ไม่ถกเถียง):</b> "อายตนะภายใน 6" (ตา-หู-จมูก-ลิ้น-กาย-ใจ) เทียบกับ "อายตนะภายนอก 6" (รูป-เสียง-กลิ่น-รส-สัมผัส-ธรรมารมณ์) — นี่คือความหมายตรงตัวจากพระบาลี ไม่เกี่ยวกับสูตรซ้ำด้านล่าง</div>
+            <table class="v12-table" style="margin-top:8px">
+              <tr><th>ชั้นที่ 2 (สูตรซ้ำท้ายทุกบรรพ) — สาย</th><th>ภายใน</th><th>ภายนอก</th></tr>
+              <tr><td>1. วิชาการกระแสหลัก</td><td>สภาวธรรมที่เกิดในตนเอง</td><td>สภาวธรรมที่เกิดในผู้อื่น</td></tr>
+              <tr><td>2. อนุมานต่อจาก Mahasati trans./โกเอ็นก้า ⚠️</td><td>ธรรมที่กำลังปรากฏในจิตตนเอง</td><td>ธรรม/ปฏิกิริยาที่เกิดในจิต อันมีที่มาจากการกระทบทวาร 6 จากภายนอก</td></tr>
+            </table>
+            <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">⚠️ สาย 2 ไม่มีคำอธิบายตรงในต้นฉบับสำหรับธรรมโดยเฉพาะ (ต่างจากจิตที่มีหน้า 48 อธิบายตรง) — เป็นการอนุมานต่อจากหลักที่ อ.โกเอ็นก้ากล่าวไว้ว่า "จิตตานุปัสสนากับธัมมานุปัสสนาอาศัยกัน" (ธรรม=สิ่งที่เกิดขึ้นในจิต) จึงน่าจะใช้เหตุผลเดียวกับจิต แต่ยังไม่ใช่คำยืนยันตรงจากแหล่งใด — ดูสาย 1-3 เต็มๆ ที่หมวด 3</div>
+          </details>
         </div>` : ''}
         ${c.cat==='พละ 5' ? `
         <div class="smatha-note" style="border-left-color:#c2483a;margin-top:10px">
@@ -2852,8 +3057,12 @@ function nanaPanelHTML(){
         <span class="p-pali">"เมื่อท่านได้เข้าถึง 'ภังคญาณ' คือ ความดับสลายแห่งสังขาร ไม่มีความหยาบทึบเป็นกลุ่มก้อนที่ใดเลยทั่วทั้งร่างกายและจิตใจ"</span>
         <span class="p-th">— ธรรมบรรยายหลักสูตร 10 วัน วันที่ 8</span>
       </div>
+      <div class="pali-block">
+        <span class="p-pali">"สัพพกายปฏิสังเวที อัสสสิสสามีติ สิกขติ สัพพกายปฏิสังเวที ปัสสสิสสามีติ สิกขติ"</span>
+        <span class="p-th">— "ตามรู้เวทนาตลอดทั่วร่างกาย เราจักหายใจเข้า ตามรู้เวทนาตลอดทั่วร่างกาย เราจักหายใจออก" (อานาปานสติสูตร ขั้นที่ 3-4 จาก 16 ขั้น — มหาสติปัฏฐานสูตรแปล)</span>
+      </div>
       <div class="v12-note">⚠ <b>คำเตือนสำคัญ (จากเอกสารเดียวกัน):</b> แม้ได้ภังคญาณแล้ว <b>ไม่ได้แปลว่าจะไม่เจอเวทนาหยาบอีก</b> — สังขารที่ฝังลึกในจิตจะยังผุดขึ้นมาเป็นระยะ อย่าเข้าใจผิดว่าภังคญาณคือจุดจบของการปฏิบัติ</div>
-      <div class="nd-sutta">อ้างอิง: เพื่อประโยชน์สุขของมหาชน (Q&A ท่านเวบู ซายาดอว์) · ธรรมบรรยายหลักสูตร 10 วัน วันที่ 8</div>
+      <div class="nd-sutta">อ้างอิง: เพื่อประโยชน์สุขของมหาชน (Q&A ท่านเวบู ซายาดอว์) · ธรรมบรรยายหลักสูตร 10 วัน วันที่ 8 · มหาสติปัฏฐานสูตรแปล (4.Book_Mahasati trans.pdf)</div>
     </details>
     <div class="smatha-note">
       ฐาน "จิตตวิสุทธิ" ในแผนภูมิต้นฉบับใช้เส้นทาง <b>กสิณ 10 + สมาบัติ 8</b> (สมถะ-วิปัสสนา ผ่านนิมิต/ฌานเต็มรูป) ซึ่ง<b>ต่างจากอานาปานสติแบบโกเอ็นก้า</b>ที่เป็นฐานของไดอะแกรมนี้ — ใส่ไว้เป็นความรู้ประกอบเท่านั้น ไม่ใช่ขั้นตอนที่ต้องฝึกตาม
@@ -3124,7 +3333,39 @@ function renderForkDetail(branch,idx){
       </div>
       <div class="v12-note" style="margin-top:10px"><b>"จิตไร้สำนึก" ที่แท้จริงแล้วไม่ได้ไร้สำนึก</b> — เป็นศัพท์นักจิตวิทยาตะวันตกยืมมาเรียก แต่จิตส่วนนี้<b>ตื่นตัวและทำงานหนักยิ่งกว่าจิตสำนึกผิวเผินเสียอีก</b> เพียงแต่มันสำนึกอยู่กับสิ่งเดียวคือเวทนา รู้ทั้งกลางวันกลางคืน แม้ยามหลับ ต่อเมื่อถูกวางยาสลบเท่านั้นจึงจะหมดความรู้สึกไปด้วย</div>
       <div class="v12-note"><b>พระพุทธเจ้าไม่ทรงเรียกว่า "จิตสำนึก/จิตไร้สำนึก"</b> — คำที่ทรงใช้คือ <b>"ปริตตจิต" (paritta citta)</b> หมายถึงส่วนเล็กๆ ของจิต ตรงกับที่นักจิตวิทยาตะวันตกเรียกว่าจิตสำนึก — กำแพงกั้นระหว่างปริตตจิตกับจิตส่วนลึก คือการที่จิตสำนึกไม่รู้ว่ามีอะไรเกิดขึ้นในจิตส่วนลึก การปฏิบัติวิปัสสนาคือการทำลายกำแพงนี้</div>
-      <div class="v12-note"><b>กลไก "นักโทษที่ถูกจองจำ":</b> จิตส่วนลึกไม่เพียงรู้เวทนาทุกชนิด แต่ยังทำปฏิกิริยาปรุงแต่งอย่างมืดบอดต่อเวทนานั้นด้วย — สบาย→ปรุงเป็นราคะ/โลภะ, ไม่สบาย→ปรุงเป็นโทสะ ซ้ำๆจนเป็นความเคยชิน เรียกว่า <b>"อนุสัยกิเลส"</b> (กิเลสที่นอนเนื่องในสันดาน)</div>
+      <div class="v12-note" id="prisonerMechanismNote"><b>กลไก "นักโทษที่ถูกจองจำ":</b> จิตส่วนลึกไม่เพียงรู้เวทนาทุกชนิด แต่ยังทำปฏิกิริยาปรุงแต่งอย่างมืดบอดต่อเวทนานั้นด้วย — สบาย→ปรุงเป็นราคะ/โลภะ, ไม่สบาย→ปรุงเป็นโทสะ ซ้ำๆจนเป็นความเคยชิน เรียกว่า <b>"อนุสัยกิเลส"</b> (กิเลสที่นอนเนื่องในสันดาน)</div>
+
+      <details class="v2-details" id="anusayaSection">
+        <summary class="visuddhi-title" style="font-size:.86rem;cursor:pointer">อนุสัยกิเลส — รากเหง้าที่นอนเนื่องในสันดาน <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+        <div class="smatha-note" style="border-left-color:#c2483a;margin-top:8px">
+          <b>นิยาม (ยืนยันตรง):</b> "กิเลสที่พระพุทธองค์ทรงเรียกว่าอนุสัย ซึ่งหมายถึง<b>กิเลสที่นอนเนื่องอยู่ในสันดาน</b> และจะติดตามเราไปจากภพหนึ่งไปยังอีกภพหนึ่ง จากชาตินี้ไปชาติหน้า นี่คือ<b>รากเหง้าของกิเลส</b>ที่จะงอกงามเติบโตได้ทุกเมื่อ"
+          <div style="margin-top:6px;font-size:.7rem;color:var(--dim)">อ้างอิง: 10 Days Summary (ถาม-ตอบ เรื่องสัมปชัญญะ)</div>
+        </div>
+        <div class="v12-note" style="margin-top:10px"><b>วิธีขจัด (ยืนยันตรง ต่อจากคำพูดข้างบนในเอกสารเดียวกัน):</b> "พระพุทธองค์ตรัสไว้อย่างชัดเจนว่า เมื่อใดที่เราเกิดความรู้สึกที่ไม่สบาย ก็ให้ใช้ความรู้สึกที่ไม่สบายเหล่านี้มากำจัดอนุสัยกิเลสของ<b>ปฏิฆะ</b>... เช่นเดียวกัน เมื่อใดที่เกิดความรู้สึกสบาย ก็ให้ใช้ความรู้สึกสบายนี้เป็นเครื่องช่วยกำจัดอนุสัยแห่ง<b>ราคะ</b>"</div>
+
+        <div class="v12-note" style="margin-top:10px">⚠️ <b>แจกแจง 7 ประเภท</b> (อภิธัมมัตถสังคหะมาตรฐาน — ยังไม่พบยืนยันตรงระดับแจกแจงรายชื่อครบในเอกสารโปรเจกต์):</div>
+        <table class="v12-table">
+          <tr><th>#</th><th>อนุสัย</th><th>ความหมาย</th></tr>
+          <tr><td>1</td><td>กามราคานุสัย</td><td>ความยินดีในกามคุณที่นอนเนื่อง</td></tr>
+          <tr><td>2</td><td>ปฏิฆานุสัย</td><td>ความขัดเคือง/หงุดหงิดที่นอนเนื่อง</td></tr>
+          <tr><td>3</td><td>มานานุสัย</td><td>ความถือตัวที่นอนเนื่อง</td></tr>
+          <tr><td>4</td><td>ทิฏฐานุสัย</td><td>ความเห็นผิดที่นอนเนื่อง</td></tr>
+          <tr><td>5</td><td>วิจิกิจฉานุสัย</td><td>ความลังเลสงสัยที่นอนเนื่อง</td></tr>
+          <tr><td>6</td><td>ภวราคานุสัย</td><td>ความอยากในภพที่นอนเนื่อง</td></tr>
+          <tr><td>7</td><td>อวิชชานุสัย</td><td>ความไม่รู้จริงที่นอนเนื่อง</td></tr>
+        </table>
+
+        <div class="v12-note" style="margin-top:10px">⚠️ <b>ตารางขั้นการละ</b> (มาตรฐานภายนอก คู่ขนานกับตารางสังโยชน์ 10 ที่มีอยู่แล้ว):</div>
+        <table class="v12-table">
+          <tr><th>ขั้น</th><th>อนุสัยที่ละได้</th></tr>
+          <tr><td>โสดาบัน</td><td>ทิฏฐานุสัย + วิจิกิจฉานุสัย</td></tr>
+          <tr><td>สกทาคามี</td><td>กามราคานุสัย + ปฏิฆานุสัย (เบาบางลง ยังไม่หมด)</td></tr>
+          <tr><td>อนาคามี</td><td>กามราคานุสัย + ปฏิฆานุสัย (หมดสิ้น)</td></tr>
+          <tr><td>อรหันต์</td><td>มานานุสัย + ภวราคานุสัย + อวิชชานุสัย (ที่เหลือทั้งหมด)</td></tr>
+        </table>
+
+        <div class="v12-note" style="margin-top:10px"><b>เชื่อมกับอาสวะ:</b> อนุสัย=รากที่ซ่อนอยู่ก้นบึ้งของจิต, อาสวะ=กระแสที่ไหลออกมา(เป็นปฏิกิริยาเคมี/ฮอร์โมน)เมื่อรากนั้นถูกกระตุ้น — ดูรายละเอียดกลไกอาสวะเพิ่มเติมที่หัวข้อ "อาสวะ" ในวงล้อปฏิจจสมุปบาท</div>
+      </details>
       <div class="v12-note" id="bhavangaSection">⚠ <b>"ภวังคจิต" = จิตไร้สำนึก?</b> ท่านอาจารย์โกเอ็นก้าเปรียบไว้ตรงๆว่า "วิปัสสนาจะนำเราจากปริตตจิตไปยังภวังคจิตหรือจิตไร้สำนึก อันเป็นที่อยู่ของอนุสัยกิเลส" (ธรรมบรรยายฉบับย่อ วันที่ 3) — <b>แต่นี่คือคำเทียบเชิงสอนของท่านอาจารย์เพื่อความเข้าใจง่าย</b> ไม่ใช่นิยาม "ภวังคจิต" แบบอภิธรรมล้วน ซึ่งทางเทคนิคภวังคจิตหมายถึงจิตวิบาก(ผลของกรรม)ที่คั่นระหว่างวิถีจิต ไม่ได้ทำหน้าที่ปรุงแต่งด้วยตัณหา/โทสะโดยตรง — ควรเข้าใจเป็นการเทียบเพื่อสื่อสาร ไม่ใช่สมการทางอภิธรรม
         <div style="margin-top:8px"><b>เชื่อมโยงรูปธรรม:</b> ภวังคจิตอาศัย<b>หทัยวัตถุ</b>เป็นฐานที่เกิดเสมอ (วีถิสังคหะ) — ดูรายละเอียดหทัยวัตถุใน modal รูป 28</div>
       </div>
@@ -3255,7 +3496,7 @@ function renderForkDetail(branch,idx){
           <li><b>วิเนยยะ โลเก อภิชฌาโทมนัสสัง</b> — ขจัดความยินดี(อภิชฌา)และความยินร้าย(โทมนัส)ในโลก(แห่งนามรูป)ออกเสียได้ — ผลลัพธ์ที่เกิดขึ้นเมื่อทำ 3 ข้อแรกครบถ้วน</li>
         </ul></div>
       </div>
-      <div class="v12-note" style="margin-top:8px"><b>สัมปชัญญะ</b> = รู้ชัดในความไม่เที่ยง (เกิดดับ) ของเวทนา — ไม่ใช่แค่รู้เฉยๆ (นั่นเป็นแค่สติ) ต้องมีปัญญาเห็นอนิจจังด้วยถึงจะเรียกว่าสัมปชัญญะ</div>
+      <div class="v12-note" style="margin-top:8px"><b>สัมปชัญญะ</b> = รู้ชัดในความไม่เที่ยง (เกิด ตั้งอยู่ ดับ) ของเวทนา — ไม่ใช่แค่รู้เฉยๆ (นั่นเป็นแค่สติ) ต้องมีปัญญาเห็นอนิจจัง (รู้ชัดเข้าใจชัดในความไม่เที่ยงอยู่ตลอดเวลา) ด้วยถึงจะเรียกว่าสัมปชัญญะ</div>
     </details>` : '';
   box.innerHTML=`
     <div class="g-pali">ทางที่ ๒ (นิโรธ) — ขั้นที่ ${idx+1} จาก ๗ หลังจุดแยกที่เวทนา</div>
@@ -3320,6 +3561,9 @@ function renderNidanaDetail(i){
             </marker>
             <marker id="arrowK5Red" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
               <path d="M0,0 L7,3.5 L0,7 Z" fill="#c2483a"/>
+            </marker>
+            <marker id="arrowK5Orange" markerWidth="10" markerHeight="10" refX="7" refY="3.5" orient="auto">
+              <path d="M0,0 L7,3.5 L0,7 Z" fill="#e08a3c"/>
             </marker>
           </defs>
 
@@ -3395,9 +3639,9 @@ function renderNidanaDetail(i){
           <path d="M1045,150 L1045,50 L70,50 L70,288" fill="none" stroke="#c2483a" stroke-width="2" marker-end="url(#arrowK5Red)"/>
           <text x="557" y="40" text-anchor="middle" fill="#f2938f" font-family="Sarabun" font-size="13" font-weight="600">สะสมสังขารใหม่</text>
 
-          <!-- ลูปล่าง: สังขารปรุงแต่งตอบโต้ (เส้นตรงมุมฉาก เข้าทางล่างของกล่องสังขาร — สลับด้านกับลูปบน) -->
-          <path d="M850,365 L850,545 L70,545 L70,352" fill="none" stroke="#c2483a" stroke-width="2" marker-end="url(#arrowK5Red)"/>
-          <text x="460" y="535" text-anchor="middle" fill="#f2938f" font-family="Sarabun" font-size="13" font-weight="600">สังขารปรุงแต่งตอบโต้</text>
+          <!-- ลูปล่าง: สังขารปรุงแต่งตอบโต้ (สังขาร→ตัณหา ตามต้นฉบับธรรมบรรยายวันที่ 4) -->
+          <path d="M70,352 L70,545 L850,545 L850,365" fill="none" stroke="#e08a3c" stroke-width="2" marker-end="url(#arrowK5Orange)"/>
+          <text x="460" y="535" text-anchor="middle" fill="#f0ab5f" font-family="Sarabun" font-size="13" font-weight="600">สังขารปรุงแต่งตอบโต้</text>
         </svg>
 
         <div class="v12-note" style="margin-top:8px">⚠ "จุด start" หมายถึงจุดก่อนเกิดเวทนา เป็นจุดเตือนให้ผู้ปฏิบัติเฝ้าสังเกตที่เวทนาให้ทัน (ตีความ/บันทึกส่วนตัวของผู้ปฏิบัติ — ไม่ใช่ศัพท์ที่พบตรงตัวในพระไตรปิฎกหรือธรรมบรรยาย)</div>
@@ -3554,8 +3798,8 @@ function renderNidanaDetail(i){
           <path d="M1045,150 L1045,50 L70,50 L70,288" fill="none" stroke="#c2483a" stroke-width="2" marker-end="url(#arrowMK5Red)"/>
           <text x="557" y="40" text-anchor="middle" fill="#f2938f" font-family="Sarabun" font-size="13" font-weight="600">สะสมสังขารใหม่</text>
 
-          <path d="M850,365 L850,545 L70,545 L70,352" fill="none" stroke="#c2483a" stroke-width="2" marker-end="url(#arrowMK5Red)"/>
-          <text x="460" y="535" text-anchor="middle" fill="#f2938f" font-family="Sarabun" font-size="13" font-weight="600">สังขารปรุงแต่งตอบโต้</text>
+          <path d="M70,352 L70,545 L850,545 L850,365" fill="none" stroke="#e08a3c" stroke-width="2" marker-end="url(#arrowMK5Orange)"/>
+          <text x="460" y="535" text-anchor="middle" fill="#f0ab5f" font-family="Sarabun" font-size="13" font-weight="600">สังขารปรุงแต่งตอบโต้</text>
 
           <!-- ============ ชั้นที่ 4: เส้นเชื่อมจากแกนกลาง → กล่องขยาย 4 อัน (วาดบนสุด) ============ -->
 
@@ -3566,6 +3810,28 @@ function renderNidanaDetail(i){
         </svg>
 
       </div>
+    </details>` : '';
+  const upadanaExample = i===8 ? `
+    <details class="v2-details" id="upadanaExampleDetails">
+      <summary class="visuddhi-title" style="font-size:.86rem">อุปาทาน 4 ประเภท <span class="v2-hint">— แตะดูเพิ่มเติม</span></summary>
+      <div class="smatha-note" style="border-left-color:#c2483a;margin-top:8px">
+        <b>1. กามุปาทาน</b> — ยึดมั่นในกามคุณ/ความสุขทางประสาทสัมผัส<br>
+        เปรียบเหมือนการเกาแผล ทั้งที่รู้ว่าจะทำให้แผลอักเสบ แต่ก็ยังชอบเกา — เมื่อสมปรารถนาแล้ว ความอยากก็ยังไม่หมด กลับสร้างความอยากใหม่ขึ้นมาอีก เพิ่มความทุกข์ให้ตนเองไม่รู้จบ
+      </div>
+      <div class="smatha-note" style="border-left-color:#2b8f83;margin-top:8px">
+        <b>2. อัตตวาทุปาทาน</b> — ยึดมั่นใน "ตัวฉัน" "ของฉัน"<br>
+        ทนไม่ได้ที่ใครจะวิพากษ์วิจารณ์ "ตัวฉัน" หรือทำร้าย "ตัวฉัน" — อุปาทานนี้จะไม่ทำให้ทุกข์เลย ถ้า "ของฉัน" คงอยู่ตลอดกาลและ "ตัวฉัน" ไม่ตาย แต่ตามกฎธรรมชาติ ไม่ช้าก็เร็วต้องตาย การยึดติดสิ่งไม่จีรังจึงนำมาซึ่งทุกข์
+      </div>
+      <div class="smatha-note" style="border-left-color:#c9a94a;margin-top:8px">
+        <b>3. ทิฏฐุปาทาน</b> — ยึดมั่นในความคิดเห็น/ความเชื่อของตน<br>
+        ทนไม่ได้ที่คนอื่นจะวิจารณ์ความคิด/ความเชื่อของเรา หรือแม้แต่รับฟังความเห็นคนอื่นก็ยังยาก — เหมือนคนสวมแว่นคนละสีแล้วเข้าใจว่าโลกเป็นสีนั้นจริงๆ ถ้าถอดแว่นออกได้จะเห็นความจริงตามที่มันเป็น แต่ส่วนใหญ่ติดอยู่กับสีแว่นตนเอง
+      </div>
+      <div class="smatha-note" style="border-left-color:#9b5fc0;margin-top:8px">
+        <b>4. สีลัพพตุปาทาน</b> — ยึดมั่นในวิธีปฏิบัติ/พิธีกรรมทางศาสนา<br>
+        ไม่เข้าใจว่าพิธีกรรมเป็นเพียง "เปลือกนอก" ไม่มีสาระความจริงอยู่ในตัวมันเอง — แม้จะรู้วิธีเข้าถึงสัจธรรมภายในกายแล้ว แต่ยังยึดติดรูปแบบพิธีกรรมภายนอกที่ไร้สาระ ก็จะเกิดความลังเลสงสัยและนำมาซึ่งทุกข์
+      </div>
+      <div class="g-desc" style="margin-top:10px"><b>สรุปเชื่อมโยง:</b> ความทุกข์ทั้งหมดในชีวิต (เจ็บป่วย แก่ ตาย เจ็บปวดกาย-ใจ) ล้วนสืบเนื่องมาจากอุปาทานทั้ง 4 นี้ — และอุปาทานเองก็เกิดจากตัณหา (ชอบ/ไม่ชอบ) ที่ปรุงแต่งตอบโต้เวทนาอีกที</div>
+      <div style="color:var(--dim);font-size:.72rem;margin-top:8px">⚠️ อ้างอิง: ยืนยันตรงจากธรรมบรรยายวันที่ 5 (2.Book_10 days summary.pdf)</div>
     </details>` : '';
   box.innerHTML=`
     <div class="g-pali">องค์ที่ ${i+1} จาก ๑๒ แห่งปฏิจจสมุปบาท ${vBadge}</div>
@@ -3579,6 +3845,7 @@ function renderNidanaDetail(i){
     ${linkBox}
     ${bhumiBtn}
     ${khandha5Example}
+    ${upadanaExample}
     <div class="nd-sutta">อ้างอิง: ปฏิจจสมุปบาท (อนุโลม-ปฏิโลม) วิภังคสูตร สังยุตตนิกาย นิทานวรรค · บทสวดมนต์เช้า-เย็นหลักสูตร ๑๐ วัน วันที่ ๖</div>`;
 }
 
@@ -4062,6 +4329,7 @@ const TOC_DATA=[
    {label:'อุเบกขาเจตสิก',sub:'"รู้แล้ววาง" ขยายความ',key:'fork-ubek'},
    {label:'ภวังคจิต',sub:'= จิตไร้สำนึก? เชื่อมกับหทัยวัตถุ',key:'fork-bhavanga'},
    {label:'อาสวะ',sub:'เครื่องหมักดองของจิต — เชื่อมฮอร์โมนในร่างกาย',key:'fork-asava'},
+   {label:'อนุสัยกิเลส',sub:'กลไก "นักโทษที่ถูกจองจำ" — กิเลสที่นอนเนื่องในสันดาน',key:'anusaya'},
    {label:'ไตรลักษณ์',sub:'อนิจจัง ทุกขัง อนัตตา แบบเข้าใจง่าย',key:'fork-tri'},
    {label:'ปัญญา',sub:'ปัญญา 3 ระดับ · ปะริชานาติปัณฑิโต · เวทะคู',key:'fork-panna'},
  ]},
@@ -4090,6 +4358,7 @@ const TOC_DATA=[
  {section:'แนวปฏิบัติ',items:[
    {label:'แนวปฏิบัติ 11 ขั้น',sub:'โครงสร้างการปฏิบัติเทียบเคียงคอร์ส 10 วัน',key:'practice'},
    {label:'แนวปฏิบัติส่วนตัว',sub:'บันทึกส่วนตัว 6 ขั้น + เกร็ดธรรม + เตือนตัวเอง',key:'practice-personal'},
+   {label:'🔄 แผนที่หลง–รู้ตัว',sub:'4 กิ่งหลง (โลภ/โทสะ/โมหะ/โสภณ) + 3 ระดับรู้ตัว',key:'practice-lostaware'},
    {label:'📖 เรื่องเล่า อ.โกเอ็นก้า',sub:'1.เรื่องเล่าจากพระสูตร · 2.นิทานอุปมาฯ',key:'practice-stories'},
    {label:'วิธีสแกนร่างกาย',sub:'4 Level · Case A/B · ภังคญาณ (ในขั้น 4/8)',key:'scan'},
    {label:'อนุสสติ + พายุอารมณ์',sub:'รับมืออารมณ์รุนแรง (ในขั้น 3)',key:'practice-anussati'},
@@ -4187,7 +4456,22 @@ function gotoTOC(key){
         selectFork('p2',0);
         setTimeout(()=>{
           const d=document.getElementById('cittaLaOiadDetails');
-          if(d){ d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); }
+          if(d){ d.open=true; }
+          const n=document.getElementById('prisonerMechanismNote');
+          if(n){ n.scrollIntoView({behavior:'smooth',block:'center'}); }
+          else if(d){ d.scrollIntoView({behavior:'smooth',block:'center'}); }
+        },50);
+      },60);
+      break;
+    case 'anusaya':
+      goP(); document.getElementById('pdFork').click();
+      setTimeout(()=>{
+        selectFork('p2',0);
+        setTimeout(()=>{
+          const d=document.getElementById('cittaLaOiadDetails');
+          if(d){ d.open=true; }
+          const s=document.getElementById('anusayaSection');
+          if(s){ s.open=true; s.scrollIntoView({behavior:'smooth',block:'center'}); }
         },50);
       },60);
       break;
@@ -4405,8 +4689,8 @@ function gotoTOC(key){
       toggleBhumi();
       setTimeout(()=>{
         const d=document.getElementById('sanyojanaSection');
-        if(d) d.scrollIntoView({behavior:'smooth',block:'center'});
-      },60);
+        if(d){ const det=d.closest('details'); if(det) det.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); }
+      },80);
       break;
     case 'bodhi37':
       toggleBodhi();
@@ -4428,6 +4712,15 @@ function gotoTOC(key){
       document.getElementById('tabPractice').click();
       setTimeout(()=>{
         const d=document.getElementById('personalPracticeCard');
+        if(d){ d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); }
+      },60);
+      break;
+    case 'practice-lostaware':
+      document.getElementById('tabPractice').click();
+      setTimeout(()=>{
+        const p=document.getElementById('personalPracticeCard');
+        if(p){ p.open=true; }
+        const d=document.getElementById('lostAwareCard');
         if(d){ d.open=true; d.scrollIntoView({behavior:'smooth',block:'center'}); }
       },60);
       break;
@@ -4603,6 +4896,23 @@ function openVithiLink(title,desc,gis){
   document.getElementById('cittaFlowBody').innerHTML=html;
   document.getElementById('cittaFlowModal').classList.add('show');
 }
+function openBhavasankharaInfo(){
+  document.getElementById('cittaFlowModalTitle').textContent='ภวสังขาร';
+  document.getElementById('cittaFlowBody').innerHTML=`
+    <div class="g-desc">คำว่า "ภวสังขาร" ได้ยินมาจากคอร์ส 10 วันพิเศษ หมายถึง<b>สังขารที่ฝังลึกที่สุด</b> เป็นเมล็ดพันธุ์กำหนดภพใหม่ — สะสมมาตลอดชีวิต (และชาติก่อนๆ) ไม่ใช่สังขารที่เพิ่งสร้างตอนใกล้ตาย</div>
+    <div class="g-desc" style="margin-top:10px"><b>สรุปเชื่อมกับปฏิจจสมุปบาท:</b> "ภพ" (ข้อ 10 ในวงล้อ 12 องค์) คือช่วงที่สังขารฝังลึกนี้กลายเป็น "แรงเหวี่ยง" พร้อมส่งวิญญาณไปปฏิสนธิ — <b>คุณภาพของสังขารตัวสุดท้ายก่อนตาย (หวานหรือขม) จึงเป็นตัวกำหนดว่าจะไปภพไหนใน 31 ภพภูมิ</b></div>
+    <div style="color:var(--dim);font-size:.72rem;margin-top:10px">อ้างอิง: ธรรมบรรยายหลักสูตร 10 วัน วันที่ 8 · 10 Days Summary วันที่ 4, 8</div>`;
+  document.getElementById('cittaFlowModal').classList.add('show');
+}
+function openPatisandhiInfo(){
+  document.getElementById('cittaFlowModalTitle').textContent='ปฏิสนธิวิญญาณ';
+  document.getElementById('cittaFlowBody').innerHTML=`
+    <div class="g-desc">"ปฏิสนธิวิญญาณ" คือขณะจิตแรกสุดของภพใหม่ เกิดขึ้น<b>ทันที</b>ที่จุติจิต (จิตขณะสุดท้ายก่อนตาย) ดับลง ไม่มีช่วงคั่นระหว่างกลาง</div>
+    <div class="g-desc" style="margin-top:10px">เหมือนเปลวเทียนดวงเก่าจุดต่อเปลวเทียนดวงใหม่ก่อนจะดับ ไม่ใช่ "ดวงเดิม" เคลื่อนย้ายไป แต่เป็น<b>แรงสืบเนื่องของเหตุ-ผล</b>ที่ส่งต่อกันโดยไม่มีตัวตนใดๆ เดินทางไปจริงๆ</div>
+    <div class="g-desc" style="margin-top:10px"><b>วิญญาณ→นามรูป:</b> ปฏิสนธิวิญญาณหยั่งลงภูมิใด นามรูปที่สอดคล้องกับภูมินั้นจะปรากฏขึ้นทันที</div>
+    <div style="color:var(--dim);font-size:.72rem;margin-top:10px">อ้างอิง: discourses of 10 days หน้า 122 (วิญญาณะปัจจยา นามะรูปัง) · หลักอภิธัมมัตถสังคหะมาตรฐาน (ปริจเฉทปฏิสนธิ)</div>`;
+  document.getElementById('cittaFlowModal').classList.add('show');
+}
 function openMaranaJavanaInfo(){
   document.getElementById('cittaFlowModalTitle').textContent='ชวนะ ×5 — มรณาสันนวิถี';
   document.getElementById('cittaFlowBody').innerHTML=`
@@ -4644,13 +4954,20 @@ function openJavanaInfo(){
   const gis=[0,1,2,6,8,9,10,11];
   let html=`<div class="g-desc">ชวนะ (javana) คือขณะจิตที่ "แล่นเข้าเสพอารมณ์" เกิดซ้ำกัน 7 ขณะติดกัน (ยกเว้นใกล้จุติจะเหลือน้อยกว่า) เป็น <b>จุดเดียวในวิถีจิตทั้งหมดที่กรรม (กุศล/อกุศล) ถูกสร้างขึ้นจริง</b> — ขณะอื่นๆ ในวิถีล้วนเป็นวิบากหรือกิริยาที่ไม่สร้างกรรมใหม่</div>
     <div class="g-desc" style="margin-top:10px">นับแบบ 121 ดวง (ขยายโลกุตตรตามฌาน): เป็นชวนะได้ <b>87 ดวง</b> — อกุศล 12 + มหากุศล 8 + มหากิริยา 8 + รูปาวจร(กุศล+กิริยา) 10 + อรูปาวจร(กุศล+กิริยา) 8 + โลกุตตร 40 + หสิตุปปาทะ 1
-    <br><span style="color:var(--dim);font-size:.85rem">(นับแบบดั้งเดิม 89 ดวง ไม่ขยายฌานโลกุตตร จะได้ 55 ดวง ตามที่คัมภีร์อภิธัมมัตถสังคหะระบุไว้ทั่วไป)</span></div>
+    <br><span style="color:var(--dim);font-size:.85rem">(นับแบบดั้งเดิม — ไม่ขยายฌานโลกุตตร: จิตทั้งหมดมี 89 ดวง ในจำนวนนี้เป็นชวนะได้ 55 ดวง ตามที่คัมภีร์อภิธัมมัตถสังคหะระบุไว้ทั่วไป)</span></div>
     <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">`;
   gis.forEach(gi=>{
     const g=GROUPS[gi];
     html+=`<button onclick="openCittaFlowGroup(${gi})" style="background:none;border:1px solid var(--line);color:var(--ivory);border-radius:8px;padding:6px 10px;cursor:pointer;font-family:'Sarabun';font-size:.8rem">${g.th} (${g.n}) →</button>`;
   });
   html+='</div>';
+  html+=`<div class="v12-note" style="margin-top:16px;border-left-color:#e8c93a"><b>จุดเชื่อม: เวทนา 2 ชั้นในขณะชวนะ</b> ⚠️ (สังเคราะห์เพื่อประสานคำสอนแบบง่ายกับโครงสร้างอภิธรรม)</div>
+    <div class="g-desc" style="margin-top:8px">เวลาพูดว่า "สังขารเก่าผุดเป็นเวทนา" มี 2 ชั้นซ้อนกันเสมอ — <b>(1) เวทนาที่ถูกรู้</b> (ความรู้สึกทางกายที่จิตวิบากในวิถีก่อนหน้านำมาให้) และ <b>(2) เวทนา+เจตสิกของจิตชวนะเอง</b> ที่เข้าไปรู้เวทนานั้น — ชวนะไม่ได้ "ว่างเปล่า" มันมีเจตสิกครบชุดของตัวเองกำกับอยู่เสมอ (สัพพจิตตสาธารณเจตสิก 7 ดวง รวมเวทนาและสัญญา)</div>
+    <div class="g-desc" style="margin-top:8px"><b>ตัวชี้ขาดว่าจะสร้างสังขารใหม่หรือไม่ ไม่ใช่แค่ "มีอุเบกขาหรือไม่"</b> ✅ (3D Discourse: "ปัญญาทำให้เกิดอุเบกขา") — อุเบกขา<u>เวทนา</u>เกิดได้ทั้งจิตกุศลและอกุศล (เช่น โมหมูลจิตก็มีอุเบกขาเวทนา แต่ยังเป็นอกุศลอยู่) ตัวที่ตัดวงจรจริงคือ <b>อุเบกขาเจตสิก (ตัตรมัชฌัตตตา) ที่ประกอบด้วยปัญญา</b> — เกิดเฉพาะจิตโสภณญาณสัมปยุตต์เท่านั้น</div>
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px">
+      <button onclick="closeCittaFlowModal();gotoTOC('fork-ubek')" style="background:none;border:1px solid var(--line);color:var(--ivory);border-radius:8px;padding:6px 10px;cursor:pointer;font-family:'Sarabun';font-size:.8rem">ดูอุเบกขาเจตสิก vs อุเบกขาเวทนา →</button>
+      <button onclick="closeCittaFlowModal();gotoTOC('fork-sankhara')" style="background:none;border:1px solid var(--line);color:var(--ivory);border-radius:8px;padding:6px 10px;cursor:pointer;font-family:'Sarabun';font-size:.8rem">ดูวงจรสังขารนิโรธ (ปฏิจจสมุปบาท) →</button>
+    </div>`;
   document.getElementById('cittaFlowModalTitle').textContent='ชวนะ ×7 — จุดสร้างกรรม';
   document.getElementById('cittaFlowBody').innerHTML=html;
   document.getElementById('cittaFlowModal').classList.add('show');
