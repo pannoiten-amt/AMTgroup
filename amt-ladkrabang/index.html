@@ -243,10 +243,10 @@
   .credentials{display:flex;gap:50px;flex-wrap:wrap;align-items:flex-start;}
   .cred-photo{
     width:120px;height:120px;border-radius:50%;
-    background:linear-gradient(135deg,var(--orange-soft),var(--orange));
-    display:flex;align-items:center;justify-content:center;
-    font-family:'Fraunces',serif;font-size:2.2rem;color:#fff;flex-shrink:0;
+    overflow:hidden;flex-shrink:0;
+    border:3px solid var(--orange-soft);
   }
+  .cred-photo img{width:100%;height:100%;object-fit:cover;display:block;}
   .cred-text h3{font-size:1.3rem;margin-bottom:4px;}
   .cred-text .role{color:var(--orange);font-size:0.9rem;margin-bottom:14px;}
   .cred-list{display:flex;gap:10px;flex-wrap:wrap;}
@@ -356,7 +356,7 @@
     <h2>ผู้สอบบัญชีรับอนุญาต</h2>
   </div>
   <div class="credentials">
-    <div class="cred-photo">สป</div>
+    <div class="cred-photo"><img src="./founder.jpg" alt="สุพจน์ ปานน้อย CEO AMT Group"></div>
     <div class="cred-text">
       <h3>สุพจน์ ปานน้อย</h3>
       <p class="role">Chief Executive Officer / Managing Director, AMT Group</p>
