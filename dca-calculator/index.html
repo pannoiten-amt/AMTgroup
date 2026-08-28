@@ -17,125 +17,6 @@
 <div id="root"></div>
 
 <script>
-const {
-  useState,
-  useMemo,
-  Fragment
-} = React;
-const THB = n => new Intl.NumberFormat("th-TH", {
-  maximumFractionDigits: 0
-}).format(Math.round(n || 0));
-const THB_M = n => {
-  const v = n / 1000000;
-  return (v >= 100 ? v.toFixed(0) : v.toFixed(2)) + " ล้าน";
-};
-let idSeed = 3;
-const uid = () => idSeed++;
-const inputStyle = {
-  width: "100%",
-  padding: "8px 10px",
-  fontSize: 13.5,
-  border: "1px solid #DDE3E2",
-  borderRadius: 6,
-  fontFamily: "var(--mono)",
-  color: "var(--ink)",
-  background: "#F7F9F8",
-  boxSizing: "border-box",
-  outline: "none"
-};
-const tdStyle = {
-  textAlign: "right",
-  padding: "7px 14px",
-  whiteSpace: "nowrap"
-};
-const addBtnStyle = {
-  display: "flex",
-  alignItems: "center",
-  gap: 6,
-  padding: "7px 14px",
-  fontSize: 12.5,
-  fontWeight: 600,
-  color: "#fff",
-  background: "var(--navy)",
-  border: "none",
-  borderRadius: 7,
-  cursor: "pointer"
-};
-const delBtnStyle = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  width: 30,
-  height: 30,
-  color: "#A94438",
-  background: "transparent",
-  border: "1px solid #E3C9C4",
-  borderRadius: 6,
-  cursor: "pointer"
-};
-function Field({
-  label,
-  children
-}) {
-  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11.5,
-      color: "var(--muted)",
-      marginBottom: 6,
-      fontWeight: 500
-    }
-  }, label), children);
-}
-function SummaryCard({
-  label,
-  value,
-  sub,
-  highlight,
-  accent
-}) {
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: highlight ? "var(--navy)" : "var(--card)",
-      color: highlight ? "#fff" : "var(--ink)",
-      border: highlight ? "none" : "1px solid var(--line)",
-      borderRadius: 10,
-      padding: "16px 18px",
-      position: "relative",
-      overflow: "hidden"
-    }
-  }, highlight && /*#__PURE__*/React.createElement("div", {
-    style: {
-      position: "absolute",
-      top: 0,
-      right: 0,
-      width: 4,
-      height: "100%",
-      background: "var(--amber)"
-    }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11.5,
-      color: highlight ? "#9FB3C4" : "var(--muted)",
-      marginBottom: 6,
-      fontWeight: 500
-    }
-  }, label), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontFamily: "var(--mono)",
-      fontSize: 22,
-      fontWeight: 600,
-      color: accent ? "#C7912F" : highlight ? "#fff" : "var(--ink)"
-    }
-  }, value), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 11,
-      color: highlight ? "#8AA0B2" : "var(--muted)",
-      marginTop: 4
-    }
-  }, sub));
-}
-
-// Lightweight hand-rolled SVG area chart (no external chart library needed)
 function GrowthChart({
   rows,
   hasExtras,
@@ -256,6 +137,21 @@ function GrowthChart({
     }, r.year);
   }));
 }
+
+const {
+  useState,
+  useMemo,
+  Fragment
+} = React;
+const THB = n => new Intl.NumberFormat("th-TH", {
+  maximumFractionDigits: 0
+}).format(Math.round(n || 0));
+const THB_M = n => {
+  const v = n / 1000000;
+  return (v >= 100 ? v.toFixed(0) : v.toFixed(2)) + " ล้าน";
+};
+let idSeed = 3;
+const uid = () => idSeed++;
 function DCACalculator() {
   const [birthYear, setBirthYear] = useState(2000);
   const [startYear, setStartYear] = useState(2026);
@@ -265,34 +161,75 @@ function DCACalculator() {
   const [initialCapital, setInitialCapital] = useState(0);
   const [extras, setExtras] = useState([]);
   const [withdrawals, setWithdrawals] = useState([]);
-  const [expanded, setExpanded] = useState({});
+  const [monthlySchedule, setMonthlySchedule] = useState([]);
   const currentAge = startYear - birthYear;
-  const toggleExpand = year => setExpanded(e => ({
-    ...e,
-    [year]: !e[year]
-  }));
-  const addExtra = () => setExtras(e => [...e, {
-    id: uid(),
-    year: startYear + 5,
-    amount: 100000,
-    recurring: false
-  }]);
+  const addExtra = () => {
+    setExtras(e => [...e, {
+      id: uid(),
+      year: startYear + 5,
+      amount: 100000,
+      recurring: false,
+      endYear: ""
+    }]);
+  };
   const removeExtra = id => setExtras(e => e.filter(x => x.id !== id));
   const updateExtra = (id, field, value) => setExtras(e => e.map(x => x.id === id ? {
     ...x,
     [field]: value
   } : x));
-  const addWithdrawal = () => setWithdrawals(w => [...w, {
-    id: uid(),
-    year: startYear + 5,
-    amount: 50000,
-    recurring: false
-  }]);
+  const addWithdrawal = () => {
+    setWithdrawals(w => [...w, {
+      id: uid(),
+      year: startYear + 5,
+      amount: 50000,
+      recurring: false
+    }]);
+  };
   const removeWithdrawal = id => setWithdrawals(w => w.filter(x => x.id !== id));
   const updateWithdrawal = (id, field, value) => setWithdrawals(w => w.map(x => x.id === id ? {
     ...x,
     [field]: value
   } : x));
+  const addMonthlyChange = () => {
+    setMonthlySchedule(s => {
+      const lastYear = s.length ? Math.max(...s.map(x => Number(x.year) || 0)) : startYear;
+      return [...s, {
+        id: uid(),
+        year: Math.max(lastYear + 5, startYear + 5),
+        amount: monthly
+      }];
+    });
+  };
+  const removeMonthlyChange = id => setMonthlySchedule(s => s.filter(x => x.id !== id));
+  const updateMonthlyChange = (id, field, value) => setMonthlySchedule(s => s.map(x => x.id === id ? {
+    ...x,
+    [field]: value
+  } : x));
+
+  // Resolves the effective monthly contribution for a given year: the base amount,
+  // overridden by the most recent schedule change whose year has arrived (0 = stopped).
+  const getMonthlyForYear = year => {
+    let effective = monthly;
+    let bestYear = -Infinity;
+    monthlySchedule.forEach(s => {
+      const y = Number(s.year);
+      if (y <= year && y > bestYear) {
+        bestYear = y;
+        effective = Number(s.amount) || 0;
+      }
+    });
+    return effective;
+  };
+  const [expanded, setExpanded] = useState({});
+  const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showTable, setShowTable] = useState(false);
+  const toggleExpand = year => setExpanded(e => ({
+    ...e,
+    [year]: !e[year]
+  }));
+
+  // Deposits accumulate monthly (shown month by month for visibility), but interest
+  // compounds only once at year-end on the full balance (opening + lump + all monthly deposits).
   const computeYear = (openingBalance, lumpAtStart, monthlyDeposit, annualRatePct) => {
     let balance = openingBalance + lumpAtStart;
     const openAfterLump = balance;
@@ -320,12 +257,12 @@ function DCACalculator() {
     totals
   } = useMemo(() => {
     const numYears = Math.max(1, retireAge - currentAge + 1);
-    let startBase = 0,
-      startCombined = 0,
-      totalContrib = 0,
-      totalExtra = 0,
-      totalInterest = 0,
-      totalWithdrawn = 0;
+    let startBase = 0;
+    let startCombined = 0;
+    let totalContrib = 0;
+    let totalExtra = 0;
+    let totalInterest = 0;
+    let totalWithdrawn = 0;
     const out = [];
     for (let i = 0; i < numYears; i++) {
       const year = startYear + i;
@@ -333,20 +270,25 @@ function DCACalculator() {
       let extraThisYear = 0;
       extras.forEach(ex => {
         const y = Number(ex.year);
-        if (ex.recurring ? year >= y : year === y) extraThisYear += Number(ex.amount) || 0;
+        const endY = ex.recurring && ex.endYear !== "" && ex.endYear != null ? Number(ex.endYear) : null;
+        const inRange = ex.recurring ? year >= y && (endY == null || year <= endY) : year === y;
+        if (inRange) extraThisYear += Number(ex.amount) || 0;
       });
       let withdrawThisYear = 0;
       withdrawals.forEach(w => {
         const y = Number(w.year);
-        if (w.recurring ? year >= y : year === y) withdrawThisYear += Number(w.amount) || 0;
+        if (w.recurring ? year >= y : year === y) {
+          withdrawThisYear += Number(w.amount) || 0;
+        }
       });
+      const monthlyThisYear = getMonthlyForYear(year);
       const openingBase = i === 0 ? initialCapital : startBase;
       const openingCombined = i === 0 ? initialCapital : startCombined;
-      const yearBase = computeYear(openingBase, 0, monthly, rate);
-      const yearCombined = computeYear(openingCombined, extraThisYear, monthly, rate);
+      const yearBase = computeYear(openingBase, 0, monthlyThisYear, rate);
+      const yearCombined = computeYear(openingCombined, extraThisYear, monthlyThisYear, rate);
       const endBeforeWithdraw = yearCombined.endBalance;
       const endAfterWithdraw = Math.max(0, endBeforeWithdraw - withdrawThisYear);
-      totalContrib += monthly * 12;
+      totalContrib += monthlyThisYear * 12;
       totalExtra += extraThisYear;
       totalInterest += yearCombined.yearInterest;
       totalWithdrawn += withdrawThisYear;
@@ -356,7 +298,9 @@ function DCACalculator() {
         openStart: openingCombined,
         extraThisYear,
         withdrawThisYear,
-        depositedThisYear: monthly * 12,
+        openAfterLump: yearCombined.openAfterLump,
+        depositedThisYear: monthlyThisYear * 12,
+        monthlyThisYear,
         interestCombined: yearCombined.yearInterest,
         balanceBeforeInterest: yearCombined.balanceBeforeInterest,
         endBeforeWithdraw,
@@ -381,12 +325,12 @@ function DCACalculator() {
         yearsToRetire: numYears
       }
     };
-  }, [birthYear, startYear, retireAge, rate, monthly, initialCapital, extras, withdrawals]);
+  }, [birthYear, startYear, retireAge, rate, monthly, initialCapital, extras, withdrawals, monthlySchedule]);
   const hasExtras = extras.length > 0;
   const hasWithdrawals = withdrawals.length > 0;
   const handleExportExcel = () => {
     const wb = XLSX.utils.book_new();
-    const summaryData = [["รายการ", "มูลค่า (บาท)"], ["มูลค่าพอร์ตวันเกษียณ", Math.round(totals.endCombined)], ["เงินต้นสะสมรวม (ยกมา+รายเดือน+เงินก้อนพิเศษ)", Math.round(totals.principalTotal)], ["ดอกเบี้ยสะสมทั้งหมด", Math.round(totals.totalInterest)], ["ถอนออกสะสมทั้งหมด", Math.round(totals.totalWithdrawn)], [], ["เงื่อนไขที่ใช้คำนวณ", ""], ["ปีเกิด", birthYear], ["ปีเริ่มต้นคำนวณ", startYear], ["อายุเกษียณ", retireAge], ["ดอกเบี้ยต่อปี (%)", rate], ["ลงทุนต่อเดือน (บาท)", monthly], ["เงินก้อนเริ่มต้น (บาท)", initialCapital]];
+    const summaryData = [["รายการ", "มูลค่า (บาท)"], ["มูลค่าพอร์ตวันเกษียณ", Math.round(totals.endCombined)], ["เงินต้นสะสมรวม (ยกมา+รายเดือน+เงินก้อนพิเศษ)", Math.round(totals.principalTotal)], ["ดอกเบี้ยสะสมทั้งหมด", Math.round(totals.totalInterest)], ["ถอนออกสะสมทั้งหมด", Math.round(totals.totalWithdrawn)], [], ["เงื่อนไขที่ใช้คำนวณ", ""], ["ปีเกิด", birthYear], ["ปีเริ่มต้นคำนวณ", startYear], ["อายุเกษียณ", retireAge], ["ดอกเบี้ยต่อปี (%)", rate], ["ลงทุนต่อเดือนเริ่มต้น (บาท)", monthly], ["เงินก้อนเริ่มต้น (บาท)", initialCapital]];
     const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
     wsSummary["!cols"] = [{
       wch: 40
@@ -394,8 +338,8 @@ function DCACalculator() {
       wch: 18
     }];
     XLSX.utils.book_append_sheet(wb, wsSummary, "สรุป");
-    const annualHeader = ["ปี", "อายุ", "ยอดยกมาต้นปี", "เงินก้อนพิเศษต้นปี", "ออมสะสมทั้งปี (รายเดือน)", "ดอกเบี้ยทบต้นรายปี", "ถอนปลายปี", "ยอดสะสมสิ้นปี", "เทียบเท่าต่อเดือน"];
-    const annualRows = rows.map(r => [r.year, r.age, Math.round(r.openStart), Math.round(r.extraThisYear), Math.round(r.depositedThisYear), Math.round(r.interestCombined), Math.round(r.withdrawThisYear), Math.round(r.endCombined), Math.round(r.monthlyEquivalent)]);
+    const annualHeader = ["ปี", "อายุ", "ยอดยกมาต้นปี", "ลงทุนต่อเดือน (บาท)", "เงินก้อนพิเศษต้นปี", "ออมสะสมทั้งปี (รายเดือน)", "ดอกเบี้ยทบต้นรายปี", "ถอนปลายปี", "ยอดสะสมสิ้นปี", "เทียบเท่าต่อเดือน"];
+    const annualRows = rows.map(r => [r.year, r.age, Math.round(r.openStart), Math.round(r.monthlyThisYear), Math.round(r.extraThisYear), Math.round(r.depositedThisYear), Math.round(r.interestCombined), Math.round(r.withdrawThisYear), Math.round(r.endCombined), Math.round(r.monthlyEquivalent)]);
     const wsAnnual = XLSX.utils.aoa_to_sheet([annualHeader, ...annualRows]);
     wsAnnual["!cols"] = annualHeader.map(() => ({
       wch: 20
@@ -404,7 +348,9 @@ function DCACalculator() {
     const monthlyHeader = ["ปี", "เดือน", "ออมสิ้นเดือน", "ยอดสะสม (ก่อนทบต้น)", "ดอกเบี้ยที่ทบต้น", "ยอดหลังทบต้น"];
     const monthlyRows = [];
     rows.forEach(r => {
-      r.months.forEach(m => monthlyRows.push([r.year, "เดือน " + m.month, Math.round(m.deposit), Math.round(m.balance), "", ""]));
+      r.months.forEach(m => {
+        monthlyRows.push([r.year, "เดือน " + m.month, Math.round(m.deposit), Math.round(m.balance), "", ""]);
+      });
       monthlyRows.push([r.year, "ทบต้นสิ้นปี", "", Math.round(r.balanceBeforeInterest), Math.round(r.interestCombined), Math.round(r.endBeforeWithdraw)]);
     });
     const wsMonthly = XLSX.utils.aoa_to_sheet([monthlyHeader, ...monthlyRows]);
@@ -428,6 +374,7 @@ function DCACalculator() {
   return /*#__PURE__*/React.createElement("div", {
     style: {
       "--navy": "#0F2438",
+      "--navy-light": "#1B3A57",
       "--paper": "#EEF1F0",
       "--card": "#FFFFFF",
       "--amber": "#C7912F",
@@ -438,11 +385,15 @@ function DCACalculator() {
       "--mono": "'JetBrains Mono', 'SF Mono', Consolas, monospace",
       "--serif": "'Fraunces', Georgia, serif",
       background: "var(--paper)",
-      minHeight: "100vh",
+      minHeight: "100%",
       fontFamily: "'Inter', -apple-system, sans-serif",
-      color: "var(--ink)"
+      color: "var(--ink)",
+      padding: "0"
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("link", {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  }), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--navy)",
       color: "#fff",
@@ -463,10 +414,9 @@ function DCACalculator() {
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      color: "var(--amber)",
-      fontSize: 18
+      fontSize: 20
     }
-  }, "↗"), /*#__PURE__*/React.createElement("span", {
+  }, "🌱"), /*#__PURE__*/React.createElement("span", {
     style: {
       fontFamily: "var(--mono)",
       fontSize: 12,
@@ -474,7 +424,7 @@ function DCACalculator() {
       textTransform: "uppercase",
       color: "#9FB3C4"
     }
-  }, "DCA · ดอกเบี้ยทบต้น")), /*#__PURE__*/React.createElement("h1", {
+  }, "DCA · ปลูกเงินให้โต")), /*#__PURE__*/React.createElement("h1", {
     style: {
       fontFamily: "var(--serif)",
       fontSize: 28,
@@ -489,7 +439,7 @@ function DCACalculator() {
       color: "#B7C6D2",
       maxWidth: 560
     }
-  }, "ปรับเงื่อนไข ดูผลลัพธ์แบบทบต้นรายปีจนถึงวันเกษียณ พร้อมเปรียบเทียบผลของเงินก้อนพิเศษที่เติมเข้ามาระหว่างทาง")), /*#__PURE__*/React.createElement("button", {
+  }, "กรอกแค่ไม่กี่ช่องด้านล่าง แล้วดูเลยว่าถ้าออมสม่ำเสมอไปเรื่อยๆ จนเกษียณ จะมีเงินเท่าไหร่ 💰")), /*#__PURE__*/React.createElement("button", {
     onClick: handleExportExcel,
     style: {
       display: "flex",
@@ -523,28 +473,36 @@ function DCACalculator() {
       gap: 18
     }
   }, /*#__PURE__*/React.createElement(Field, {
-    label: "ปีเกิด (ค.ศ.)"
+    label: "ปีเกิด (ค.ศ.)",
+    icon: "🎂",
+    hint: "ใช้คำนวณอายุปัจจุบัน"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: birthYear,
     onChange: e => setBirthYear(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "ปีเริ่มต้นคำนวณ"
+    label: "ปีเริ่มต้นคำนวณ",
+    icon: "🚩",
+    hint: "ปีที่จะเริ่มออม"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: startYear,
     onChange: e => setStartYear(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "อายุเกษียณ"
+    label: "อายุเกษียณ",
+    icon: "🏁",
+    hint: "อยากหยุดทำงานตอนอายุเท่าไหร่"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: retireAge,
     onChange: e => setRetireAge(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "ดอกเบี้ยต่อปี (%)"
+    label: "ดอกเบี้ยต่อปี (%)",
+    icon: "📈",
+    hint: "ยิ่งสูง เงินยิ่งโตเร็ว"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "0.1",
@@ -552,7 +510,9 @@ function DCACalculator() {
     onChange: e => setRate(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "ลงทุนต่อเดือน (บาท)"
+    label: "ลงทุนต่อเดือนเริ่มต้น (บาท)",
+    icon: "🪙",
+    hint: "ออมเท่านี้ทุกเดือน"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "1000",
@@ -560,7 +520,9 @@ function DCACalculator() {
     onChange: e => setMonthly(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "เงินก้อนเริ่มต้น (บาท)"
+    label: "เงินก้อนเริ่มต้น (บาท)",
+    icon: "🏦",
+    hint: "ถ้ามีเงินเก็บอยู่แล้ว"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "1000",
@@ -574,7 +536,69 @@ function DCACalculator() {
       marginBottom: 24,
       fontFamily: "var(--mono)"
     }
-  }, "อายุปัจจุบัน ", currentAge, " ปี \xA0·\xA0 เหลืออีก ", totals.yearsToRetire, " ปีถึงวัยเกษียณ \xA0·\xA0 ลงทุนสม่ำเสมอปีละ ", THB(monthly * 12), " บาท"), /*#__PURE__*/React.createElement("div", {
+  }, "🎂 อายุตอนนี้ ", currentAge, " ปี \xA0·\xA0 ⏳ อีก ", totals.yearsToRetire, " ปีจะถึงวัยเกษียณ \xA0·\xA0 🪙 เริ่มออมปีละ ", THB(monthly * 12), " บาท", monthlySchedule.length > 0 ? " (ปรับเปลี่ยนตามตารางด้านล่าง)" : ""), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "linear-gradient(135deg, #146c50, #1f8f63)",
+      borderRadius: 14,
+      padding: "20px 24px",
+      marginBottom: 16,
+      color: "#fff"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 14,
+      lineHeight: 1.6
+    }
+  }, "🎉 ถ้าออมแบบนี้ไปเรื่อยๆ ตอนอายุ ", /*#__PURE__*/React.createElement("b", null, retireAge, " ปี"), " (ปี ", startYear + totals.yearsToRetire - 1, ") คุณจะมีเงินประมาณ"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--serif)",
+      fontSize: 34,
+      fontWeight: 700,
+      margin: "4px 0 14px"
+    }
+  }, THB(totals.endCombined), " บาท"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 8,
+      flexWrap: "wrap"
+    }
+  }, (() => {
+    const growthEmojis = ["🌱", "🌿", "🌳", "🌲"];
+    const count = Math.min(4, rows.length);
+    return Array.from({
+      length: count
+    }, (_, idx) => {
+      const pos = Math.round((rows.length - 1) * (count === 1 ? 0 : idx / (count - 1)));
+      const r = rows[pos];
+      if (!r) return null;
+      return /*#__PURE__*/React.createElement("div", {
+        key: idx,
+        style: {
+          flex: "1 1 100px",
+          background: "rgba(255,255,255,0.15)",
+          borderRadius: 10,
+          padding: "8px 10px",
+          textAlign: "center"
+        }
+      }, /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 18
+        }
+      }, growthEmojis[idx]), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 10.5,
+          opacity: 0.85,
+          marginTop: 2
+        }
+      }, "อายุ ", r.age), /*#__PURE__*/React.createElement("div", {
+        style: {
+          fontSize: 12.5,
+          fontWeight: 700,
+          fontFamily: "var(--mono)"
+        }
+      }, THB(r.endCombined)));
+    });
+  })())), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
@@ -582,28 +606,58 @@ function DCACalculator() {
       marginBottom: 24
     }
   }, /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "มูลค่าพอร์ตวันเกษียณ",
+    label: "💎 มูลค่าพอร์ตวันเกษียณ",
     value: THB(totals.endCombined),
     sub: `อายุ ${retireAge} ปี (ปี ${startYear + totals.yearsToRetire - 1})`,
     highlight: true
   }), /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "เงินต้นสะสมรวม",
+    label: "🧱 เงินต้นสะสมรวม",
     value: THB(totals.principalTotal),
     sub: "ยกมาเริ่มแรก + รายเดือน + เงินก้อนพิเศษ"
   }), /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "ดอกเบี้ยสะสมทั้งหมด",
+    label: "✨ ดอกเบี้ยสะสมทั้งหมด",
     value: THB(totals.totalInterest),
     sub: "ทบต้นรายเดือนตลอดระยะเวลาลงทุน"
   }), hasWithdrawals && /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "ถอนออกสะสมทั้งหมด",
+    label: "💸 ถอนออกสะสมทั้งหมด",
     value: "-" + THB(totals.totalWithdrawn),
     sub: "รวมทุกปีที่ถอน"
   }), (hasExtras || hasWithdrawals) && /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "ส่วนต่างจากแผนพื้นฐาน",
+    label: "⚖️ ส่วนต่างจากแผนพื้นฐาน",
     value: (totals.endCombined - totals.endBase >= 0 ? "+" : "") + THB(totals.endCombined - totals.endBase),
     sub: "เทียบกับไม่มีเงินก้อนพิเศษ/ไม่ถอนเงิน",
     accent: true
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowAdvanced(v => !v),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+      gap: 10,
+      padding: "14px 18px",
+      fontSize: 13.5,
+      fontWeight: 600,
+      color: "var(--ink)",
+      background: "var(--card)",
+      border: "1px solid var(--line)",
+      borderRadius: 10,
+      cursor: "pointer",
+      marginBottom: showAdvanced ? 16 : 24
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      gap: 8
+    }
+  }, "⚙️ ตัวเลือกเพิ่มเติม (ไม่บังคับ) — โบนัสพิเศษ, ถอนเงิน, ปรับเงินออมรายเดือน"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "inline-block",
+      transform: showAdvanced ? "rotate(180deg)" : "rotate(0deg)",
+      transition: "transform 0.15s"
+    }
+  }, "▾")), showAdvanced && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
       border: "1px solid var(--line)",
@@ -623,7 +677,7 @@ function DCACalculator() {
       fontWeight: 600,
       fontSize: 15
     }
-  }, "เงินก้อนพิเศษ (เช่น โบนัส CPA)"), /*#__PURE__*/React.createElement("div", {
+  }, "🎁 เงินก้อนพิเศษ (เช่น โบนัส CPA)"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12.5,
       color: "var(--muted)",
@@ -647,48 +701,37 @@ function DCACalculator() {
   }, extras.map(ex => /*#__PURE__*/React.createElement("div", {
     key: ex.id,
     style: {
-      display: "grid",
-      gridTemplateColumns: "auto 1fr 1fr auto auto",
-      alignItems: "center",
-      gap: 10,
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "flex-end",
+      gap: 12,
       background: "var(--paper)",
       border: "1px solid var(--line)",
       borderRadius: 8,
-      padding: "8px 12px"
+      padding: "10px 12px"
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "var(--muted)",
-      fontFamily: "var(--mono)"
-    }
-  }, "ปี"), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement(MiniField, {
+    label: "ปีที่เริ่ม"
+  }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: ex.year,
     onChange: e => updateExtra(ex.id, "year", e.target.value),
     style: {
       ...inputStyle,
-      background: "#fff"
+      background: "#fff",
+      width: 90
     }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 6
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "var(--muted)"
-    }
-  }, "฿"), /*#__PURE__*/React.createElement("input", {
+  })), /*#__PURE__*/React.createElement(MiniField, {
+    label: "จำนวนเงิน (บาท)"
+  }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "10000",
     value: ex.amount,
     onChange: e => updateExtra(ex.id, "amount", e.target.value),
     style: {
       ...inputStyle,
-      background: "#fff"
+      background: "#fff",
+      width: 130
     }
   })), /*#__PURE__*/React.createElement("label", {
     style: {
@@ -697,15 +740,31 @@ function DCACalculator() {
       gap: 6,
       fontSize: 12.5,
       color: "var(--muted)",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
+      paddingBottom: 8
     }
   }, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     checked: ex.recurring,
     onChange: e => updateExtra(ex.id, "recurring", e.target.checked)
-  }), " ทุกปีต่อเนื่อง"), /*#__PURE__*/React.createElement("button", {
+  }), "ทุกปีต่อเนื่อง"), ex.recurring && /*#__PURE__*/React.createElement(MiniField, {
+    label: "ถึงปี (ว่าง = จนเกษียณ)"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    placeholder: "เกษียณ",
+    value: ex.endYear,
+    onChange: e => updateExtra(ex.id, "endYear", e.target.value),
+    style: {
+      ...inputStyle,
+      background: "#fff",
+      width: 110
+    }
+  })), /*#__PURE__*/React.createElement("button", {
     onClick: () => removeExtra(ex.id),
-    style: delBtnStyle
+    style: {
+      ...delBtnStyle,
+      marginLeft: "auto"
+    }
   }, "✕"))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
@@ -726,7 +785,7 @@ function DCACalculator() {
       fontWeight: 600,
       fontSize: 15
     }
-  }, "ถอนเงินปลายปี"), /*#__PURE__*/React.createElement("div", {
+  }, "💸 ถอนเงินปลายปี"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12.5,
       color: "var(--muted)",
@@ -753,48 +812,37 @@ function DCACalculator() {
   }, withdrawals.map(w => /*#__PURE__*/React.createElement("div", {
     key: w.id,
     style: {
-      display: "grid",
-      gridTemplateColumns: "auto 1fr 1fr auto auto",
-      alignItems: "center",
-      gap: 10,
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "flex-end",
+      gap: 12,
       background: "var(--paper)",
       border: "1px solid var(--line)",
       borderRadius: 8,
-      padding: "8px 12px"
+      padding: "10px 12px"
     }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "var(--muted)",
-      fontFamily: "var(--mono)"
-    }
-  }, "ปี"), /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React.createElement(MiniField, {
+    label: "ปีที่เริ่ม"
+  }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     value: w.year,
     onChange: e => updateWithdrawal(w.id, "year", e.target.value),
     style: {
       ...inputStyle,
-      background: "#fff"
+      background: "#fff",
+      width: 90
     }
-  }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 6
-    }
-  }, /*#__PURE__*/React.createElement("span", {
-    style: {
-      fontSize: 12,
-      color: "var(--muted)"
-    }
-  }, "฿"), /*#__PURE__*/React.createElement("input", {
+  })), /*#__PURE__*/React.createElement(MiniField, {
+    label: "จำนวนเงิน (บาท)"
+  }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "10000",
     value: w.amount,
     onChange: e => updateWithdrawal(w.id, "amount", e.target.value),
     style: {
       ...inputStyle,
-      background: "#fff"
+      background: "#fff",
+      width: 130
     }
   })), /*#__PURE__*/React.createElement("label", {
     style: {
@@ -803,16 +851,112 @@ function DCACalculator() {
       gap: 6,
       fontSize: 12.5,
       color: "var(--muted)",
-      whiteSpace: "nowrap"
+      whiteSpace: "nowrap",
+      paddingBottom: 8
     }
   }, /*#__PURE__*/React.createElement("input", {
     type: "checkbox",
     checked: w.recurring,
     onChange: e => updateWithdrawal(w.id, "recurring", e.target.checked)
-  }), " ทุกปีต่อเนื่อง"), /*#__PURE__*/React.createElement("button", {
+  }), "ทุกปีต่อเนื่อง"), /*#__PURE__*/React.createElement("button", {
     onClick: () => removeWithdrawal(w.id),
-    style: delBtnStyle
+    style: {
+      ...delBtnStyle,
+      marginLeft: "auto"
+    }
   }, "✕"))))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--card)",
+      border: "1px solid var(--line)",
+      borderRadius: 10,
+      padding: "18px 22px",
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginBottom: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 600,
+      fontSize: 15
+    }
+  }, "📅 เปลี่ยนแปลงเงินลงทุนต่อเดือน"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: "var(--muted)",
+      marginTop: 2
+    }
+  }, "ปรับเพิ่ม ลด หรือหยุดออมเพิ่ม (ใส่ 0 บาท) ตั้งแต่ปีใดปีหนึ่งเป็นต้นไป — เช่น เงินเดือนขึ้นแล้วอยากออมเพิ่ม หรืออยากหยุดออมแล้วปล่อยเงินก้อนเดิมทำงาน")), /*#__PURE__*/React.createElement("button", {
+    onClick: addMonthlyChange,
+    style: {
+      ...addBtnStyle,
+      background: "#1B3A57"
+    }
+  }, "＋ เพิ่มการเปลี่ยนแปลง")), monthlySchedule.length === 0 ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 13,
+      color: "var(--muted)",
+      padding: "10px 0"
+    }
+  }, "ยังไม่มีการเปลี่ยนแปลง — ลงทุนคงที่เดือนละ ", THB(monthly), " บาท ตลอดแผนตามที่ตั้งไว้ด้านบน") : /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 8
+    }
+  }, monthlySchedule.map(s => /*#__PURE__*/React.createElement("div", {
+    key: s.id,
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "flex-end",
+      gap: 12,
+      background: "var(--paper)",
+      border: "1px solid var(--line)",
+      borderRadius: 8,
+      padding: "10px 12px"
+    }
+  }, /*#__PURE__*/React.createElement(MiniField, {
+    label: "ตั้งแต่ปี"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    value: s.year,
+    onChange: e => updateMonthlyChange(s.id, "year", e.target.value),
+    style: {
+      ...inputStyle,
+      background: "#fff",
+      width: 90
+    }
+  })), /*#__PURE__*/React.createElement(MiniField, {
+    label: "ลงทุนต่อเดือนใหม่ (บาท, 0 = หยุด)"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "1000",
+    value: s.amount,
+    onChange: e => updateMonthlyChange(s.id, "amount", e.target.value),
+    style: {
+      ...inputStyle,
+      background: "#fff",
+      width: 150
+    }
+  })), Number(s.amount) === 0 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 12,
+      color: "#A94438",
+      paddingBottom: 8,
+      fontWeight: 600
+    }
+  }, "⏸ หยุดออมเพิ่ม"), /*#__PURE__*/React.createElement("button", {
+    onClick: () => removeMonthlyChange(s.id),
+    style: {
+      ...delBtnStyle,
+      marginLeft: "auto"
+    }
+  }, "✕")))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
       border: "1px solid var(--line)",
@@ -826,7 +970,7 @@ function DCACalculator() {
       fontSize: 15,
       marginBottom: 4
     }
-  }, "การเติบโตของพอร์ตตามปี"), /*#__PURE__*/React.createElement("div", {
+  }, "📊 การเติบโตของพอร์ตตามปี"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 12.5,
       color: "var(--muted)",
@@ -837,7 +981,31 @@ function DCACalculator() {
     hasExtras: hasExtras,
     extras: extras,
     withdrawals: withdrawals
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setShowTable(v => !v),
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      width: "100%",
+      gap: 10,
+      padding: "14px 18px",
+      fontSize: 13.5,
+      fontWeight: 600,
+      color: "var(--ink)",
+      background: "var(--card)",
+      border: "1px solid var(--line)",
+      borderRadius: 10,
+      cursor: "pointer",
+      marginBottom: showTable ? 12 : 0
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "📋 ดูตารางละเอียดรายปี (สำหรับใครอยากดูตัวเลขลึกๆ)"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: "inline-block",
+      transform: showTable ? "rotate(180deg)" : "rotate(0deg)",
+      transition: "transform 0.15s"
+    }
+  }, "▾")), showTable && /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
       border: "1px solid var(--line)",
@@ -902,7 +1070,13 @@ function DCACalculator() {
     }
   }, r.extraThisYear > 0 ? "+" + THB(r.extraThisYear) : "—"), /*#__PURE__*/React.createElement("td", {
     style: tdStyle
-  }, THB(r.depositedThisYear)), /*#__PURE__*/React.createElement("td", {
+  }, THB(r.depositedThisYear), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10,
+      color: r.monthlyThisYear === 0 ? "#A94438" : "var(--muted)",
+      fontWeight: r.monthlyThisYear === 0 ? 600 : 400
+    }
+  }, r.monthlyThisYear === 0 ? "หยุดออมเพิ่ม" : THB(r.monthlyThisYear) + "/เดือน")), /*#__PURE__*/React.createElement("td", {
     style: tdStyle
   }, THB(r.interestCombined)), /*#__PURE__*/React.createElement("td", {
     style: {
@@ -1011,17 +1185,144 @@ function DCACalculator() {
       marginTop: 18,
       lineHeight: 1.6
     }
-  }, "หมายเหตุ: แต่ละปีเริ่มจาก \"ยอดยกมาต้นปี\" บวกเงินก้อนพิเศษ (ถ้ามี) เข้าไปก่อน จากนั้นทุกสิ้นเดือนจะออมเงินเข้าไปสะสมไปเรื่อยๆ (ยังไม่คิดดอกเบี้ยระหว่างปี) พอครบ 12 เดือน จะคำนวณดอกเบี้ยจากยอดสะสมทั้งปี (อัตราดอกเบี้ยต่อปี) แล้วทบต้นเพียงครั้งเดียวตอนสิ้นปี หากปีนั้นมีรายการถอนเงิน จะหักออกหลังทบต้นดอกเบี้ยแล้ว (ถอนตอนปลายปี) ก่อนยกยอดคงเหลือไปเป็นยอดตั้งต้นของปีถัดไป — กดที่แถวปีเพื่อดูรายละเอียดการสะสมเงินทีละเดือน"), /*#__PURE__*/React.createElement("div", {
+  }, "💡 หมายเหตุ: แต่ละปีเริ่มจาก \"ยอดยกมาต้นปี\" บวกเงินก้อนพิเศษ (ถ้ามี) เข้าไปก่อน จากนั้นทุกสิ้นเดือนจะออมเงินเข้าไปสะสมไปเรื่อยๆ ตามอัตราต่อเดือนที่มีผลในปีนั้น (ยังไม่คิดดอกเบี้ยระหว่างปี) พอครบ 12 เดือน จะคำนวณดอกเบี้ยจากยอดสะสมทั้งปี (อัตราดอกเบี้ยต่อปี) แล้วทบต้นเพียงครั้งเดียวตอนสิ้นปี หากปีนั้นมีรายการถอนเงิน จะหักออกหลังทบต้นดอกเบี้ยแล้ว (ถอนตอนปลายปี) ก่อนยกยอดคงเหลือไปเป็นยอดตั้งต้นของปีถัดไป เงินก้อนพิเศษแบบ \"ทุกปีต่อเนื่อง\" จะหยุดเองเมื่อถึงปีสิ้นสุดที่กำหนด (ถ้าไม่กำหนด จะต่อเนื่องจนเกษียณ) — กดที่แถวปีเพื่อดูรายละเอียดการสะสมเงินทีละเดือน")));
+}
+function Field({
+  label,
+  icon,
+  hint,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: "var(--muted)",
+      marginBottom: 6,
+      display: "flex",
+      alignItems: "center",
+      gap: 5,
+      fontWeight: 500
+    }
+  }, icon, label), children, hint && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10.5,
+      color: "#9AA7B0",
+      marginTop: 4
+    }
+  }, hint));
+}
+function MiniField({
+  label,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 3
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 10.5,
+      color: "var(--muted)",
+      fontWeight: 500,
+      whiteSpace: "nowrap"
+    }
+  }, label), children);
+}
+function SummaryCard({
+  label,
+  value,
+  sub,
+  highlight,
+  accent
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: highlight ? "var(--navy)" : "var(--card)",
+      color: highlight ? "#fff" : "var(--ink)",
+      border: highlight ? "none" : "1px solid var(--line)",
+      borderRadius: 10,
+      padding: "16px 18px",
+      position: "relative",
+      overflow: "hidden"
+    }
+  }, highlight && /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: "absolute",
+      top: 0,
+      right: 0,
+      width: 4,
+      height: "100%",
+      background: "var(--amber)"
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11.5,
+      color: highlight ? "#9FB3C4" : "var(--muted)",
+      marginBottom: 6,
+      fontWeight: 500
+    }
+  }, label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--mono)",
+      fontSize: 22,
+      fontWeight: 600,
+      color: accent ? "#C7912F" : highlight ? "#fff" : "var(--ink)"
+    }
+  }, value), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11,
-      color: "#8896A2",
-      marginTop: 24,
-      textAlign: "center"
+      color: highlight ? "#8AA0B2" : "var(--muted)",
+      marginTop: 4
     }
-  }, "เครื่องมือนี้ใช้เพื่อประกอบการตัดสินใจเบื้องต้นเท่านั้น ไม่ใช่คำแนะนำการลงทุน โปรดปรึกษาผู้เชี่ยวชาญก่อนตัดสินใจลงทุนจริง")));
+  }, sub));
 }
+const inputStyle = {
+  width: "100%",
+  padding: "8px 10px",
+  fontSize: 13.5,
+  border: "1px solid #DDE3E2",
+  borderRadius: 6,
+  fontFamily: "var(--mono)",
+  color: "var(--ink)",
+  background: "#F7F9F8",
+  boxSizing: "border-box",
+  outline: "none"
+};
+const tdStyle = {
+  textAlign: "right",
+  padding: "7px 14px",
+  whiteSpace: "nowrap"
+};
+const addBtnStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: 6,
+  padding: "7px 14px",
+  fontSize: 12.5,
+  fontWeight: 600,
+  color: "#fff",
+  background: "var(--navy)",
+  border: "none",
+  borderRadius: 7,
+  cursor: "pointer"
+};
+const delBtnStyle = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: 30,
+  height: 30,
+  color: "#A94438",
+  background: "transparent",
+  border: "1px solid #E3C9C4",
+  borderRadius: 6,
+  cursor: "pointer"
+};
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(/*#__PURE__*/React.createElement(DCACalculator, null));
+root.render(React.createElement(DCACalculator, null));
+
 </script>
 </body>
 </html>
