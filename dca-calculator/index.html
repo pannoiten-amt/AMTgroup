@@ -152,6 +152,44 @@ const THB_M = n => {
 };
 let idSeed = 3;
 const uid = () => idSeed++;
+
+// Reference guide: maps a return-rate input to the type(s) of investment that
+// typically produce that range historically. Non-overlapping bands (upper bound
+// exclusive) so any given % always matches exactly one row. Purely illustrative —
+// not a guarantee of future returns.
+const RETURN_GUIDE = [{
+  max: 1.5,
+  label: "เงินฝากออมทรัพย์"
+}, {
+  max: 2.5,
+  label: "เงินฝากประจำ / กองทุนตลาดเงิน"
+}, {
+  max: 3.5,
+  label: "พันธบัตรรัฐบาล"
+}, {
+  max: 5,
+  label: "หุ้นกู้เอกชนเรทติ้งดี (investment grade)"
+}, {
+  max: 7,
+  label: "กองทุนผสม (หุ้น+ตราสารหนี้) / หุ้นปันผลไทย / REIT / หุ้นกู้ high yield"
+}, {
+  max: 10,
+  label: "กองทุนหุ้นต่างประเทศ (ตลาดพัฒนาแล้ว เช่น หุ้นสหรัฐฯ) ระยะยาว"
+}, {
+  max: 13,
+  label: "กองทุนหุ้นเติบโต/เทคโนโลยีต่างประเทศ"
+}, {
+  max: 17,
+  label: "หุ้นเติบโตสูงเฉพาะตัว / เก็งกำไรปานกลาง"
+}, {
+  max: Infinity,
+  label: "สินทรัพย์เสี่ยงสูงมาก (คริปโต ฯลฯ)"
+}];
+const getInvestmentGuide = ratePct => {
+  const band = RETURN_GUIDE.find(r => ratePct < r.max) || RETURN_GUIDE[RETURN_GUIDE.length - 1];
+  const isAmtFund = Math.abs(ratePct - 6.5) < 0.001;
+  return band.label + (isAmtFund ? " / AMT Fund" : "");
+};
 function DCACalculator() {
   const [birthYear, setBirthYear] = useState(2000);
   const [startYear, setStartYear] = useState(2026);
@@ -223,6 +261,8 @@ function DCACalculator() {
   const [expanded, setExpanded] = useState({});
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showTable, setShowTable] = useState(false);
+  const [incomeYears, setIncomeYears] = useState(25);
+  const [incomeMonthly, setIncomeMonthly] = useState(30000);
   const toggleExpand = year => setExpanded(e => ({
     ...e,
     [year]: !e[year]
@@ -328,9 +368,35 @@ function DCACalculator() {
   }, [birthYear, startYear, retireAge, rate, monthly, initialCapital, extras, withdrawals, monthlySchedule]);
   const hasExtras = extras.length > 0;
   const hasWithdrawals = withdrawals.length > 0;
+  const activeAdjustments = extras.length + withdrawals.length + monthlySchedule.length;
+
+  // Monthly amount withdrawable forever without touching principal (lives off interest only)
+  const perpetualMonthlyIncome = totals.endCombined * (rate / 100) / 12;
+
+  // Reverse retirement-income planner: given a desired monthly income for N years post-retirement,
+  // find the principal needed at retirement (same annual-compounding convention as the main model),
+  // then find how much extra monthly saving (from now to retirement) closes the gap.
+  const requiredPrincipalForIncome = (monthlyWithdrawal, years, ratePct) => {
+    const A = monthlyWithdrawal * 12;
+    const r = ratePct / 100;
+    if (years <= 0) return 0;
+    if (r === 0) return A * years;
+    const x = 1 + r;
+    return A * x * (Math.pow(x, years) - 1) / ((x - 1) * Math.pow(x, years));
+  };
+  const requiredExtraMonthly = (shortfall, years, ratePct) => {
+    const r = ratePct / 100;
+    if (years <= 0) return shortfall / 12;
+    if (r === 0) return shortfall / (12 * years);
+    const x = 1 + r;
+    return shortfall * (x - 1) / (12 * x * (Math.pow(x, years) - 1));
+  };
+  const requiredPrincipal = requiredPrincipalForIncome(incomeMonthly, incomeYears, rate);
+  const incomeGap = Math.max(0, requiredPrincipal - totals.endCombined);
+  const extraMonthlyNeeded = requiredExtraMonthly(incomeGap, totals.yearsToRetire, rate);
   const handleExportExcel = () => {
     const wb = XLSX.utils.book_new();
-    const summaryData = [["รายการ", "มูลค่า (บาท)"], ["มูลค่าพอร์ตวันเกษียณ", Math.round(totals.endCombined)], ["เงินต้นสะสมรวม (ยกมา+รายเดือน+เงินก้อนพิเศษ)", Math.round(totals.principalTotal)], ["ดอกเบี้ยสะสมทั้งหมด", Math.round(totals.totalInterest)], ["ถอนออกสะสมทั้งหมด", Math.round(totals.totalWithdrawn)], [], ["เงื่อนไขที่ใช้คำนวณ", ""], ["ปีเกิด", birthYear], ["ปีเริ่มต้นคำนวณ", startYear], ["อายุเกษียณ", retireAge], ["ดอกเบี้ยต่อปี (%)", rate], ["ลงทุนต่อเดือนเริ่มต้น (บาท)", monthly], ["เงินก้อนเริ่มต้น (บาท)", initialCapital]];
+    const summaryData = [["รายการ", "มูลค่า (บาท)"], ["มูลค่าพอร์ตวันเกษียณ", Math.round(totals.endCombined)], ["เงินต้นสะสมรวม (ยกมา+รายเดือน+เงินก้อนพิเศษ)", Math.round(totals.principalTotal)], ["ดอกเบี้ยสะสมทั้งหมด", Math.round(totals.totalInterest)], ["ถอนออกสะสมทั้งหมด", Math.round(totals.totalWithdrawn)], [], ["เงื่อนไขที่ใช้คำนวณ", ""], ["ปีเกิด", birthYear], ["ปีเริ่มต้นคำนวณ", startYear], ["อายุเกษียณ", retireAge], ["ผลตอบแทนต่อปี (%)", rate], ["ลงทุนต่อเดือนเริ่มต้น (บาท)", monthly], ["เงินก้อนเริ่มต้น (บาท)", initialCapital]];
     const wsSummary = XLSX.utils.aoa_to_sheet(summaryData);
     wsSummary["!cols"] = [{
       wch: 40
@@ -500,16 +566,22 @@ function DCACalculator() {
     onChange: e => setRetireAge(Number(e.target.value)),
     style: inputStyle
   })), /*#__PURE__*/React.createElement(Field, {
-    label: "ดอกเบี้ยต่อปี (%)",
-    icon: "📈",
-    hint: "ยิ่งสูง เงินยิ่งโตเร็ว"
+    label: "ผลตอบแทนต่อปี (%)",
+    icon: "📈"
   }, /*#__PURE__*/React.createElement("input", {
     type: "number",
     step: "0.1",
     value: rate,
     onChange: e => setRate(Number(e.target.value)),
     style: inputStyle
-  })), /*#__PURE__*/React.createElement(Field, {
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10.5,
+      color: "#9AA7B0",
+      marginTop: 4,
+      lineHeight: 1.4
+    }
+  }, "💡 ระดับนี้ใกล้เคียงกับ: ", getInvestmentGuide(rate))), /*#__PURE__*/React.createElement(Field, {
     label: "ลงทุนต่อเดือนเริ่มต้น (บาท)",
     icon: "🪙",
     hint: "ออมเท่านี้ทุกเดือน"
@@ -598,66 +670,61 @@ function DCACalculator() {
         }
       }, THB(r.endCombined)));
     });
-  })())), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-      gap: 14,
-      marginBottom: 24
-    }
-  }, /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "💎 มูลค่าพอร์ตวันเกษียณ",
-    value: THB(totals.endCombined),
-    sub: `อายุ ${retireAge} ปี (ปี ${startYear + totals.yearsToRetire - 1})`,
-    highlight: true
-  }), /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "🧱 เงินต้นสะสมรวม",
-    value: THB(totals.principalTotal),
-    sub: "ยกมาเริ่มแรก + รายเดือน + เงินก้อนพิเศษ"
-  }), /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "✨ ดอกเบี้ยสะสมทั้งหมด",
-    value: THB(totals.totalInterest),
-    sub: "ทบต้นรายเดือนตลอดระยะเวลาลงทุน"
-  }), hasWithdrawals && /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "💸 ถอนออกสะสมทั้งหมด",
-    value: "-" + THB(totals.totalWithdrawn),
-    sub: "รวมทุกปีที่ถอน"
-  }), (hasExtras || hasWithdrawals) && /*#__PURE__*/React.createElement(SummaryCard, {
-    label: "⚖️ ส่วนต่างจากแผนพื้นฐาน",
-    value: (totals.endCombined - totals.endBase >= 0 ? "+" : "") + THB(totals.endCombined - totals.endBase),
-    sub: "เทียบกับไม่มีเงินก้อนพิเศษ/ไม่ถอนเงิน",
-    accent: true
-  })), /*#__PURE__*/React.createElement("button", {
+  })())), /*#__PURE__*/React.createElement("button", {
     onClick: () => setShowAdvanced(v => !v),
     style: {
       display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
+      flexDirection: "column",
+      gap: 8,
       width: "100%",
-      gap: 10,
-      padding: "14px 18px",
-      fontSize: 13.5,
-      fontWeight: 600,
-      color: "var(--ink)",
-      background: "var(--card)",
+      textAlign: "left",
+      padding: "16px 20px",
+      background: "linear-gradient(135deg, #ffffff 0%, var(--amber-soft) 180%)",
       border: "1px solid var(--line)",
-      borderRadius: 10,
+      borderRadius: 12,
       cursor: "pointer",
       marginBottom: showAdvanced ? 16 : 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between"
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
       display: "flex",
       alignItems: "center",
-      gap: 8
+      gap: 8,
+      fontSize: 15,
+      fontWeight: 700,
+      color: "var(--ink)"
     }
-  }, "⚙️ ตัวเลือกเพิ่มเติม (ไม่บังคับ) — โบนัสพิเศษ, ถอนเงิน, ปรับเงินออมรายเดือน"), /*#__PURE__*/React.createElement("span", {
+  }, "🔄 ปรับเปลี่ยนการลงทุนระหว่างปี", activeAdjustments > 0 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 11,
+      fontWeight: 700,
+      color: "#8A6416",
+      background: "var(--amber-soft)",
+      border: "1px solid #E8CE9A",
+      borderRadius: 99,
+      padding: "2px 9px"
+    }
+  }, activeAdjustments, " รายการ")), /*#__PURE__*/React.createElement("span", {
     style: {
       display: "inline-block",
       transform: showAdvanced ? "rotate(180deg)" : "rotate(0deg)",
       transition: "transform 0.15s"
     }
-  }, "▾")), showAdvanced && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, "▾")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      gap: 16,
+      flexWrap: "wrap",
+      fontSize: 12,
+      color: "var(--muted)"
+    }
+  }, /*#__PURE__*/React.createElement("span", null, "🎁 เงินก้อนพิเศษ", extras.length > 0 ? ` (${extras.length})` : ""), /*#__PURE__*/React.createElement("span", null, "💸 ถอนเงิน", withdrawals.length > 0 ? ` (${withdrawals.length})` : ""), /*#__PURE__*/React.createElement("span", null, "📅 เปลี่ยนเงินออม", monthlySchedule.length > 0 ? ` (${monthlySchedule.length})` : ""))), showAdvanced && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       background: "var(--card)",
       border: "1px solid var(--line)",
@@ -958,6 +1025,112 @@ function DCACalculator() {
     }
   }, "✕")))))), /*#__PURE__*/React.createElement("div", {
     style: {
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+      gap: 14,
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement(SummaryCard, {
+    label: "💎 มูลค่าพอร์ตวันเกษียณ",
+    value: THB(totals.endCombined),
+    sub: `อายุ ${retireAge} ปี (ปี ${startYear + totals.yearsToRetire - 1})`,
+    highlight: true,
+    extra: {
+      label: "🏖️ ถอนได้/เดือน (เงินต้นไม่ลด)",
+      value: THB(perpetualMonthlyIncome) + " บาท",
+      sub: "ใช้แค่ดอกเบี้ย เงินต้นอยู่ครบตลอดไป"
+    }
+  }), /*#__PURE__*/React.createElement(SummaryCard, {
+    label: "🧱 เงินต้นสะสมรวม",
+    value: THB(totals.principalTotal),
+    sub: "ยกมาเริ่มแรก + รายเดือน + เงินก้อนพิเศษ"
+  }), /*#__PURE__*/React.createElement(SummaryCard, {
+    label: "✨ ดอกเบี้ยสะสมทั้งหมด",
+    value: THB(totals.totalInterest),
+    sub: "ทบต้นรายเดือนตลอดระยะเวลาลงทุน"
+  }), hasWithdrawals && /*#__PURE__*/React.createElement(SummaryCard, {
+    label: "💸 ถอนออกสะสมทั้งหมด",
+    value: "-" + THB(totals.totalWithdrawn),
+    sub: "รวมทุกปีที่ถอน"
+  }), (hasExtras || hasWithdrawals) && /*#__PURE__*/React.createElement(SummaryCard, {
+    label: "⚖️ ส่วนต่างจากแผนพื้นฐาน",
+    value: (totals.endCombined - totals.endBase >= 0 ? "+" : "") + THB(totals.endCombined - totals.endBase),
+    sub: "เทียบกับไม่มีเงินก้อนพิเศษ/ไม่ถอนเงิน",
+    accent: true
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "var(--card)",
+      border: "1px solid var(--line)",
+      borderLeft: "4px solid #1585A3",
+      borderRadius: 12,
+      padding: "20px 22px",
+      marginBottom: 24
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontWeight: 700,
+      fontSize: 15,
+      marginBottom: 4
+    }
+  }, "🎯 วางแผนเงินใช้หลังเกษียณ"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 12.5,
+      color: "var(--muted)",
+      marginBottom: 16
+    }
+  }, "อยากมีเงินใช้ต่อจากพอร์ตนี้ไปอีกกี่ปี เดือนละเท่าไหร่? ลองกรอกดู"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: "flex",
+      flexWrap: "wrap",
+      gap: 16,
+      marginBottom: 16
+    }
+  }, /*#__PURE__*/React.createElement(MiniField, {
+    label: "อยากมีเงินใช้ต่ออีกกี่ปี"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    value: incomeYears,
+    onChange: e => setIncomeYears(Number(e.target.value)),
+    style: {
+      ...inputStyle,
+      background: "#fff",
+      width: 110
+    }
+  })), /*#__PURE__*/React.createElement(MiniField, {
+    label: "เดือนละเท่าไหร่ (บาท)"
+  }, /*#__PURE__*/React.createElement("input", {
+    type: "number",
+    step: "1000",
+    value: incomeMonthly,
+    onChange: e => setIncomeMonthly(Number(e.target.value)),
+    style: {
+      ...inputStyle,
+      background: "#fff",
+      width: 140
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: "#EAF6F7",
+      borderRadius: 10,
+      padding: "14px 16px",
+      fontSize: 13.5,
+      lineHeight: 1.8
+    }
+  }, "ต้องมีเงินต้นตอนเกษียณ ", /*#__PURE__*/React.createElement("b", null, THB(requiredPrincipal)), " บาท ถึงจะพอใช้เดือนละ ", THB(incomeMonthly), " บาท นาน ", incomeYears, " ปี", /*#__PURE__*/React.createElement("br", null), "ตามแผนตอนนี้ คุณจะมี ", /*#__PURE__*/React.createElement("b", null, THB(totals.endCombined)), " บาท", incomeGap > 0 ? /*#__PURE__*/React.createElement(React.Fragment, null, " ", "— ยังขาดอยู่ ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: "#B23A2E"
+    }
+  }, THB(incomeGap)), " บาท", /*#__PURE__*/React.createElement("br", null), "💪 ลองเพิ่มเงินออมอีกเดือนละ", " ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: "#0E7C86",
+      fontSize: 16
+    }
+  }, THB(extraMonthlyNeeded)), " บาท ตั้งแต่วันนี้ถึงวันเกษียณ จะไปถึงเป้าหมายนี้ได้") : /*#__PURE__*/React.createElement(React.Fragment, null, " ", "🎉 — เกินพอแล้ว! เหลืออีก ", /*#__PURE__*/React.createElement("b", {
+    style: {
+      color: "#1F8F63"
+    }
+  }, THB(totals.endCombined - requiredPrincipal)), " บาท"))), /*#__PURE__*/React.createElement("div", {
+    style: {
       background: "var(--card)",
       border: "1px solid var(--line)",
       borderRadius: 10,
@@ -1185,7 +1358,7 @@ function DCACalculator() {
       marginTop: 18,
       lineHeight: 1.6
     }
-  }, "💡 หมายเหตุ: แต่ละปีเริ่มจาก \"ยอดยกมาต้นปี\" บวกเงินก้อนพิเศษ (ถ้ามี) เข้าไปก่อน จากนั้นทุกสิ้นเดือนจะออมเงินเข้าไปสะสมไปเรื่อยๆ ตามอัตราต่อเดือนที่มีผลในปีนั้น (ยังไม่คิดดอกเบี้ยระหว่างปี) พอครบ 12 เดือน จะคำนวณดอกเบี้ยจากยอดสะสมทั้งปี (อัตราดอกเบี้ยต่อปี) แล้วทบต้นเพียงครั้งเดียวตอนสิ้นปี หากปีนั้นมีรายการถอนเงิน จะหักออกหลังทบต้นดอกเบี้ยแล้ว (ถอนตอนปลายปี) ก่อนยกยอดคงเหลือไปเป็นยอดตั้งต้นของปีถัดไป เงินก้อนพิเศษแบบ \"ทุกปีต่อเนื่อง\" จะหยุดเองเมื่อถึงปีสิ้นสุดที่กำหนด (ถ้าไม่กำหนด จะต่อเนื่องจนเกษียณ) — กดที่แถวปีเพื่อดูรายละเอียดการสะสมเงินทีละเดือน")));
+  }, "💡 หมายเหตุ: แต่ละปีเริ่มจาก \"ยอดยกมาต้นปี\" บวกเงินก้อนพิเศษ (ถ้ามี) เข้าไปก่อน จากนั้นทุกสิ้นเดือนจะออมเงินเข้าไปสะสมไปเรื่อยๆ ตามอัตราต่อเดือนที่มีผลในปีนั้น (ยังไม่คิดดอกเบี้ยระหว่างปี) พอครบ 12 เดือน จะคำนวณดอกเบี้ยจากยอดสะสมทั้งปี (อัตราผลตอบแทนต่อปี) แล้วทบต้นเพียงครั้งเดียวตอนสิ้นปี หากปีนั้นมีรายการถอนเงิน จะหักออกหลังทบต้นดอกเบี้ยแล้ว (ถอนตอนปลายปี) ก่อนยกยอดคงเหลือไปเป็นยอดตั้งต้นของปีถัดไป เงินก้อนพิเศษแบบ \"ทุกปีต่อเนื่อง\" จะหยุดเองเมื่อถึงปีสิ้นสุดที่กำหนด (ถ้าไม่กำหนด จะต่อเนื่องจนเกษียณ) ช่วงผลตอบแทนที่แนะนำใต้ช่อง \"ผลตอบแทนต่อปี\" เป็นข้อมูลอ้างอิงทั่วไปจากสถิติตลาดในอดีต ไม่ใช่การรับประกันผลตอบแทนที่จะได้รับจริง — กดที่แถวปีเพื่อดูรายละเอียดการสะสมเงินทีละเดือน")));
 }
 function Field({
   label,
@@ -1235,7 +1408,8 @@ function SummaryCard({
   value,
   sub,
   highlight,
-  accent
+  accent,
+  extra
 }) {
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -1276,7 +1450,33 @@ function SummaryCard({
       color: highlight ? "#8AA0B2" : "var(--muted)",
       marginTop: 4
     }
-  }, sub));
+  }, sub), extra && /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 12,
+      paddingTop: 12,
+      borderTop: highlight ? "1px solid rgba(255,255,255,0.15)" : "1px solid var(--line)"
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 11,
+      color: highlight ? "#9FB3C4" : "var(--muted)",
+      fontWeight: 500,
+      marginBottom: 3
+    }
+  }, extra.label), /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontFamily: "var(--mono)",
+      fontSize: 16,
+      fontWeight: 700,
+      color: highlight ? "var(--amber)" : "#8A6416"
+    }
+  }, extra.value), extra.sub && /*#__PURE__*/React.createElement("div", {
+    style: {
+      fontSize: 10.5,
+      color: highlight ? "#8AA0B2" : "var(--muted)",
+      marginTop: 2
+    }
+  }, extra.sub)));
 }
 const inputStyle = {
   width: "100%",
