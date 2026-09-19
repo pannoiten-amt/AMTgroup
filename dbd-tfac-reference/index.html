@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ฐานข้อมูลอ้างอิงกฎหมาย: จรรยาบรรณผู้ทำบัญชี และบทบาท DBD vs TFAC</title>
+<style>
+  :root{
+    --navy:#0f2a4a; --navy2:#173a63; --gold:#b8892f; --bg:#f5f3ee;
+    --line:#dcd6c8; --ok:#2f6f4f; --warn:#a5501c;
+    --dbd:#0b4a7a; --dbdbg:#e8f2fb; --tfac:#7a3b0e; --tfacbg:#fdf1e3;
+    --miss:#8a1f1f; --missbg:#fdecec; --okbg:#eaf5ea; --warnbg:#fdf1e3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    font-family:"TH Sarabun New","Sarabun","Noto Sans Thai",system-ui,sans-serif;
+    background:var(--bg); color:#26221c; margin:0; padding:24px 18px 60px;
+    font-size:17px; line-height:1.55;
+  }
+  .wrap{max-width:1360px;margin:0 auto;}
+  header{
+    background:linear-gradient(135deg,var(--navy),var(--navy2));
+    color:#f7f4ea; border-radius:14px; padding:24px 28px; margin-bottom:18px;
+    box-shadow:0 6px 18px rgba(15,42,74,.25);
+  }
+  header h1{margin:0 0 6px; font-size:24px; font-weight:700;}
+  header p{margin:0; font-size:15.5px; color:#d9d2bd;}
+
+  .tabs{display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap;}
+  .tabbtn{
+    padding:11px 20px; border-radius:10px 10px 0 0; border:1px solid var(--line);
+    background:#e9e4d6; color:#4a4436; font-weight:700; font-size:15.5px; cursor:pointer;
+    border-bottom:none;
+  }
+  .tabbtn.active{background:#fff; color:var(--navy); border-bottom:3px solid var(--gold);}
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .legend{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 18px;}
+  .chip{font-size:14px; padding:6px 12px; border-radius:20px; font-weight:600; border:1px solid var(--line); background:#fff;}
+  .chip.a{color:#7a3b0e;background:#fdf1e3;border-color:#eccfa3;}
+  .chip.b{color:#0b4a7a;background:#e8f2fb;border-color:#b9d8ef;}
+  .chip.c{color:#3c6b1f;background:#eef7e4;border-color:#c9e6ac;}
+  .chip.d{color:#6a1f6b;background:#f6e9f6;border-color:#e0bfe1;}
+  .chip.e{color:#8a5a00;background:#fdf3d8;border-color:#eecf85;}
+  .chip.f{color:#555;background:#eee;border-color:#ccc;}
+
+  .search{width:100%; padding:12px 16px; border-radius:10px; border:1px solid var(--line); font-size:16px; margin-bottom:16px; font-family:inherit;}
+
+  table{width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.05);}
+  thead th{background:var(--navy); color:#fff; text-align:left; padding:12px 14px; font-size:15px; position:sticky; top:0; z-index:2;}
+  tbody td{padding:14px; border-bottom:1px solid var(--line); vertical-align:top; font-size:15.5px;}
+  tbody tr:nth-child(even){background:#fbfaf6;}
+  tbody tr:hover{background:#fdf6e6;}
+  .hmv{background:var(--navy2)!important; color:#fff!important;}
+  .hmv td{padding:10px 14px; font-weight:700; font-size:16px; border-bottom:none;}
+
+  .oldnum{font-weight:800; color:var(--navy); font-size:17px; white-space:nowrap;}
+  .explain{color:#3a3630; font-size:14.5px;}
+  .badge{display:inline-block; padding:3px 9px; border-radius:14px; font-size:13px; font-weight:700; margin-bottom:6px; white-space:nowrap;}
+  .badge.a{color:#7a3b0e;background:#fdf1e3;}
+  .badge.b{color:#0b4a7a;background:#e8f2fb;}
+  .badge.c{color:#3c6b1f;background:#eef7e4;}
+  .badge.d{color:#6a1f6b;background:#f6e9f6;}
+  .badge.e{color:#8a5a00;background:#fdf3d8;}
+  .badge.f{color:#555;background:#eee;}
+  .ref{font-size:13.5px; color:#7a746a; margin-top:6px; font-style:italic;}
+  .note{font-size:13.5px; color:var(--warn); margin-top:6px;}
+  footer{margin-top:26px; font-size:13.5px; color:#6b6558; text-align:center;}
+
+  /* ---- Section 2 specific ---- */
+  .dbdcell{background:var(--dbdbg); border-radius:8px; padding:10px 12px; margin-bottom:6px;}
+  .tfaccell{background:var(--tfacbg); border-radius:8px; padding:10px 12px;}
+  .othercell{background:#f3ecf9; border-radius:8px; padding:10px 12px; margin-bottom:6px;}
+  .orgtag{font-weight:800; font-size:13.5px; display:block; margin-bottom:4px;}
+  .orgtag.dbd{color:var(--dbd);}
+  .orgtag.tfac{color:var(--tfac);}
+  .orgtag.other{color:#6a1f9e;}
+  .fullrow-note{background:#f3ecf9; border-radius:8px; padding:12px 16px; font-size:14.5px;}
+  .lawref{font-size:13.5px; color:#4a4436; margin-top:5px; padding-left:2px; border-left:3px solid #cbb98a; padding-left:8px;}
+  .lawref b{color:#26221c;}
+  .correction{
+    background:#fdecec; border:1px solid #f0b6b6; border-radius:10px; padding:14px 16px; margin-bottom:18px; font-size:14.5px; color:#7a1f1f;
+  }
+  .correction b{color:#5c1414;}
+  .stepnum{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:28px; height:28px; border-radius:50%; background:var(--navy); color:#fff; font-weight:800; font-size:14px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ฐานข้อมูลอ้างอิงกฎหมาย: การกำกับดูแลผู้ทำบัญชี</h1>
+    <p>สำหรับคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี | รวม (1) Mapping จรรยาบรรณ ฉบับที่ 19 (2553) → ปี 2561 และ (2) เปรียบเทียบบทบาทหน้าที่ DBD ↔ TFAC ตามฐานกฎหมาย</p>
+  </header>
+
+  <div class="tabs">
+    <div class="tabbtn active" data-tab="t1">1. Mapping จรรยาบรรณ (30 ข้อ + บททั่วไป)</div>
+    <div class="tabbtn" data-tab="t2">2. บทบาทหน้าที่ DBD ↔ TFAC ตามฐานกฎหมาย</div>
+    <div class="tabbtn" data-tab="t3">3. บทบาท อำนาจหน้าที่ และความรับผิดชอบของคณะกรรมการ</div>
+    <div class="tabbtn" data-tab="t4">4. สารบัญกฎหมายอ้างอิง (ลิงก์ฉบับเต็ม)</div>
+  </div>
+
+  <!-- ========================= TAB 1: ETHICS MAPPING ========================= -->
+  <div class="panel active" id="t1">
+
+    <div class="legend">
+      <span class="chip f">บททั่วไป/นิยาม/ธุรการ</span>
+      <span class="chip a">(ก) ความซื่อสัตย์สุจริต</span>
+      <span class="chip b">(ข) ความเที่ยงธรรมและความเป็นอิสระ</span>
+      <span class="chip c">(ค) ความรู้ความสามารถ ความเอาใจใส่ และมาตรฐานปฏิบัติงาน</span>
+      <span class="chip d">(ง) การรักษาความลับ</span>
+      <span class="chip e">(จ) พฤติกรรมทางวิชาชีพ</span>
+    </div>
+
+    <input class="search" id="search1" placeholder="พิมพ์คำค้นเพื่อกรองตาราง เช่น 'ความลับ' 'ค่าธรรมเนียม' 'อิสระ' 'นิยาม' ...">
+
+    <table id="tbl1">
+      <thead>
+        <tr>
+          <th style="width:9%">ข้อเดิม<br>(ฉบับ 19)</th>
+          <th style="width:26%">สาระข้อบังคับเดิม</th>
+          <th style="width:33%">คำชี้แจง/สาระสำคัญตาม Booklet ฉบับที่ 19</th>
+          <th style="width:32%">Mapping กับข้อบังคับปี 2561</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="hmv"><td colspan="4">หมวด 1 (เดิม) — บททั่วไป (ข้อ 1-7): ธุรการ/นิยาม ไม่ใช่หลักพฤติกรรม จึงไม่ map เข้า (ก)-(จ) โดยตรง แต่มีคู่เทียบในฉบับ 2561</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 1</td>
+          <td>ชื่อข้อบังคับ — "ข้อบังคับสภาวิชาชีพบัญชี (ฉบับที่ 19) เรื่องจรรยาบรรณฯ พ.ศ. 2553"</td>
+          <td class="explain">บทบัญญัติชื่อกฎหมาย ไม่มีคำชี้แจงเชิงพฤติกรรม</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>คู่เทียบ: <b>ข้อ 1</b> ฉบับ 2561 — เปลี่ยนชื่อเป็น "ข้อบังคับสภาวิชาชีพบัญชี ว่าด้วยจรรยาบรรณของผู้ประกอบวิชาชีพบัญชี พ.ศ. 2561" (ไม่ใช้ระบบเลข "ฉบับที่..." อีกต่อไป)</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 2</td>
+          <td>วันบังคับใช้ — พ้นกำหนด 3 เดือนนับแต่วันถัดจากวันประกาศในราชกิจจานุเบกษา</td>
+          <td class="explain">ให้เวลาเตรียมตัว 3 เดือนก่อนบังคับใช้จริง</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>คู่เทียบ: <b>ข้อ 2</b> ฉบับ 2561 <b>(เปลี่ยนแปลง)</b> — ใช้บังคับทันทีตั้งแต่วันถัดจากวันประกาศฯ ไม่มีช่วงรอ 3 เดือนแล้ว</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 3</td>
+          <td>นิยามศัพท์ — ผู้ประกอบวิชาชีพบัญชี, ผู้รับบริการ, ความโปร่งใส, ความเป็นอิสระ, ความเที่ยงธรรม, กรอบวิชาชีพบัญชี, ความซื่อสัตย์สุจริต, ความรู้ความสามารถ, การรักษาความลับ, ความเสื่อมเสียเกียรติศักดิ์ฯ</td>
+          <td class="explain">นิยามเชิงพฤติกรรม (ความโปร่งใส/เที่ยงธรรม ฯลฯ) ถูกนำไปอธิบายซ้ำในหมวด 2 ของฉบับเดิม</td>
+          <td>
+            <span class="badge f">บททั่วไป</span> + <span class="badge e">(จ)</span>
+            <div>คู่เทียบ: <b>ข้อ 4</b> ฉบับ 2561 <b>(เปลี่ยนแปลงมาก)</b> — ตัดนิยามเชิงพฤติกรรมออก (ย้ายไปอยู่ในข้อ 9) แต่ <b>เพิ่มนิยามใหม่ตามกรอบ IESBA</b>: "ผู้ประกอบวิชาชีพบัญชีที่ให้บริการสาธารณะ" (PAPP), "ผู้ประกอบวิชาชีพบัญชีในหน่วยงานธุรกิจ" (PAIB), "สำนักงาน", "ผู้มีหน้าที่กำกับดูแล"</div>
+            <div class="note">⚠ นิยาม "ความเสื่อมเสียเกียรติศักดิ์ฯ" ยังคงอยู่แต่ย้ายไปอยู่ท้ายข้อ 9(จ) แทน</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 4</td>
+          <td>ขอบเขตการกระทำของบุคคลอื่นที่ผู้ประกอบวิชาชีพรับรู้/ยินยอมให้อ้างชื่อ ถือเป็นการฝ่าฝืนด้วย</td>
+          <td class="explain">ป้องกันการหลีกเลี่ยงความรับผิดโดยใช้บุคคลอื่นกระทำการแทน</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>คู่เทียบ: <b>ข้อ 6</b> ฉบับ 2561 — เนื้อหาคงเดิมเกือบคำต่อคำ</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 5</td>
+          <td>ให้นายกสภาวิชาชีพบัญชีเป็นผู้รักษาการให้เป็นไปตามข้อบังคับนี้</td>
+          <td class="explain">กำหนดผู้รับผิดชอบบังคับใช้กฎหมาย</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>ไม่ปรากฏข้อความเทียบเท่าชัดเจนแยกต่างหากในฉบับ 2561 — สันนิษฐานว่าอยู่ภายใต้อำนาจทั่วไปตาม พ.ร.บ.วิชาชีพบัญชี 2547</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 6<br><span style="font-weight:400;font-size:12px;">(หมวด 1)</span></td>
+          <td>จรรยาบรรณนอกเหนือจากที่กำหนดในข้อบังคับ ให้เป็นไปตาม พ.ร.บ.วิชาชีพบัญชี 2547 / อำนาจนายกสภาฯ ออกข้อกำหนดเพิ่มเติม</td>
+          <td class="explain">เปิดช่องให้ออกข้อกำหนดเสริมได้ ภายใต้กรอบ พ.ร.บ.</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>คู่เทียบ: <b>ข้อ 7</b> ฉบับ 2561 — เนื้อหาเดิม แต่เปลี่ยนผู้มีอำนาจจาก "นายกสภาฯ โดยอนุมัติคณะกรรมการ" เป็น "คณะกรรมการสภาวิชาชีพบัญชี" โดยตรง</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 7<br><span style="font-weight:400;font-size:12px;">(หมวด 1)</span></td>
+          <td>ปัญหาการตีความข้อบังคับ ให้คณะกรรมการสภาวิชาชีพบัญชีวินิจฉัยเป็นที่สุด</td>
+          <td class="explain">กลไกระงับข้อพิพาทเรื่องการตีความ</td>
+          <td>
+            <span class="badge f">บททั่วไป</span>
+            <div>คู่เทียบ: <b>ข้อ 8</b> ฉบับ 2561 <b>(เพิ่มเติม)</b> — ให้ใช้แนวทางตาม "คู่มือประมวลจรรยาบรรณของผู้ประกอบวิชาชีพบัญชี" (ตาม IESBA) ประกอบการวินิจฉัยด้วย</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">— (ใหม่)</td>
+          <td>—</td>
+          <td class="explain">ไม่มีข้อเทียบเท่าในฉบับ 19</td>
+          <td>
+            <span class="badge e">(จ) / หลักการนำ</span>
+            <div><b>ข้อ 5</b> ฉบับ 2561 <b>(ใหม่ทั้งหมด)</b> — "ผู้ประกอบวิชาชีพบัญชีต้องปฏิบัติหน้าที่เพื่อ<u>ประโยชน์สาธารณะ</u>" ถือเป็นการยกระดับแนวคิดตาม IESBA ให้เป็นบทตั้งต้นทั้งฉบับ เป็นการเปลี่ยนแปลงเชิงหลักการที่สำคัญ</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 2 (เดิม) — ความโปร่งใส ความเป็นอิสระ ความเที่ยงธรรม และความซื่อสัตย์สุจริต</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 8</td>
+          <td>ความโปร่งใส — ต้องปฏิบัติงานด้วยความโปร่งใส</td>
+          <td class="explain">ต้องปฏิบัติงานโปร่งใส ตรวจสอบได้ ไม่ปกปิด/บิดเบือนข้อเท็จจริงสาระสำคัญ มั่นใจว่าข้อมูลถูกต้องครบถ้วนเป็นปัจจุบัน และเปิดโอกาสให้ผู้เกี่ยวข้องเข้าถึงข้อมูลได้ตามสมควร</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>"ความโปร่งใส" ถูกยุบรวมเข้าไว้ในหลักพฤติกรรมทางวิชาชีพ ไม่แยกหมวดต่างหากแล้ว</div>
+            <div class="ref">อ้างอิง: คู่มือประมวลจรรยาบรรณ หมวด 110-111</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 9</td>
+          <td>ความเป็นอิสระ — ใช้ดุลยพินิจและปฏิบัติงานอย่างเป็นอิสระ / ไม่ปฏิบัติงานที่ขาดความเป็นอิสระ</td>
+          <td class="explain">ต้องปฏิบัติหน้าที่โดยปราศจากอิทธิพลบุคคลอื่น หากมีสถานการณ์กระทบความเป็นอิสระต้องถอนตัว/หยุดให้บริการ พร้อมยกตัวอย่างมาตรการป้องกัน</td>
+          <td>
+            <span class="badge b">(ข) ความเที่ยงธรรมและความเป็นอิสระ</span>
+            <div>แยก Independence of Mind และ Independence of Appearance ชัดเจนขึ้น</div>
+            <div class="ref">อ้างอิง: หมวด 120, ส่วนที่ 4ก/4ข</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 10</td>
+          <td>ความเที่ยงธรรม — ยุติธรรม ไม่มีส่วนได้เสีย ใช้ดุลยพินิจปราศจากอคติ หลีกเลี่ยงความสัมพันธ์ที่กระทบความโปร่งใส/อิสระ/ซื่อสัตย์</td>
+          <td class="explain">ตัวอย่างปัจจัยดำรงความเที่ยงธรรม เช่น ไม่รับของขวัญเกินสมควร ไม่กู้ยืม/ค้ำประกันเกินสมควร</td>
+          <td>
+            <span class="badge b">(ข) ความเที่ยงธรรมและความเป็นอิสระ</span>
+            <div>รวมเข้ากับหลักเดียวกับข้อ 9</div>
+            <div class="ref">อ้างอิง: หมวด 112 Objectivity</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 11</td>
+          <td>ความซื่อสัตย์สุจริต — ตรงไปตรงมา จริงใจ ไม่คดโกง ปฏิบัติงานตรงหลักฐานจริง</td>
+          <td class="explain">ต้องไม่เกี่ยวข้องกับรายงาน/ข้อมูลที่ผิดสาระสำคัญ ไม่ลงลายมือชื่อโดยมิได้ปฏิบัติงานจริง</td>
+          <td>
+            <span class="badge a">(ก) ความซื่อสัตย์สุจริต</span>
+            <div>Map ตรงตัว เนื้อหาหลักคงเดิมเกือบทั้งหมด</div>
+            <div class="ref">อ้างอิง: หมวด 111 Integrity</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 3 (เดิม) — ความรู้ ความสามารถ และมาตรฐานในการปฏิบัติงาน</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 12</td>
+          <td>ความรู้ความสามารถ — ใช้ความรู้ตามมาตรฐานวิชาชีพ มีความสามารถเพียงพอ มุ่งมั่นขยันหมั่นเพียร พัฒนาความรู้ต่อเนื่อง</td>
+          <td class="explain">แยก 2 ส่วน: การบรรลุระดับความรู้ความสามารถ และการรักษาระดับ (CPD) รวมถึงดูแลผู้ช่วยให้ได้รับการฝึกอบรมเพียงพอ</td>
+          <td>
+            <span class="badge c">(ค) ความรู้ ความสามารถ ความเอาใจใส่ และมาตรฐานปฏิบัติงาน</span>
+            <div>รวม "ความเอาใจใส่" (Due Care) เข้ามาชัดเจนขึ้นตาม IESBA</div>
+            <div class="ref">อ้างอิง: หมวด 113</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 13</td>
+          <td>มาตรฐานในการปฏิบัติงาน — สอดคล้องกับมาตรฐานวิชาชีพ/วิชาการ ปฏิบัติงานด้วยความระมัดระวังรอบคอบ</td>
+          <td class="explain">ต้องเข้าใจมาตรฐานบัญชี/สอบบัญชี/ควบคุมภายใน ควบคุมคุณภาพงานของตนเองและผู้ช่วยสม่ำเสมอ</td>
+          <td>
+            <span class="badge c">(ค) เช่นเดียวกับข้อ 12</span>
+            <div>รวมเป็นหลักการเดียวกับความรู้ความสามารถ</div>
+            <div class="ref">อ้างอิง: หมวด 113 A1-A3</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 4 (เดิม) — การรักษาความลับ</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 14</td>
+          <td>ห้ามนำข้อมูลความลับขององค์กรไปเปิดเผยโดยไม่ได้รับอนุญาต</td>
+          <td class="explain">ต้องรักษาความลับแม้ความสัมพันธ์สิ้นสุดแล้ว เว้นแต่เป็นการเปิดเผยตามสิทธิ/หน้าที่ตามกฎหมาย</td>
+          <td>
+            <span class="badge d">(ง) การรักษาความลับ</span>
+            <div>Map ตรงตัว คู่มือปี 2561 ขยายรายละเอียดกรณีเปิดเผยที่เหมาะสมมากขึ้น</div>
+            <div class="ref">อ้างอิง: หมวด 114, หมวด 260 NOCLAR</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 15</td>
+          <td>ห้ามนำข้อมูลความลับไปใช้เพื่อประโยชน์ส่วนตนหรือบุคคลอื่นโดยมิชอบ</td>
+          <td class="explain">ตัวอย่าง: แนะนำคนใกล้ชิดซื้อหุ้นล่วงหน้าก่อนบริษัทเพิ่มทุน/จ่ายปันผล (Insider trading)</td>
+          <td>
+            <span class="badge d">(ง) การรักษาความลับ</span>
+            <div>รวมเป็นหลักการเดียวกับข้อ 14</div>
+            <div class="ref">อ้างอิง: หมวด 114 A2</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 5 (เดิม) — ความรับผิดชอบต่อผู้รับบริการ</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 16</td>
+          <td>ต้องมีความรับผิดชอบตามกรอบวิชาชีพบัญชีต่อผู้รับบริการ</td>
+          <td class="explain">แยกกรณีผู้ทำบัญชีรับจ้าง (ส่งคืนเอกสารโดยเร็ว แจ้งยกเลิกล่วงหน้า) กับผู้ทำบัญชีในองค์กร (ปฏิบัติตามมาตรฐาน ไม่ทิ้งงาน)</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>ไม่มีหมวดแยกต่างหากแล้ว — กระจายไปอยู่ในคู่มือฯ ส่วนที่ 3 (PAPP)</div>
+            <div class="ref">อ้างอิง: หมวด 320, 905</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 17</td>
+          <td>ต้องปฏิบัติงานตามกรอบวิชาชีพเพื่อความน่าเชื่อถือและประโยชน์ต่อผู้รับบริการ</td>
+          <td class="explain">ตัวอย่าง: ไม่กล่าวเกินจริง ไม่ใส่ร้ายผู้ทำบัญชีอื่น ไม่เป็นบุคคลล้มละลาย</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>รวมเข้ากับหลักพฤติกรรมทางวิชาชีพ</div>
+            <div class="ref">อ้างอิง: หมวด 115</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 6 (เดิม) — ความรับผิดชอบต่อผู้ถือหุ้น ผู้เป็นหุ้นส่วน บุคคลหรือนิติบุคคลที่ปฏิบัติหน้าที่ให้</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 18</td>
+          <td>ต้องปฏิบัติตามจริยธรรมทางธุรกิจขององค์กรที่ตนสังกัด</td>
+          <td class="explain">หากองค์กรไม่ได้กำหนดจริยธรรมชัดเจน ให้ใช้จริยธรรมของธุรกิจโดยทั่วไปแทน</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>นิยาม PAIB ชัดเจนขึ้น คู่มือฯ ส่วนที่ 2 อุทิศให้กลุ่มนี้โดยเฉพาะ</div>
+            <div class="ref">อ้างอิง: ส่วนที่ 2 (PAIB) ทั้งหมวด</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 19</td>
+          <td>ปฏิบัติหน้าที่ด้วยความซื่อสัตย์สุจริต อุทิศตน ดูแลทรัพย์สินขององค์กร</td>
+          <td class="explain">Booklet ให้ใช้คำชี้แจงข้อ 11 เป็นแนวทาง เพิ่มเรื่องดูแลทรัพย์สิน</td>
+          <td>
+            <span class="badge a">(ก)</span> + <span class="badge e">(จ)</span>
+            <div>แยกเป็นความซื่อสัตย์สุจริตทั่วไป + หน้าที่เฉพาะ PAIB</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 20</td>
+          <td>ใช้เวลาและทรัพย์สินองค์กรให้เกิดประโยชน์สูงสุด ห้ามใช้ส่วนตัว</td>
+          <td class="explain">ครอบคลุมเวลาทำงาน และการใช้ทรัพย์สิน เช่น รถยนต์</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>อยู่ภายใต้ส่วนที่ 2 (PAIB) หมวดความขัดแย้งทางผลประโยชน์</div>
+            <div class="ref">อ้างอิง: หมวด 220</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 21</td>
+          <td>ต้องเปิดเผยความสัมพันธ์กับองค์กร/ธุรกิจภายนอก/เครือญาติ เพื่อหลีกเลี่ยงความขัดแย้งทางผลประโยชน์</td>
+          <td class="explain">ครอบคลุมความสัมพันธ์เครือญาติสนิทตามเกณฑ์ ก.ล.ต.</td>
+          <td>
+            <span class="badge b">(ข) ความเที่ยงธรรมและความเป็นอิสระ</span>
+            <div>มีหมวดเฉพาะเรื่อง Conflicts of Interest แยกออกมาชัดเจนกว่าเดิม</div>
+            <div class="ref">อ้างอิง: หมวด 210/220</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 22</td>
+          <td>ห้ามกระทำการใดๆ ที่ส่งผลกระทบต่อชื่อเสียงและการดำเนินการขององค์กร</td>
+          <td class="explain">เชื่อมโยงกับนิยาม "ความเสื่อมเสียเกียรติศักดิ์ฯ" ตามมาตรา 49 พ.ร.บ.วิชาชีพบัญชี</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>นิยามความเสื่อมเสียเกียรติศักดิ์ฯ คงเนื้อหาเดิมเกือบทั้งหมด ในข้อ 9(จ)</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 23</td>
+          <td>ใช้วิจารณญาณรอบคอบ มีเหตุผล เพื่อประโยชน์สูงสุดขององค์กร/นายจ้าง</td>
+          <td class="explain">อ้างอิงกลับไปที่ข้อ 12-13 เป็นเกณฑ์การใช้วิจารณญาณ</td>
+          <td>
+            <span class="badge c">(ค)</span> + <span class="badge e">(จ)</span>
+            <div>ควบคู่กับหมวด Pressure to Breach the Fundamental Principles</div>
+            <div class="ref">อ้างอิง: หมวด 270</div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="4">หมวด 7 (เดิม) — ความรับผิดชอบต่อเพื่อนร่วมวิชาชีพ และจรรยาบรรณทั่วไป</td></tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 24</td>
+          <td>ห้ามแย่งงานวิชาชีพบัญชีจากผู้ประกอบวิชาชีพบัญชีด้านเดียวกันรายอื่น</td>
+          <td class="explain">ตัวอย่างกรณีไม่ถือว่าแย่งงาน / ถือว่าแย่งงาน (ส่งหนังสือเวียนชักชวน, เสนอค่าธรรมเนียมต่ำผิดปกติ)</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>จัดไว้ในหมวดการตอบรับงาน และจรรยาบรรณด้านการตลาด</div>
+            <div class="ref">อ้างอิง: หมวด 320, หมวด 115 A1</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 25</td>
+          <td>ห้ามปฏิบัติงานเกินกว่าที่รับมอบหมายจากผู้ประกอบวิชาชีพบัญชีรายอื่น</td>
+          <td class="explain">ตัวอย่าง: ผู้ทำบัญชีที่ได้รับมอบหมายชั่วคราวต้องไม่ทำเกินขอบเขต</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>ไม่มีข้อบังคับเดี่ยวเทียบเท่าโดยตรง — ครอบด้วยหลักทั่วไปแทน</div>
+            <div class="note">⚠ รายละเอียดเชิงปฏิบัติหายไปจากตัวข้อบังคับ ต้องอาศัยดุลยพินิจตามหลักการพื้นฐาน</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 26</td>
+          <td>ห้ามให้ข้อมูลเกี่ยวกับงานของตนเกินความเป็นจริง ไม่โอ้อวด/เปรียบเทียบ</td>
+          <td class="explain">รวมถึงการรับลูกค้าจากบุคคลที่สามแนะนำ ต้องมั่นใจไม่มีการให้ข้อมูลเกินสมควร</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>Map เข้ากับหมวด Marketing โดยตรง เนื้อหาคล้ายเดิม</div>
+            <div class="ref">อ้างอิง: หมวด 115 A1</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 27</td>
+          <td>ห้ามให้/รับว่าจะให้ทรัพย์สินหรือประโยชน์เพื่อจูงใจให้บุคคลอื่นแนะนำ/จัดหางาน</td>
+          <td class="explain">แยก 2 กรณี (สนง.บัญชี / ผู้ทำบัญชีในองค์กร)</td>
+          <td>
+            <span class="badge a">(ก)</span> + <span class="badge b">(ข)</span>
+            <div>ครอบด้วยหลักอุปสรรคจากผลประโยชน์ส่วนตน และหมวดของขวัญ/การรับรอง</div>
+            <div class="ref">อ้างอิง: หมวด 250/340</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 28</td>
+          <td>ห้ามเรียก/รับทรัพย์สินหรือประโยชน์จากบุคคลใด เมื่อได้รับงานจากการแนะนำของตน</td>
+          <td class="explain">ตัวอย่าง: รับค่านายหน้าจากการแนะนำลูกค้า</td>
+          <td>
+            <span class="badge a">(ก)</span> + <span class="badge b">(ข)</span>
+            <div>เรื่องค่าตอบแทน/ค่านายหน้าจากบุคคลที่สาม (Referral Fees)</div>
+            <div class="ref">อ้างอิง: หมวด 330</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 29</td>
+          <td>ห้ามกำหนดค่าธรรมเนียม/ค่าตอบแทนโดยไม่คำนึงถึงลักษณะ ความเสี่ยง ความซับซ้อน และปริมาณงาน</td>
+          <td class="explain">คำชี้แจงเรื่องค่าธรรมเนียมในฉบับ 19 ค่อนข้างสั้น</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div>ขยายรายละเอียดมากขึ้น ครอบคลุม Lowballing และ Contingent Fees</div>
+            <div class="ref">อ้างอิง: หมวด 330</div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="oldnum">ข้อ 30</td>
+          <td>ต้องประพฤติตนในทางที่ถูกที่ควร ไม่ปฏิบัติตนให้เกิดความเสื่อมเสียเกียรติศักดิ์แห่งวิชาชีพบัญชี</td>
+          <td class="explain">นิยามครอบคลุม 6 พฤติกรรม (ก)-(ฉ) เช่น ลงชื่อสอบบัญชีโดยไม่ได้ตรวจ, แนะนำหลีกเลี่ยงภาษีโดยทุจริต</td>
+          <td>
+            <span class="badge e">(จ) พฤติกรรมทางวิชาชีพ</span>
+            <div><b>คงเนื้อหาเดิมเกือบทั้งหมด</b> — ยกมาไว้ในข้อ 9(จ) แทบคำต่อคำ</div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ========================= TAB 2: DBD vs TFAC ========================= -->
+  <div class="panel" id="t2">
+
+    <div class="correction">
+      <b>⚠ ข้อสังเกตการแก้ไขข้อมูล (รอบที่ 1):</b> เอกสารต้นฉบับที่แนบมาอ้างอิง "ข้อบังคับสภาวิชาชีพบัญชี (ฉบับที่ 19) พ.ศ. 2561" ซึ่งเป็นการเขียนคลาดเคลื่อน — ที่ถูกต้องคือ <b>ฉบับที่ 19 ประกาศใช้ปี พ.ศ. 2553</b> และถูก<b>ยกเลิกไปแล้ว</b>โดย <b>"ข้อบังคับสภาวิชาชีพบัญชี ว่าด้วยจรรยาบรรณของผู้ประกอบวิชาชีพบัญชี พ.ศ. 2561"</b> (ประกาศราชกิจจาฯ 27 พ.ย. 2561)
+    </div>
+    <div class="correction" style="background:#eaf5ea;border-color:#a9d6a9;color:#1f5c2e;">
+      <b>✅ ตรวจสอบรอบที่ 2 (เทียบกับต้นฉบับ พ.ร.บ.วิชาชีพบัญชี 2547 ฉบับเต็มในโปรเจกต์ ทีละหน้า/ทีละภาพ):</b> พบการอ้างอิงมาตราคลาดเคลื่อน 3 จุด ได้แก้ไขในตารางด้านล่างแล้ว:
+      <ul style="margin:8px 0 0; padding-left:20px;">
+        <li><b>ข้อ 1 (รับรองคุณวุฒิ):</b> แก้จาก "ม.7(1)-(2)" เป็น <b>ม.7(6)</b> — ข้อความจริงคือ "รับรองปริญญาหรือประกาศนียบัตรในวิชาการบัญชีของสถาบันการศึกษาต่างๆ เพื่อประโยชน์ในการรับสมัครเป็นสมาชิก" (ม.7(1)-(2) เป็นเรื่องส่งเสริมการศึกษา/สวัสดิการสมาชิก ไม่ใช่การรับรองคุณวุฒิ)</li>
+        <li><b>ข้อ 2 (ขึ้นทะเบียนผู้ทำบัญชี):</b> แก้จาก "ม.11" เป็น <b>ม.44-45</b> — ตรวจสอบแล้วว่า ม.11 เป็นเรื่อง<u>นิติบุคคลที่ให้บริการสอบบัญชี/ทำบัญชี</u> (สำนักงานบัญชีนิติบุคคล) ต้องจดทะเบียนและวางหลักประกัน ไม่ใช่การขึ้นทะเบียน<u>ผู้ทำบัญชีรายบุคคล</u> ซึ่งฐานอำนาจที่ถูกต้องคือ ม.44 (ห้ามประกอบวิชาชีพเป็นผู้ทำบัญชี เว้นแต่เป็นสมาชิกหรือขึ้นทะเบียนกับสภาฯ) และ ม.45 (คุณสมบัติผู้ขึ้นทะเบียน)</li>
+        <li><b>ข้อ 6 (ลงโทษ):</b> แก้คำอธิบาย ม.49 จาก "นิยามความผิด" เป็น <b>"โทษทางจรรยาบรรณ 4 สถาน"</b> (ตักเตือน/ภาคทัณฑ์/พักใช้ไม่เกิน 3 ปี/เพิกถอน) — นิยามการกระทำผิดอยู่ที่ ม.46 วรรคสองต่างหาก</li>
+      </ul>
+      เพิ่มเติม: พบว่า <b>มาตรา 32</b> คือฐานอำนาจจัดตั้ง "คณะกรรมการวิชาชีพบัญชีของแต่ละด้าน" (รวมถึงคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชีที่พี่เต้นเกี่ยวข้องโดยตรง) จึงเพิ่มเข้าไปในตารางด้วย
+    </div>
+
+    <div class="legend">
+      <span class="chip b" style="background:var(--dbdbg);color:var(--dbd);">กรมพัฒนาธุรกิจการค้า (DBD) — บังคับใช้กฎหมาย/ปกครอง ตาม พ.ร.บ.การบัญชี 2543</span>
+      <span class="chip a" style="background:var(--tfacbg);color:var(--tfac);">สภาวิชาชีพบัญชี (TFAC) — มาตรฐาน/จรรยาบรรณ ตาม พ.ร.บ.วิชาชีพบัญชี 2547</span>
+      <span class="chip" style="background:#eaf5ea;color:#1f5c2e;">🟢 คณะกรรมการฯ — ตรงกับอำนาจข้อ 10 ที่ยืนยันจากต้นฉบับข้อบังคับ 2563 แล้ว</span>
+      <span class="chip" style="background:#e8f2fb;color:#0b4a7a;">🔵 TFAC ส่วนกลาง — ไม่ใช่อำนาจคณะกรรมการฯ โดยตรง (เป็นของ TFAC บอร์ดใหญ่/คณะกรรมการจรรยาบรรณ/คณะอื่น)</span>
+    </div>
+
+    <div style="background:linear-gradient(135deg,#fdf3d8,#fdf1e3); border:1px solid #eecf85; border-radius:12px; padding:16px 20px; margin-bottom:18px;">
+      <b style="color:#8a5a00; font-size:15.5px;">🏛 คณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี</b>
+      <div style="font-size:14.5px; color:#5c4400; margin-top:4px;">(กลไกองค์กร — ไม่ใช่ขั้นตอนของผู้ทำบัญชี จึงแยกไว้ต่างหากจากตาราง Lifecycle ด้านล่าง)</div>
+      <div style="margin-top:8px; font-size:15px;">
+        TFAC จัดให้มี<b>"คณะกรรมการวิชาชีพบัญชีของแต่ละด้าน"</b> (6 ด้าน รวมด้านการทำบัญชี) ประธานกรรมการมาจากการเลือกตั้งของสมาชิกสามัญในที่ประชุมใหญ่ เพื่อพัฒนา/ส่งเสริมการประกอบวิชาชีพแต่ละด้าน — DBD ไม่มีบทบาทโดยตรง เป็นกลไกภายในของสภาวิชาชีพบัญชีทั้งหมด
+        <div class="lawref" style="margin-top:6px;">
+          <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 32</b> (จัดตั้งคณะกรรมการวิชาชีพบัญชีแต่ละด้าน — ฐานอำนาจโดยตรงของคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี)
+        </div>
+      </div>
+    </div>
+
+    <input class="search" id="search2" placeholder="พิมพ์คำค้นเพื่อกรองตาราง เช่น 'CPD' 'มาตรฐานบัญชี' 'ลงโทษ' 'มาตรา 7' ...">
+
+    <table id="tbl2">
+      <thead>
+        <tr>
+          <th style="width:16%">ขั้นตอน/ประเด็นการกำกับดูแล</th>
+          <th style="width:42%">บทบาทกรมพัฒนาธุรกิจการค้า (DBD)</th>
+          <th style="width:42%">บทบาทสภาวิชาชีพบัญชี (TFAC)</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม A — ก่อนเข้าสู่วิชาชีพ</td></tr>
+
+        <tr>
+          <td><span class="stepnum">1</span><br><br><b>การรับรองคุณวุฒิและสถาบันการศึกษา</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนด<b>เกณฑ์วุฒิการศึกษาขั้นต่ำ</b> (ปวส./ป.ตรีทางบัญชี) ตามขนาดธุรกิจของผู้มีหน้าที่จัดทำบัญชี ไม่ได้รับรองหลักสูตรโดยตรง
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 7(6) (อำนาจอธิบดีกำหนดคุณสมบัติผู้ทำบัญชี)<br>
+                <b>ประกาศกรมฯ:</b> เรื่อง กำหนดคุณสมบัติและเงื่อนไขของการเป็นผู้ทำบัญชี พ.ศ. 2557 ข้อ 4(5) (กำหนดคุณวุฒิ ปวส./ป.ตรี ทางบัญชีตามขนาดกิจการ)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              <b>รับรองปริญญา/ประกาศนียบัตร</b>ด้านบัญชีของสถาบันการศึกษา เพื่อใช้สิทธิ์สมัครสมาชิก/แจ้งเป็นผู้ทำบัญชี ส่งเสริมการศึกษา/วิจัยด้านวิชาชีพ
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 7(6)</b> "รับรองปริญญาหรือประกาศนียบัตรในวิชาการบัญชีของสถาบันการศึกษาต่างๆ เพื่อประโยชน์ในการรับสมัครเป็นสมาชิก" (ตรวจสอบจากต้นฉบับแล้ว), มาตรา 7(1) (ส่งเสริมการศึกษา/อบรม/วิจัยทั่วไป)<br>
+                <b>ข้อบังคับสภาฯ:</b> ว่าด้วยการรับรองปริญญาฯ (ฉบับที่ 10) พ.ศ. 2552
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">2</span><br><br><b>มาตรฐานการทดสอบผู้ทำบัญชีเบื้องต้น</b><br><span style="font-size:12px;font-weight:400;">(คนละเรื่องกับ CPD)</span></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              รับทราบ/อ้างอิงผลการทดสอบเพื่อประกอบการรับแจ้งขึ้นทะเบียนผู้ทำบัญชีตามคุณสมบัติที่กำหนด
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              จัด<b>การทดสอบวัดความรู้ก่อนเข้าสู่วิชาชีพครั้งแรก</b> (แยกจาก CPD ซึ่งเป็นการพัฒนาความรู้ต่อเนื่องหลังขึ้นทะเบียนแล้ว) เป็นเงื่อนไขหนึ่งของการรับรองความรู้ความชำนาญ
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> มาตรา 7(7) (รับรองความรู้ความชำนาญ)<br>
+                <b>อ้างอิงในโปรเจกต์:</b> Z_หลักเกณฑ์การทดสอบผู้ทำบัญชี.pdf
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">3</span><br><br><b>คุณสมบัติผู้ทำบัญชีชาวต่างชาติ</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนดเงื่อนไขเพิ่มเติมสำหรับชาวต่างชาติที่จะเป็นผู้ทำบัญชี เช่น ต้องมี<b>ใบอนุญาตทำงาน (Work Permit)</b> ถูกต้องตามกฎหมายว่าด้วยการทำงานของคนต่างด้าว
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              รับขึ้นทะเบียนชาวต่างชาติในฐานะ<b>สมาชิกวิสามัญ</b> โดยต้องมีความรู้ภาษาไทยเพียงพอที่จะสอบบัญชี/ทำบัญชีและจัดทำรายงานเป็นภาษาไทยได้ และมีภูมิลำเนาในประเทศไทย
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> มาตรา 45(1) (เทียบเคียงเงื่อนไขผู้สอบบัญชีต่างด้าว)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม B — เข้าสู่วิชาชีพ / เริ่มรับงาน</td></tr>
+
+        <tr>
+          <td><span class="stepnum">4</span><br><br><b>การแจ้งขึ้นทะเบียนเป็นผู้ทำบัญชี</b><br><span style="font-size:12px;font-weight:400;">(ตัวบุคคล)</span></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              เป็น<b>ผู้รับแจ้งขึ้นทะเบียนหลัก</b>ของผู้ทำบัญชีผ่านระบบ e-Accountant กำหนดเงื่อนไข/คุณสมบัติผู้ทำบัญชีทั่วประเทศ
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 19 (ผู้มีหน้าที่จัดทำบัญชีต้องจัดให้มีผู้ทำบัญชีตามคุณสมบัติที่อธิบดีกำหนด), มาตรา 7(6)<br>
+                <b>ประกาศกรมฯ:</b> กำหนดคุณสมบัติและเงื่อนไขของการเป็นผู้ทำบัญชี พ.ศ. 2557
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              <b>รับขึ้นทะเบียนผู้ทำบัญชี</b> — ห้ามผู้ใดประกอบวิชาชีพเป็นผู้ทำบัญชี เว้นแต่เป็นสมาชิกสภาฯ หรือขึ้นทะเบียนไว้กับสภาฯ กำหนดคุณสมบัติผู้ขอขึ้นทะเบียน
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 44</b> (ห้ามประกอบวิชาชีพเป็นผู้ทำบัญชีเว้นแต่ขึ้นทะเบียน) และ <b>มาตรา 45</b> (คุณสมบัติผู้ขึ้นทะเบียนผู้ทำบัญชี) — แก้ไขจากเดิมที่อ้าง ม.11 ซึ่งแท้จริงเป็นเรื่องนิติบุคคลผู้ให้บริการสอบบัญชี/ทำบัญชี (สนง.บัญชีนิติบุคคล) คนละเรื่องกัน
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">5</span><br><br><b>การแจ้งชื่อผู้ทำบัญชีของกิจการ</b><br><span style="font-size:12px;font-weight:400;">(ผูกตัวบุคคล↔กิจการ) 🆕</span></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              เมื่อกิจการว่าจ้างผู้ทำบัญชีคนใหม่ <b>ผู้มีหน้าที่จัดทำบัญชี (นายจ้าง) ต้องแจ้งชื่อผู้ทำบัญชี</b> ต่อกรมพัฒนาธุรกิจการค้าผ่านระบบ e-Accountant ภายในระยะเวลาที่กำหนด เพื่อผูกตัวบุคคลผู้ทำบัญชีเข้ากับกิจการนั้นในระบบทะเบียน
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 19-20 (หน้าที่จัดให้มีผู้ทำบัญชีและแจ้งข้อมูล)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell" style="opacity:.5;">
+              <span class="orgtag tfac">TFAC</span>
+              ไม่มีบทบาทโดยตรง — แต่ผู้ทำบัญชีที่ถูกแจ้งชื่อผูกกับกิจการต้องมีสถานะสมาชิก/ขึ้นทะเบียนกับ TFAC ที่ยังใช้ได้ในขณะนั้น
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม C — ปฏิบัติงานประจำ (ระหว่างปี)</td></tr>
+
+        <tr>
+          <td><span class="stepnum">6</span><br><br><b>การจัดทำบัญชีและเก็บรักษาเอกสาร</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนด<b>ชนิดของบัญชีที่ต้องจัดทำ</b> ระยะเวลาเริ่มทำบัญชีหลังจดทะเบียน/เริ่มประกอบกิจการ และหน้าที่<b>เก็บรักษาบัญชีและเอกสารประกอบการลงบัญชี</b>ไว้ ณ สถานที่ทำการไม่น้อยกว่า 5 ปี
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> <b>มาตรา 7</b> (อำนาจอธิบดีประกาศกำหนดชนิดบัญชี/ข้อความรายการ/ระยะเวลา/เอกสารประกอบ — ตรวจสอบแล้ว), มาตรา 12-14, 16 (การเก็บรักษาบัญชีและเอกสาร)<br>
+                <b>ประกาศกรมฯ:</b> เรื่อง กำหนดชนิดของบัญชีที่ต้องจัดทำ ข้อความและรายการที่ต้องมีในบัญชี ระยะเวลาที่ต้องลงรายการในบัญชี และเอกสารที่ต้องใช้ประกอบการลงบัญชี (ฉบับรวมล่าสุด) —
+                <a href="https://www.dbd.go.th/data-storage/attachment/cf553ff61a275899be24bbc4.pdf" target="_blank" style="color:#0b4a7a;">เปิดอ่านฉบับเต็ม ↗</a>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell" style="opacity:.5;">
+              <span class="orgtag tfac">TFAC</span>
+              ไม่มีบทบาทโดยตรง — เป็นหน้าที่ตามกฎหมายบัญชีที่ DBD กำกับดูแลเต็มรูปแบบ TFAC เพียงกำหนดมาตรฐานวิธีปฏิบัติทางบัญชี (TFRS) ประกอบการจัดทำเท่านั้น
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">7</span><br><br><b>การกำหนดมาตรฐานและแนวปฏิบัติการทำบัญชี</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              ออกประกาศบังคับใช้<b>รูปแบบ/รายการย่องบการเงิน</b> ควบคุมระยะเวลาและเอกสารประกอบการลงบัญชี กำหนดข้อยกเว้นการปฏิบัติตามมาตรฐานบัญชีบางเรื่อง (ต้องได้รับความเห็นชอบจากรัฐมนตรี)
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 7(1)-(5), มาตรา 11 วรรคสาม (รายการย่องบการเงิน), มาตรา 14 (มาตรฐานบัญชี), มาตรา 21<br>
+                <b>ประกาศกรมฯ:</b> เรื่อง กำหนดรายการย่อที่ต้องมีในงบการเงิน <b>พ.ศ. 2566</b> (27 ต.ค. 2566 — ยืนยันเป็นฉบับล่าสุด ยกเลิกฉบับ 2554 และฉบับที่ 2/2559 แล้ว) —
+                <a href="https://www.dbd.go.th/storage/law/0fafe207-f3e1-4173-bca7-47c32219a932.pdf" target="_blank" style="color:#0b4a7a;">เปิดอ่านฉบับเต็ม ↗</a>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              <b>ยกร่าง/กำหนดมาตรฐานการรายงานทางการเงิน (TFRS)</b> และแนวปฏิบัติทางบัญชีให้สอดคล้องมาตรฐานสากล ผ่านคณะกรรมการกำหนดมาตรฐานการบัญชี
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 7(3)</b> "กำหนดมาตรฐานการบัญชี มาตรฐานการสอบบัญชี และมาตรฐานอื่นที่เกี่ยวกับวิชาชีพบัญชี" (ตรวจสอบแล้ว), <b>มาตรา 33</b> (จัดตั้งคณะกรรมการกำหนดมาตรฐานการบัญชี — ผู้ทรงคุณวุฒิ 7-11 คน + ผู้แทน 6 หน่วยงาน วาระ 3 ปี), <b>มาตรา 34</b> (อำนาจหน้าที่กำหนด/ปรับปรุงมาตรฐานบัญชี — ต้องจัดทำเป็นภาษาไทย และผ่านความเห็นชอบจากคณะกรรมการกำกับดูแลการประกอบวิชาชีพบัญชีก่อนประกาศใช้)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">8</span><br><br><b>การปิดบัญชีประจำปีและจัดทำงบการเงิน</b> 🆕</td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนดให้ผู้มีหน้าที่จัดทำบัญชีต้อง<b>ปิดบัญชีและจัดทำงบการเงิน</b>ตามรอบระยะเวลาบัญชี (ปกติ 12 เดือน) ให้แล้วเสร็จภายในระยะเวลาที่กฎหมายกำหนด ก่อนส่งต่อผู้สอบบัญชี/นำส่ง DBD
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 11 (การจัดทำงบการเงิน — คนละแง่มุมกับการยื่นในข้อ 10)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span>
+              กำหนด<b>มาตรฐานการรายงานทางการเงิน (TFRS)</b> ที่ต้องใช้ในการจัดทำงบ ให้สอดคล้องกับประเภทกิจการ (TFRS for PAEs / TFRS for NPAEs)
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม D — ส่งต่อ/นำส่งงบ (ปลายปี)</td></tr>
+
+        <tr>
+          <td><span class="stepnum">9</span><br><br><b>การส่งต่องานให้ผู้สอบบัญชี</b> 🆕</td>
+          <td>
+            <div class="dbdcell" style="opacity:.5;">
+              <span class="orgtag dbd">DBD</span>
+              ไม่มีบทบาทโดยตรง — เว้นแต่กำหนดให้บางประเภทกิจการต้องแนบงบที่ผู้สอบบัญชีรับรองก่อนยื่นต่อ DBD
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              ผู้ทำบัญชีต้อง<b>ส่งมอบเอกสาร บัญชี และหลักฐานประกอบการลงบัญชี</b>ให้ความร่วมมือกับผู้สอบบัญชีรับอนุญาตเพื่อตรวจสอบและแสดงความเห็นต่องบการเงิน เชื่อมโยงกับมาตรฐานการสอบบัญชี (TSA) และมาตรฐาน TSQM (ข้อ 18)
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> หมวด 5 การควบคุมวิชาชีพด้านการสอบบัญชี ม.37-38 (เทียบเคียง — จุดเชื่อมระหว่างวิชาชีพทำบัญชี↔สอบบัญชี)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">10</span><br><br><b>การยื่นงบการเงิน (e-Filing)</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนด<b>หลักเกณฑ์และวิธีการยื่นงบการเงินประจำปี</b>ผ่านระบบ DBD e-Filing ซึ่งผู้ทำบัญชีมีส่วนเกี่ยวข้องโดยตรงในการจัดเตรียม/นำส่งข้อมูลงบการเงินแทนผู้มีหน้าที่จัดทำบัญชี
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> <b>มาตรา 11</b> (การยื่นงบการเงิน)<br>
+                <b>ประกาศกรมฯ:</b> เรื่อง หลักเกณฑ์และวิธีการยื่นงบการเงิน (e-Filing) ฉบับล่าสุด
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell" style="opacity:.5;">
+              <span class="orgtag tfac">TFAC</span>
+              ไม่มีบทบาทโดยตรง — แต่รูปแบบงบการเงินที่ยื่นต้องเป็นไปตามมาตรฐานการบัญชี (TFRS) ที่ TFAC กำหนด
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม E — ต่อเนื่อง / เปลี่ยนสถานะ</td></tr>
+
+        <tr>
+          <td><span class="stepnum">11</span><br><br><b>การพัฒนาความรู้ต่อเนื่องทางวิชาชีพ (CPD)</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนด<b>หลักเกณฑ์ชั่วโมง CPD</b> ที่ต้องแจ้งผ่านระบบอิเล็กทรอนิกส์ภายใน 30 วันหลังสิ้นปีปฏิทิน สะสมช่วงที่ขาดได้ไม่เกิน 24 ชม. เก็บหลักฐานไม่น้อยกว่า 3 ปี
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 7(6)<br>
+                <b>ประกาศกรมฯ:</b> กำหนดคุณสมบัติและเงื่อนไขของการเป็นผู้ทำบัญชี พ.ศ. 2557 ข้อ 6(4)-(6)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              <b>จัดหลักสูตรอบรม/ตรวจสอบหลักสูตร CPD</b> ให้ผู้ทำบัญชี ร่วมกำหนดเนื้อหาและรับรองหน่วยงานจัดอบรม
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> มาตรา 7(1)<br>
+                <b>ประกาศสภาฯ:</b> ที่ 18/2558 เรื่อง หลักเกณฑ์ CPD
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">12</span><br><br><b>ข้อจำกัดปริมาณงานและการแจ้งย้ายสังกัด</b><br><span style="font-size:12px;font-weight:400;">(ตัวบุคคล)</span></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนด<b>เพดานปริมาณงาน</b> — เดิม "ไม่เกิน 100 รายต่อปี" ปรับเป็น "ไม่เกิน 100 งบการเงินต่อปี" ตามเกณฑ์ใหม่ 2568 และกำหนดให้ผู้ทำบัญชีต้อง<b>แจ้งย้ายสังกัด/เปลี่ยนนายจ้าง</b>ผ่านระบบ e-Accountant ภายในเวลาที่กำหนด
+              <div class="lawref">
+                <b>ประกาศกรมฯ:</b> เรื่อง กำหนดคุณสมบัติและเงื่อนไขของการเป็นผู้ทำบัญชี พ.ศ. 2557 (ฉบับเดิม) และฉบับใหม่ พ.ศ. 2568
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell" style="opacity:.5;">
+              <span class="orgtag tfac">TFAC</span>
+              ไม่มีบทบาทโดยตรงในการกำหนดเพดานงาน — แต่ข้อมูลการเป็นสมาชิก/สถานะผู้ทำบัญชีใน TFAC เชื่อมโยงกับระบบแจ้งของ DBD
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">13</span><br><br><b>แจ้งเปลี่ยน/ยกเลิกผู้ทำบัญชีของกิจการ</b><br><span style="font-size:12px;font-weight:400;">(คู่กับข้อ 5) 🆕</span></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              เมื่อสิ้นสุดการว่าจ้างหรือเปลี่ยนตัวผู้ทำบัญชี ผู้มีหน้าที่จัดทำบัญชีต้อง<b>แจ้งเปลี่ยนแปลง/ยกเลิกผู้ทำบัญชี</b>ของกิจการนั้นต่อ DBD ผ่านระบบ e-Accountant ภายในระยะเวลาที่กำหนด
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 19-20 (เทียบเคียงกับข้อ 5)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell" style="opacity:.5;">
+              <span class="orgtag tfac">TFAC</span>
+              ไม่มีบทบาทโดยตรง
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม F — กำกับดูแล ตรวจสอบ ลงโทษ</td></tr>
+
+        <tr>
+          <td><span class="stepnum">14</span><br><br><b>การตรวจสอบและกำกับดูแลการปฏิบัติงาน</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              <b>สารวัตรใหญ่บัญชี/สารวัตรบัญชี</b> มีอำนาจเข้าตรวจสอบบัญชี เอกสารประกอบการลงบัญชี และสถานที่เก็บรักษาบัญชี รวมถึงยึด/อายัดเอกสารในกรณีมีเหตุอันควรเชื่อว่าฝ่าฝืนกฎหมาย
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> มาตรา 6 (กรมฯ เป็นสำนักงานกลางบัญชี), <b>มาตรา 22-23</b> (อำนาจสารวัตรใหญ่บัญชี/สารวัตรบัญชี)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              <b>สุ่มตรวจ/กำกับดูแลจรรยาบรรณ</b> ให้ผู้ทำบัญชีปฏิบัติตามมาตรฐานวิชาชีพและจรรยาบรรณ ผ่านคณะกรรมการจรรยาบรรณ
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 7(4)(9)(11)</b> (อำนาจกำหนด/บังคับใช้จรรยาบรรณ), มาตรา 30<br>
+                <b>ข้อบังคับสภาฯ (ฉบับที่ 12/21):</b> ว่าด้วยการพิจารณาเกี่ยวกับจรรยาบรรณ พ.ศ. 2549 (แก้ไข 2554)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">15</span><br><br><b>การลงโทษและการดำเนินคดี</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              แบ่งเป็น <b>2 ระบบ</b> ตามความร้ายแรง — (1) <b>ความผิดที่มีจำคุกด้วย</b> (เช่น ทำลาย/ปลอมแปลงบัญชี) ยังเป็น<b>คดีอาญา</b>ตามปกติ (2) <b>ความผิดที่มีโทษปรับสถานเดียว</b> (เช่น ไม่แจ้งเป็นผู้ทำบัญชี ไม่ยื่นงบการเงินตรงเวลา) เปลี่ยนเป็น <b>"ความผิดทางพินัย"</b> (ระบบลงโทษทางปกครองแบบใหม่ ไม่ใช่คดีอาญา ไม่มีประวัติอาชญากรรม) มีผลบังคับตั้งแต่ 22 มิ.ย. 2566
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> หมวด 6 บทกำหนดโทษ <b>มาตรา 27-42</b> (เช่น ม.38 ทำลาย/ซ่อนเร้นบัญชี จำคุกไม่เกิน 1-2 ปี — ยังเป็นอาญา, ม.39 ลงรายการเท็จ จำคุกไม่เกิน 2-3 ปี — ยังเป็นอาญา), มาตรา 41 (อำนาจอธิบดีเปรียบเทียบปรับ)<br>
+                <b>พ.ร.บ.ว่าด้วยการปรับเป็นพินัย พ.ศ. 2565:</b> ระบุชื่อ พ.ร.บ.การบัญชี 2543 ไว้ในบัญชีท้าย พ.ร.บ. โดยตรง — ความผิดที่มีโทษปรับสถานเดียวจึงถูกแปลงเป็นความผิดทางพินัยทั้งหมด (ตรวจสอบแล้ว — เป็นข้อมูลใหม่ที่เพิ่งพบ ยังไม่เคยระบุไว้ในฉบับก่อนหน้า)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              <b>ลงโทษทางจรรยาบรรณ</b> ผ่านคณะกรรมการจรรยาบรรณ (9-15 คน วาระ 3 ปี) กระบวนการกล่าวหา→สอบสวน→วินิจฉัย
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> หมวด 7 จรรยาบรรณ — <b>มาตรา 46</b> (หน้าที่ปฏิบัติตามจรรยาบรรณ+นิยามการกระทำผิด), <b>มาตรา 47</b> (ข้อกำหนดขั้นต่ำ 4 ด้านที่จรรยาบรรณต้องมี), <b>มาตรา 49</b> "โทษการประพฤติผิดจรรยาบรรณ 4 สถาน" (1)ตักเตือนเป็นหนังสือ (2)ภาคทัณฑ์ (3)พักใช้ใบอนุญาต/ห้ามประกอบวิชาชีพไม่เกิน 3 ปี (4)เพิกถอนใบอนุญาต/สมาชิกภาพ (ตรวจสอบแล้ว — แก้จาก "นิยามความผิด" เดิม), <b>มาตรา 50</b> (คณะกรรมการจรรยาบรรณ), <b>มาตรา 53</b> (กระบวนการกล่าวหา/สอบสวน — อายุความ 1 ปีนับแต่รู้เรื่อง ไม่เกิน 3 ปีนับแต่กระทำผิด)<br>
+                <b>ข้อบังคับสภาฯ:</b> ว่าด้วยจรรยาบรรณของผู้ประกอบวิชาชีพบัญชี พ.ศ. 2561 (แทน ฉบับที่ 19 พ.ศ. 2553 ที่ถูกยกเลิก) + ข้อบังคับฉบับที่ 12/2549 (แก้ไขฉบับที่ 21/2554) ว่าด้วยการพิจารณาเกี่ยวกับจรรยาบรรณ (กระบวนพิจารณาโดยละเอียด)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">16</span><br><br><b>การอุทธรณ์คำสั่ง/คำวินิจฉัย</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              ผู้ทำบัญชีที่ถูกปฏิเสธการขึ้นทะเบียน หรือถูกสั่งลงโทษทางปกครอง มีสิทธิอุทธรณ์ต่ออธิบดี/หน่วยงานที่กฎหมายกำหนด ภายในระยะเวลาที่กำหนด
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              ผู้ที่ถูกปฏิเสธออกใบอนุญาต มีสิทธิอุทธรณ์ต่อ<b>คณะกรรมการกำกับดูแลการประกอบวิชาชีพบัญชี</b> ส่วนผู้ถูกลงโทษทางจรรยาบรรณ มีกระบวนการโต้แย้งตามข้อบังคับว่าด้วยการพิจารณาจรรยาบรรณ
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> มาตรา 42 (อุทธรณ์การไม่ออกใบอนุญาต — เทียบเคียง), ข้อบังคับฉบับที่ 12/2549 (กระบวนการจรรยาบรรณ)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม G — ระดับสำนักงาน / องค์กรวิชาชีพ</td></tr>
+
+        <tr>
+          <td><span class="stepnum">17</span><br><br><b>การกำกับดูแล "สำนักงานบัญชี" ที่เป็นนิติบุคคล</b><br><span style="font-size:12px;font-weight:400;color:var(--warn);">⚠ คนละเรื่องกับผู้ทำบัญชีรายบุคคล</span></td>
+          <td>
+            <div class="dbdcell" style="opacity:.5;">
+              <span class="orgtag dbd">DBD</span>
+              ไม่มีบทบาทกำกับดูแลโดยตรงต่อสำนักงานบัญชีในฐานะนิติบุคคลผู้ให้บริการวิชาชีพ (ต่างจากการกำกับผู้ทำบัญชีรายบุคคล)
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              นิติบุคคลที่ประกอบกิจการให้บริการ<b>ด้านการสอบบัญชีหรือการทำบัญชี</b> ต้อง<b>จดทะเบียนต่อสภาวิชาชีพบัญชี</b> และจัดให้มี<b>หลักประกันความรับผิดต่อบุคคลที่สาม</b> ตามขนาดและรายได้ของนิติบุคคลนั้น
+              <div class="lawref">
+                <b>พ.ร.บ.วิชาชีพบัญชี 2547:</b> <b>มาตรา 11</b> (จดทะเบียนนิติบุคคล + หลักประกัน — คนละมาตรากับ ม.44 ที่ใช้กับผู้ทำบัญชีรายบุคคล)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">18</span><br><br><b>มาตรฐานการควบคุมคุณภาพงานของสำนักงานบัญชี</b><br><span style="font-size:12px;font-weight:400;">(TSQM)</span></td>
+          <td>
+            <div class="dbdcell" style="opacity:.5;">
+              <span class="orgtag dbd">DBD</span>
+              ไม่มีบทบาทโดยตรง
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span>
+              ประกาศใช้<b>มาตรฐานการบริหารคุณภาพ (Thai Standard on Quality Management - TSQM)</b> ที่สำนักงานบัญชีต้องนำมาปฏิบัติ เชื่อมโยงกับข้อ 17 (การกำกับดูแลสำนักงานบัญชีนิติบุคคล) และข้อ 9 (การส่งต่องานให้ผู้สอบบัญชี) กระทบผู้ทำบัญชีที่สังกัดสำนักงานโดยตรง
+              <div class="lawref">
+                <b>อ้างอิง:</b> มาตรฐาน TSQM 1 (ตามที่กล่าวถึงใน 1.Fees_Thai.pdf หมวด 320.3 A4)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">19</span><br><br><b>ค่าธรรมเนียม/ค่าปรับทางปกครอง</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              กำหนดอัตรา<b>ค่าปรับทางปกครอง</b>สำหรับผู้มีหน้าที่จัดทำบัญชีและผู้ทำบัญชีที่ฝ่าฝืน พ.ร.บ.การบัญชี ตามบัญชีอัตราโทษปรับแนบท้ายกฎหมาย
+              <div class="lawref">
+                <b>พ.ร.บ.การบัญชี 2543:</b> หมวด 6 บทกำหนดโทษ (ม.27-42)
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              กำหนด<b>ค่าบำรุงสมาชิก ค่าธรรมเนียมขึ้นทะเบียน และค่าธรรมเนียมใบอนุญาต</b> ตามข้อบังคับสภาฯ — รายละเอียดอยู่ในเอกสาร Fees ของโปรเจกต์
+              <div class="lawref">
+                <b>อ้างอิงในโปรเจกต์:</b> 1_Fees_Thai.pdf (ยังไม่ได้ดึงรายละเอียดตัวเลขมาลงในตารางนี้)
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">20</span><br><br><b>ระบบทะเบียน/การเผยแพร่สถานะผู้ทำบัญชีต่อสาธารณะ</b></td>
+          <td>
+            <div class="dbdcell">
+              <span class="orgtag dbd">DBD</span>
+              เผยแพร่ข้อมูลผู้ทำบัญชีที่ขึ้นทะเบียนผ่านระบบ e-Accountant / DBD DataWarehouse+ ให้ผู้มีหน้าที่จัดทำบัญชีตรวจสอบก่อนว่าจ้างได้
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#e8f2fb;color:#0b4a7a;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🔵 TFAC ส่วนกลาง</span>
+              เผยแพร่สถานะสมาชิกภาพและใบอนุญาตผ่านระบบ Online Service ให้ประชาชน/ผู้ว่าจ้างตรวจสอบสถานะผู้ประกอบวิชาชีพบัญชีได้ — ประเด็นความโปร่งใสที่คณะกรรมการอาจผลักดันเพิ่มได้
+            </div>
+          </td>
+        </tr>
+
+        <tr class="hmv"><td colspan="3">กลุ่ม H — เครือข่ายและความร่วมมือ (Community & International)</td></tr>
+
+        <tr>
+          <td><span class="stepnum">21</span><br><br><b>การรับรองคุณวุฒิ/ประสานงานระดับภูมิภาค-อาเซียน</b> <span style="font-size:11px; background:#fdecec; color:#8a1f1f; padding:2px 6px; border-radius:8px;">🆕 เพิ่มใหม่</span></td>
+          <td>
+            <div class="dbdcell" style="opacity:.5;">
+              <span class="orgtag dbd">DBD</span>
+              ไม่มีบทบาทโดยตรง
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              ประสานงานกับองค์กรต่างประเทศ (เช่น ASEAN Federation of Accountants) เพื่อรับรองคุณวุฒิระดับภูมิภาค — ตัวอย่างจริง: โครงการ <b>PAC (นักบัญชีวิชาชีพอาเซียน)</b> สะสมผู้ผ่านการทดสอบแล้ว 112 คน สามารถใช้ขึ้นทะเบียนนักบัญชีวิชาชีพอาเซียนได้
+              <div class="lawref">
+                <b>ข้อบังคับ 2563 ข้อ 10(5):</b> "ประสานงานกับวิชาชีพบัญชีด้านอื่น...และประสานงานกับ<b>ต่างประเทศ</b>หรือองค์กรอื่นใด เพื่อเป็นเครือข่ายแห่งการประกอบวิชาชีพ" — ส่วน "ต่างประเทศ" ของอนุมาตรานี้ไม่มีข้อใดใน Lifecycle เดิมรองรับมาก่อน
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td><span class="stepnum">22</span><br><br><b>การสร้างเครือข่าย/ชุมชนผู้ทำบัญชี (Community)</b> <span style="font-size:11px; background:#fdecec; color:#8a1f1f; padding:2px 6px; border-radius:8px;">🆕 เพิ่มใหม่</span></td>
+          <td>
+            <div class="dbdcell" style="opacity:.5;">
+              <span class="orgtag dbd">DBD</span>
+              ไม่มีบทบาทโดยตรง
+            </div>
+          </td>
+          <td>
+            <div class="tfaccell">
+              <span class="orgtag tfac">TFAC</span><span style="font-size:11px;background:#eaf5ea;color:#1f5c2e;padding:2px 6px;border-radius:8px;margin-left:6px;font-weight:700;">🟢 คณะกรรมการฯ</span>
+              ส่งเสริมความสามัคคีและความเป็นปึกแผ่น ผดุงศักดิ์ศรีวิชาชีพ ผ่านการสร้างเครือข่ายผู้ทำบัญชี — ตัวอย่างจริง: <b>Line OpenChat</b> (สมาชิกกว่า 2,144 คน) และ <b>Facebook Group</b> (สมาชิกกว่า 16,000 คน) "Community ผู้ทำบัญชี"
+              <div class="lawref">
+                <b>ข้อบังคับ 2563 ข้อ 10(1)(2):</b> "ส่งเสริมความสามัคคีและความเป็นปึกแผ่น...และผดุงไว้ซึ่งศักดิ์ศรีแห่งการประกอบวิชาชีพบัญชีในด้านนั้น" — ไม่มีข้อใดใน Lifecycle เดิมรองรับเรื่องการสร้าง Community มาก่อน
+              </div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <p style="margin:10px 0 0; font-size:13px; color:#6b6558;">หมายเหตุ: กลุ่ม H เพิ่มขึ้นจากการ Matching ข้อบังคับ 2563 ข้อ 10 (8 ข้อ) กับ 20 ข้อเดิม พบว่าข้อ 10(1)(2) และส่วน "ต่างประเทศ" ของข้อ 10(5) ยังไม่มีตัวแทนใน Lifecycle — จึงเพิ่มข้อ 21-22 พร้อมหลักฐานกิจกรรมจริงจากรายงานโครงการ 2567-2569</p>
+
+
+    <div style="background:#fff; border-radius:12px; padding:18px 20px; margin-top:20px; box-shadow:0 2px 10px rgba(0,0,0,.05);">
+      <b style="color:var(--navy);">สรุปภาพรวมความสัมพันธ์ (แก้ไขจากต้นฉบับให้แม่นยำขึ้น):</b>
+      <ul style="margin:10px 0 0; padding-left:22px; font-size:15px;">
+        <li><b style="color:var(--dbd);">กรมพัฒนาธุรกิจการค้า (DBD)</b> ทำหน้าที่ "ผู้บังคับใช้กฎหมายเชิงปกครองและอาญา" ตาม<b>พ.ร.บ.การบัญชี พ.ศ. 2543</b> — ควบคุมตัวธุรกิจ (ผู้มีหน้าที่จัดทำบัญชี) และคุณสมบัติผู้ทำบัญชีระดับปฏิบัติการ มีอำนาจตรวจค้น/ยึด/เปรียบเทียบปรับ/ดำเนินคดีอาญาโดยตรง</li>
+        <li><b style="color:var(--tfac);">สภาวิชาชีพบัญชี (TFAC)</b> ทำหน้าที่ "ผู้ยกระดับมาตรฐานวิชาชีพและควบคุมจรรยาบรรณ" ตาม<b>พ.ร.บ.วิชาชีพบัญชี พ.ศ. 2547</b> — กำหนดมาตรฐานการบัญชี (TFRS) รับรองคุณวุฒิ จัด CPD และลงโทษทางจรรยาบรรณผ่านกระบวนการสอบสวนภายในองค์กรวิชาชีพเอง (self-regulation)</li>
+        <li><b>จุดเชื่อมโยงสำคัญ (ตรวจสอบแล้ว):</b> ผู้ทำบัญชีต้องผ่านเกณฑ์ของ<u>ทั้งสองฉบับพร้อมกัน</u> — (1) พ.ร.บ.การบัญชี ม.7(6): ต้องมีคุณสมบัติตามที่อธิบดี DBD กำหนด (ประกาศกรมฯ 2557) และ (2) พ.ร.บ.วิชาชีพบัญชี ม.44-45: ต้องขึ้นทะเบียน/เป็นสมาชิกกับ TFAC ตามคุณสมบัติที่ข้อบังคับสภาฯ กำหนด — นี่คือเหตุผลที่ทั้งสองหน่วยงานต้องทำงานประสานกัน แม้ใช้กฎหมายคนละฉบับ</li>
+        <li><b>ข้อสังเกตเพิ่มเติม:</b> พ.ร.บ.วิชาชีพบัญชี ม.11 มักถูกเข้าใจผิดว่าเกี่ยวกับผู้ทำบัญชีรายบุคคล แต่แท้จริงเป็นเรื่อง<u>นิติบุคคล</u>ที่ประกอบกิจการให้บริการสอบบัญชี/ทำบัญชี (สำนักงานบัญชีรูปนิติบุคคล) ต้องจดทะเบียนและวางหลักประกันความรับผิดต่อบุคคลที่สาม — เป็นคนละชั้นกับการขึ้นทะเบียนผู้ทำบัญชีรายบุคคลตาม ม.44</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ========================= TAB 3: ROLES & RESPONSIBILITIES ========================= -->
+  <div class="panel" id="t3">
+
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy2)); border-radius:12px; padding:16px 20px; margin-bottom:18px; color:#f7f4ea;">
+      <b style="font-size:16px;">บทบาท อำนาจหน้าที่ และความรับผิดชอบของคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี</b>
+      <div style="font-size:14px; color:#d9d2bd; margin-top:4px;">สังเคราะห์จากฐานกฎหมายที่ตรวจสอบแล้ว + กรอบแนวปฏิบัติที่ดีด้านธรรมาภิบาล (IOD) ปรับใช้กับบริบทองค์กรวิชาชีพ</div>
+    </div>
+
+
+    <!-- ส่วน 1: ฐานอำนาจทางกฎหมาย -->
+    <h3 style="color:var(--navy); font-size:18px; margin:20px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 1 — ฐานอำนาจทางกฎหมาย</h3>
+    <div style="background:#fff; border-radius:12px; padding:16px 20px; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <p style="margin:0 0 10px; font-size:15px;">คณะกรรมการจัดตั้งขึ้นตาม <b>มาตรา 32</b> แห่งพระราชบัญญัติวิชาชีพบัญชี พ.ศ. 2547 และช่วยคณะกรรมการสภาวิชาชีพบัญชีใช้อำนาจตาม <b>มาตรา 7</b> เฉพาะส่วนที่เกี่ยวข้องกับผู้ทำบัญชี</p>
+      <div class="lawref" style="margin:0;">
+        <b>7(1)</b> ส่งเสริมการศึกษา/อบรม &nbsp;|&nbsp; <b>7(3)</b> กำหนดมาตรฐานบัญชี* &nbsp;|&nbsp; <b>7(4)</b> กำหนดจรรยาบรรณ &nbsp;|&nbsp; <b>7(5)</b> ขึ้นทะเบียน/ใบอนุญาต &nbsp;|&nbsp; <b>7(6)</b> รับรองปริญญา &nbsp;|&nbsp; <b>7(7)</b> รับรองความรู้ความชำนาญ &nbsp;|&nbsp; <b>7(8)</b> รับรองหลักสูตร CPD &nbsp;|&nbsp; <b>7(9)</b> ควบคุมความประพฤติ &nbsp;|&nbsp; <b>7(11)</b> ออกข้อบังคับ* &nbsp;|&nbsp; <b>7(13)</b> ให้คำปรึกษารัฐบาล
+      </div>
+      <p style="margin:8px 0 0; font-size:13px; color:#6b6558;">* ม.7(3) มาตรฐานบัญชี — อำนาจ "กำหนด" จริงเป็นของคณะกรรมการกำหนดมาตรฐานการบัญชีตาม ม.33-34 (คนละคณะ) เราทำได้แค่ให้ความเห็นประกอบ | ม.7(11) ออกข้อบังคับ — คณะกรรมการเสนอร่างได้ แต่ "ออก" เป็นอำนาจของคณะกรรมการสภาฯ เท่านั้น</p>
+      <p style="margin:12px 0 0; font-size:14px; color:var(--warn);">🔎 ข้อบังคับ 2563 เฉพาะคณะกรรมการวิชาชีพบัญชีแต่ละด้าน (ที่ ม.32 วรรคสามอ้างถึง) ยังไม่ได้ต้นฉบับมายืนยันรายละเอียด — พบเอกสารนำเสนอของ TFAC/IFAC ที่ระบุอำนาจหน้าที่ 6 ข้อของ "คณะกรรมการวิชาชีพบัญชีด้านการสอบบัญชี" (คณะพี่น้องภายใต้ข้อบังคับเดียวกัน) แต่ตรวจสอบแหล่งอ้างอิงแล้ว<b>ไม่พบการอ้างอิงกลับไปยังข้อบังคับ 2563 หรือมาตราใดชัดเจน</b> จึงยังถือเป็นเพียงเบาะแสรอง ไม่นำมาแทนที่เนื้อหาหลักจนกว่าจะได้ต้นฉบับจริงมายืนยัน</p>
+    </div>
+
+    <!-- ส่วน 2: Fiduciary Duty -->
+    <h3 style="color:var(--navy); font-size:18px; margin:24px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 2 — หน้าที่ของกรรมการตามหลัก Fiduciary Duty</h3>
+    <p style="font-size:14px; color:#6b6558; margin:0 0 12px;">ปรับจากกรอบแนวปฏิบัติที่ดีของ IOD (แนวปฏิบัติที่ดี...คณะกรรมการและฝ่ายจัดการ.pdf ในโปรเจกต์) ให้เข้ากับบริบทองค์กรวิชาชีพ — ใช้เป็นมาตรฐานความประพฤติกรรมการทุกคน</p>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr><td style="width:22%; background:var(--navy); color:#fff; padding:12px 14px; font-weight:700; font-size:15px;">Duty of Care</td>
+          <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line);">ตัดสินใจอย่างรอบคอบบนพื้นฐานข้อมูลที่เพียงพอ เยี่ยงกรรมการวิชาชีพบัญชีพึงกระทำภายใต้สถานการณ์เดียวกัน</td></tr>
+      <tr><td style="background:var(--navy); color:#fff; padding:12px 14px; font-weight:700; font-size:15px;">Duty of Loyalty</td>
+          <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line);">ปฏิบัติเพื่อประโยชน์ของวิชาชีพบัญชีส่วนรวม ปราศจากผลประโยชน์ทับซ้อน (เชื่อมโยงข้อ 12 เรื่อง Conflict of Interest ในกฎบัตร)</td></tr>
+      <tr><td style="background:var(--navy); color:#fff; padding:12px 14px; font-weight:700; font-size:15px;">Duty of Obedience</td>
+          <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line);">ปฏิบัติตาม พ.ร.บ.วิชาชีพบัญชี ข้อบังคับสภาฯ และมติของคณะกรรมการสภาวิชาชีพบัญชีโดยเคร่งครัด</td></tr>
+      <tr><td style="background:var(--navy); color:#fff; padding:12px 14px; font-weight:700; font-size:15px;">Duty of Disclosure</td>
+          <td style="padding:12px 14px; font-size:14.5px;">เปิดเผยข้อมูลถูกต้อง ครบถ้วน โปร่งใส ทันเวลา ทั้งต่อคณะกรรมการสภาฯ สมาชิก และผู้มีส่วนได้เสีย</td></tr>
+    </table>
+
+    <!-- ส่วน 3: 3 ระดับความรับผิดชอบ -->
+    <h3 style="color:var(--navy); font-size:18px; margin:24px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 3 — ระดับความรับผิดชอบ (กรอบ Primary / Shared / Delegated ของ IOD)</h3>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr><th style="background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:14.5px; width:22%;">ระดับ</th><th style="background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:14.5px;">ตัวอย่างเรื่อง</th></tr>
+      <tr><td style="padding:12px 14px; background:#eaf5ea; font-weight:700; color:#1f5c2e; font-size:14.5px; border-bottom:1px solid var(--line);">รับผิดชอบโดยตรง (Primary)</td>
+          <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line);">ส่งเสริมความสามัคคี/ผดุงศักดิ์ศรีวิชาชีพในด้าน, ส่งเสริม/สร้างมาตรฐานวิชาชีพ, ส่งเสริมให้ความรู้/ประสบการณ์แก่ผู้ทำบัญชี (ตรงกับข้อ 10(1)(2)(3)(4))</td></tr>
+      <tr><td style="padding:12px 14px; background:#fdf1e3; font-weight:700; color:#a5501c; font-size:14.5px; border-bottom:1px solid var(--line);">ร่วมกับคณะกรรมการสภาฯ (Shared)</td>
+          <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line);">ประสานงานกับวิชาชีพบัญชีด้านอื่น องค์กรวิชาชีพอื่น และต่างประเทศ (ข้อ 10(5)) — เป็นตัวแทนเสนอความเห็นต่อสภาฯ (ข้อ 10(6))</td></tr>
+      <tr><td style="padding:12px 14px; background:#e8f2fb; font-weight:700; color:#0b4a7a; font-size:14.5px;">มอบหมาย (Delegated)</td>
+          <td style="padding:12px 14px; font-size:14.5px;">งานธุรการ รวบรวม/วิเคราะห์ข้อมูลเบื้องต้น จัดทำรายงานการประชุม — มอบหมายให้คณะอนุกรรมการ/คณะทำงาน หรือฝ่ายเลขานุการดำเนินการ</td></tr>
+    </table>
+
+    <!-- ส่วน 4: เชื่อมกับ Lifecycle -->
+    <h3 style="color:var(--navy); font-size:18px; margin:24px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 4 — อำนาจหน้าที่ 8 ข้อ (7 ยืนยันจาก 35/2569) เชื่อมกับวงจรชีวิตผู้ทำบัญชี (แท็บ 2)</h3>
+    <div class="correction" style="background:#eaf5ea; border-color:#a9d6a9; color:#1f5c2e; margin-bottom:14px;">
+      <b>✅ อัปเดตสำคัญ:</b> ตารางนี้แก้ไขจากฉบับเดิมทั้งหมด — ได้รับ<b>ต้นฉบับข้อบังคับ 2563 เต็มฉบับ</b>แล้ว (ราชกิจจานุเบกษา 1 มิ.ย. 2563) อำนาจหน้าที่อยู่ใน<b>ข้อ 10</b> (แก้จากที่เคยอ้างผิดเป็นข้อ 7 — ข้อ 7 จริงๆ คือคุณสมบัติกรรมการ) ตรงกับที่<b>ประกาศสภาวิชาชีพบัญชี ที่ 35/2569</b> คัดลอกมาลง 7 ใน 8 ข้อ (ระดับความมั่นใจ 🟢 สำหรับข้อ 1-7 / 🟡 สำหรับข้อ 8 — ดูหมายเหตุด้านล่าง)</div>
+    <div class="correction" style="background:#fdf1e3; border-color:#eecf85; color:#8a5a00; margin-bottom:14px;">
+      <b>⚠️ พบความไม่ตรงกัน:</b> ต้นฉบับข้อบังคับ 2563 ข้อ 10 มีอำนาจหน้าที่เพียง <b>7 ข้อ</b> แต่ประกาศ 35/2569 มี <b>8 ข้อ</b> (เพิ่ม "แต่งตั้งคณะทำงาน") — อาจมีข้อบังคับฉบับแก้ไขเพิ่มเติมระหว่างปี 2563-2569 ที่ยังไม่ได้รับมา หรือประกาศ 35/2569 ขยายความจากข้อ (7) เดิมเอง ยังต้องตรวจสอบเพิ่ม
+    </div>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr>
+        <th style="background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:14.5px; width:30%;">อำนาจหน้าที่ตามข้อบังคับ 2563 ข้อ 10</th>
+        <th style="background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:14.5px; width:16%;">ความมั่นใจ</th>
+        <th style="background:var(--navy); color:#fff; padding:10px 14px; text-align:left; font-size:14.5px;">เชื่อมโยงกับแท็บ 2 (Lifecycle)</th>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(1) ส่งเสริมความสามัคคีและความเป็นปึกแผ่นในการประกอบวิชาชีพบัญชีด้านการทำบัญชีและโดยรวม</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">🟢 ยืนยันจากประกาศ 35/2569</td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top; color:#6b6558;">เป้าหมายเชิงคุณค่าองค์กร ไม่ผูกกับข้อใดข้อหนึ่งในแท็บ 2 โดยเฉพาะ — สอดคล้องกับกิจกรรมสร้าง Community ในรายงานโครงการ (Line/FB Group ผู้ทำบัญชี)</td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(2) ผดุงไว้ซึ่งศักดิ์ศรีแห่งการประกอบวิชาชีพบัญชีในด้านการทำบัญชี</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">🟢 ยืนยันจากประกาศ 35/2569</td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;">
+          <ul style="margin:0; padding-left:18px; line-height:1.7;">
+            <li><b>ข้อ 14-16</b> ตรวจสอบ/ลงโทษ/อุทธรณ์ (เชิงภาพลักษณ์วิชาชีพโดยรวม — การลงโทษจริงเป็นของคณะกรรมการจรรยาบรรณ)</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(3) ส่งเสริมและสร้างมาตรฐานการประกอบวิชาชีพบัญชีด้านการทำบัญชี</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">
+          🟢 ยืนยันจากประกาศ 35/2569<br>
+          <span style="color:var(--warn);">⚠️ ม.33-34 (กำหนดมาตรฐานจริง — คนละคณะ)</span>
+        </td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;">
+          <ul style="margin:0; padding-left:18px; line-height:1.7;">
+            <li><b>ข้อ 7</b> มาตรฐานและแนวปฏิบัติการทำบัญชี <span style="color:var(--warn);">(จำกัดแค่ส่งเสริม/ให้ความเห็น — อำนาจ "กำหนด" เป็นของคณะกรรมการมาตรฐานบัญชี)</span></li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(4) ส่งเสริมและให้ความรู้ รวมทั้งเสนอแนะสร้างประสบการณ์ ให้สอดคล้องกับความก้าวหน้าทางเศรษฐกิจของประเทศ</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">🟢 ยืนยันจากประกาศ 35/2569</td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;">
+          <ul style="margin:0; padding-left:18px; line-height:1.7;">
+            <li><b>ข้อ 1</b> รับรองคุณวุฒิและสถาบันการศึกษา</li>
+            <li><b>ข้อ 2</b> มาตรฐานการทดสอบผู้ทำบัญชีเบื้องต้น</li>
+            <li><b>ข้อ 3</b> คุณสมบัติผู้ทำบัญชีชาวต่างชาติ</li>
+            <li><b>ข้อ 11</b> การพัฒนาความรู้ต่อเนื่อง (CPD)</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(5) ประสานการทำงานกับวิชาชีพบัญชีด้านอื่น องค์กรวิชาชีพอื่น และต่างประเทศ เพื่อเป็นเครือข่ายแห่งการประกอบวิชาชีพ</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">
+          🟢 ยืนยันจากประกาศ 35/2569<br>
+          <span style="color:var(--warn);">⚠️ ดูหมายเหตุ</span>
+        </td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;">
+          <ul style="margin:0; padding-left:18px; line-height:1.7;">
+            <li><b>ข้อ 9</b> การส่งต่องานให้ผู้สอบบัญชี (ประสานวิชาชีพด้านอื่น)</li>
+            <li><b>ข้อ 17</b> กำกับดูแลสำนักงานบัญชีนิติบุคคล</li>
+            <li>โครงการ <b>PAC</b> (ประสานองค์กรต่างประเทศ — ASEAN Federation of Accountants)</li>
+          </ul>
+          <div style="color:var(--warn); font-size:13px; margin-top:4px;">⚠️ ถ้อยคำจริงเน้น "วิชาชีพบัญชีด้านอื่น/ต่างประเทศ" ไม่ได้ระบุ "หน่วยงานราชการ" อย่าง DBD ตรงๆ — การประสานงานกับ DBD (ข้อ 5,10,13,19,20 เดิม) จึงอาจต้องอาศัยข้อ (7) ปฏิบัติหน้าที่อื่นตามที่สภาฯ มอบหมาย แทนที่จะเป็นอำนาจยืนพื้นของข้อนี้โดยตรง</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(6) เป็นตัวแทนของผู้ประกอบวิชาชีพบัญชีด้านการทำบัญชี เสนอความเห็นต่อสภาวิชาชีพบัญชี</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">🟢 ยืนยันจากประกาศ 35/2569</td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top; color:#6b6558;">ภาพรวมทั้ง 20 ข้อ (สรุปรายไตรมาส/ประจำปี ตามข้อ 11 กฎบัตร)</td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; border-bottom:1px solid var(--line); vertical-align:top;">(7) กระทำการอื่นใดตามที่มติที่ประชุมใหญ่หรือคณะกรรมการสภาวิชาชีพบัญชีมอบหมาย</td>
+        <td style="padding:12px 14px; font-size:13.5px; border-bottom:1px solid var(--line); vertical-align:top;">🟢 ยืนยันจากประกาศ 35/2569</td>
+        <td style="padding:12px 14px; font-size:14px; border-bottom:1px solid var(--line); vertical-align:top;">
+          <ul style="margin:0; padding-left:18px; line-height:1.7;">
+            <li>ช่องทางที่งาน "เสนอร่างข้อบังคับ" (เดิมอ้าง ม.7(11)) และงาน "ทะเบียน/ใบอนุญาต" (เดิมอ้าง ม.7(5)) อาจเกิดขึ้นได้ — <b>ไม่ใช่อำนาจยืนพื้น แต่ทำได้เมื่อได้รับมอบหมายเฉพาะกรณี</b></li>
+            <li>การประสานงาน DBD ในบางกรณีก็อาจอาศัยข้อนี้เช่นกัน (ดูหมายเหตุข้อ (5) ด้านบน)</li>
+          </ul>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding:12px 14px; font-size:14.5px; vertical-align:top;">(8) แต่งตั้งคณะทำงานเพื่อดำเนินการตามที่คณะกรรมการวิชาชีพบัญชีด้านการทำบัญชีมอบหมาย</td>
+        <td style="padding:12px 14px; font-size:13.5px; vertical-align:top;">🟡 ปรากฏใน 35/2569 แต่ไม่พบในข้อบังคับ 2563 ข้อ 10 ต้นฉบับ</td>
+        <td style="padding:12px 14px; font-size:14px; vertical-align:top; color:#6b6558;">ใช้ได้กับทุกกลุ่ม (A-G) ตามความจำเป็น — อาจตีความว่าอยู่ภายใต้ข้อ (7) ข้างต้น</td>
+      </tr>
+    </table>
+    <p style="margin:10px 0 0; font-size:13px; color:#6b6558;">หมายเหตุ: ข้อ (1)-(7) ยืนยันตรงกับต้นฉบับข้อบังคับ 2563 ข้อ 10 คำต่อคำ (ราชกิจจานุเบกษา 1 มิ.ย. 2563) ส่วนข้อ (8) ปรากฏเฉพาะในประกาศสภาวิชาชีพบัญชี ที่ 35/2569 (ลงนาม 14 ก.ย. 2569) ยังไม่ยืนยันแหล่งที่มาที่แน่ชัด</p>
+    <p style="margin:6px 0 0; font-size:13px; color:#6b6558;">ข้อบังคับ 2563 อ้างอิงจาก: มาตรา 7(11), มาตรา 30, มาตรา 32 วรรคสาม แห่งพระราชบัญญัติวิชาชีพบัญชี พ.ศ. 2547 — ยกเลิกข้อบังคับฉบับที่ 5 (2547) และฉบับที่ 16 (แก้ไขเพิ่มเติมครั้งที่ 2, 2550)</p>
+
+    <!-- ส่วน 5: ขอบเขตที่ไม่มีอำนาจ -->
+    <h3 style="color:var(--navy); font-size:18px; margin:24px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 5 — การแบ่งอำนาจหน้าที่ตามมาตรา 7 (14 อนุมาตรา) เทียบกับคณะกรรมการ 6 ด้าน</h3>
+    <p style="font-size:14px; color:#6b6558; margin:0 0 12px;">ไล่พิจารณาทีละอนุมาตราของมาตรา 7 แห่งพระราชบัญญัติวิชาชีพบัญชี พ.ศ. 2547 ว่าจัดอยู่กับคณะกรรมการวิชาชีพบัญชี 6 ด้าน (แบ่งตามด้าน), สภาวิชาชีพบัญชีบอร์ดใหญ่โดยตรง, หรือคณะกรรมการพิเศษอื่น</p>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:8%;">ข้อ</th><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:47%;">เนื้อหา</th><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px;">จัดอยู่กับ</th></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(1)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ส่งเสริมการศึกษา อบรม วิจัย</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">แบ่งตามด้าน (ทั้ง 6 คณะ)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(2)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ส่งเสริมความสามัคคี ผดุงเกียรติ สวัสดิการสมาชิก</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--warnbg); color:var(--warn);">ใช้ร่วมกัน — สภาฯ ดูแลภาพรวม + คณะแต่ละด้านดูแลเฉพาะด้าน (ดูส่วนที่ 5.1)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(3)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">กำหนดมาตรฐานการบัญชี/สอบบัญชี</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--warnbg); color:var(--warn);">คณะกรรมการมาตรฐานบัญชี (ม.33-34) — คนละคณะจาก 6 ด้าน</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(4)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">กำหนดจรรยาบรรณ</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่ (ผ่านคณะกรรมการจรรยาบรรณ ม.50)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(5)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ขึ้นทะเบียน ออกใบอนุญาต พักใช้/เพิกถอน</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">แบ่งตามด้าน</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(6)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">รับรองปริญญา/ประกาศนียบัตร</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่ (หรือร่วมกับด้านการศึกษาฯ)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(7)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">รับรองความรู้ความชำนาญ</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">แบ่งตามด้าน</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(8)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">รับรองหลักสูตรอบรม/CPD</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">แบ่งตามด้าน</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(9)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ควบคุมความประพฤติตามจรรยาบรรณ</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่ (ผ่านคณะกรรมการจรรยาบรรณ)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(10)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ช่วยเหลือ/เผยแพร่บริการวิชาการแก่ประชาชน</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">แบ่งตามด้าน</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(11)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ออกข้อบังคับสภาวิชาชีพบัญชี</td><td style="padding:9px 12px; font-size:13px; font-weight:700; border-bottom:1px solid var(--line); background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่เท่านั้น (6 คณะเสนอร่างได้)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(12)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">เป็นตัวแทนของผู้ประกอบวิชาชีพบัญชี</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--warnbg); color:var(--warn);">สองระดับ — ภายนอก: นายกสภาฯ / ภายในสภาฯ: คณะแต่ละด้าน (ดูส่วนที่ 5.1)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(13)</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ให้คำปรึกษา/เสนอแนะต่อรัฐบาล</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px;">(14)</td><td style="padding:9px 12px; font-size:13.5px;">ดำเนินการอื่นเพื่อวัตถุประสงค์</td><td style="padding:9px 12px; font-size:13px; background:var(--dbdbg); color:var(--dbd);">สภาฯ บอร์ดใหญ่ (catch-all)</td></tr>
+    </table>
+    <p style="margin:12px 0 0; font-size:14px;">
+      <b style="color:var(--ok);">สรุป:</b> แบ่งตามด้านได้ชัดเจน 5 ข้อ (1)(5)(7)(8)(10) — เป็นของสภาฯ บอร์ดใหญ่โดยตรง 8 ข้อ (2)(4)(6)(9)(11)(12)(13)(14) — เป็นของคณะกรรมการมาตรฐานบัญชี (ม.33-34) 1 ข้อ (3)
+    </p>
+    <p style="margin:8px 0 0; font-size:14px; color:var(--warn);">🔎 ข้อ (11) "ออกข้อบังคับ" เป็นอำนาจสภาฯ บอร์ดใหญ่เท่านั้นชัดเจนที่สุด ตรงกับ boundary ในกฎบัตรข้อ 8(2) ที่ระบุว่าคณะกรรมการเสนอร่างได้แต่ไม่มีอำนาจออกข้อบังคับเอง</p>
+    <p style="margin:6px 0 0; font-size:13px; color:#6b6558;">แถว (2) และ (12) ปรับปรุงตามผลตรวจสอบในส่วนที่ 5.1 ด้านล่าง — เดิมจัดเป็น "สภาฯ บอร์ดใหญ่" ล้วน แต่พบว่าถูกแบ่งมาให้คณะกรรมการแต่ละด้านบางส่วนด้วย</p>
+
+    <h3 style="color:var(--navy); font-size:17px; margin:26px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:5px;">ส่วนที่ 5.1 — Matching ข้อบังคับ 2563 ข้อ 10 (8 ข้อ ตามประกาศ 35/2569) กลับไปยังมาตรา 7</h3>
+    <p style="font-size:14px; color:#6b6558; margin:0 0 12px;">ไล่ทีละข้อของข้อบังคับ 2563 ข้อ 10 (อำนาจหน้าที่จริงของคณะกรรมการวิชาชีพบัญชีแต่ละด้าน) เทียบกลับไปว่าตรงกับอนุมาตราใดของมาตรา 7 เพื่อตรวจสอบว่าข้อบังคับ 2563 "รับช่วง" อำนาจมาจาก ม.7 ตรงตามที่คาดไว้หรือไม่</p>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr>
+        <th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:38%;">ข้อบังคับ 2563 ข้อ 10</th>
+        <th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:14%;">ตรงกับ ม.7</th>
+        <th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px;">ผล</th>
+      </tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(1) ส่งเสริมความสามัคคีและความเป็นปึกแผ่นในด้านนั้นและโดยรวม</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(2)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">✅ ตรง</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(2) ผดุงไว้ซึ่งศักดิ์ศรีแห่งวิชาชีพในด้านนั้น</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(2) (เดียวกัน)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">✅ ตรง</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(3) ส่งเสริมและสร้างมาตรฐานวิชาชีพแต่ละด้าน</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(3)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--warnbg); color:var(--warn);">🟡 บางส่วน — "ส่งเสริม/สร้าง" ไม่ใช่ "กำหนด" (อยู่ที่ ม.33-34)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(4) ส่งเสริม/ให้ความรู้/เสนอแนะประสบการณ์ให้สอดคล้องเศรษฐกิจ</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(1)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">✅ ตรง (ทับซ้อนบางส่วนกับ ม.7(7)(8)(10))</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(5) ประสานงานกับวิชาชีพด้านอื่น + องค์กรอื่น + ต่างประเทศ</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ไม่มี</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--missbg); color:var(--miss);">❌ ไม่พบอนุมาตราตรงใน ม.7 — สร้างขึ้นเองภายใต้ ม.7(11)+ม.32วรรคสาม</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(6) เป็นตัวแทนเสนอความเห็นต่อสภาฯ</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(12)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--warnbg); color:var(--warn);">🟡 บางส่วน — ม.7(12) คือตัวแทนต่อบุคคลภายนอก แต่ข้อนี้คือภายในสภาฯ เท่านั้น</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">(7) ปฏิบัติหน้าที่อื่นตามมติ/สภาฯ มอบหมาย</td><td style="padding:9px 12px; font-size:13.5px; border-bottom:1px solid var(--line);">ม.7(14)</td><td style="padding:9px 12px; font-size:13px; border-bottom:1px solid var(--line); background:var(--okbg); color:var(--ok);">✅ ตรง (catch-all ทั้งคู่)</td></tr>
+      <tr><td style="padding:9px 12px; font-size:13.5px;">(8) 🆕 แต่งตั้งคณะทำงานตามที่คณะกรรมการมอบหมาย</td><td style="padding:9px 12px; font-size:13.5px;">ไม่มี</td><td style="padding:9px 12px; font-size:13px; background:var(--missbg); color:var(--miss);">❌ ไม่มีฐานทั้งใน ม.7 และในข้อบังคับ 2563 ข้อ 10 ต้นฉบับ</td></tr>
+    </table>
+    <p style="margin:10px 0 0; font-size:14px;"><b style="color:var(--ok);">สรุป:</b> ตรงชัดเจน 3 ข้อ (1)(2)(4)(7) [นับ 1-2 เป็นคู่เดียวจาก ม.7(2)] — ตรงบางส่วน 2 ข้อ (3)(6) — ไม่มีฐานจาก ม.7 เลย 2 ข้อ (5)(8)</p>
+    <p style="margin:8px 0 0; font-size:13.5px; color:var(--warn);">🔎 ข้อ (5) และ (8) เป็นเรื่อง "การประสานงาน/มอบหมายงานเพิ่มเติม" ทั้งคู่ — ดูเหมือนข้อบังคับ 2563 เขียนเสริมขึ้นเองนอกกรอบมาตรา 7 โดยอาศัยอำนาจออกข้อบังคับทั่วไป มากกว่าจะเป็นการ "รับช่วง" จากอนุมาตราใดโดยเฉพาะ — ข้อ (8) ยังมีปัญหาซ้อนเรื่องไม่พบในข้อบังคับ 2563 ต้นฉบับด้วย (ดูข้อ 4 แท็บนี้)</p>
+
+    <h3 style="color:var(--navy); font-size:18px; margin:28px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 6 — สรุปกฎบัตรคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี (ภาพรวม 17 ข้อ)</h3>
+    <p style="font-size:14px; color:#6b6558; margin:0 0 12px;">สรุปย่อจากร่างกฎบัตร v8 (ไฟล์ Charter_TFAC_Bookkeeping_Committee_Draft_v8.docx) — อ่านฉบับเต็มพร้อมเชิงอรรถกฎหมายในไฟล์ Word แยกต่างหาก</p>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05);">
+      <tr><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:10%;">ข้อ</th><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px; width:22%;">หัวข้อ</th><th style="background:var(--navy); color:#fff; padding:9px 12px; text-align:left; font-size:13.5px;">สาระสำคัญโดยย่อ</th></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">1</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">คำนิยาม</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">นิยามศัพท์ที่ใช้ในกฎบัตร (สภาฯ, คณะกรรมการ, ข้อบังคับ 2563, ผู้ทำบัญชี, จรรยาบรรณ)</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">2</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">วัตถุประสงค์</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">6 ข้อย่อย ครอบคลุมการพัฒนามาตรฐาน เสนอแนะ CPD ส่งเสริมจรรยาบรรณ (ไม่ก้าวล่วงคณะกรรมการจรรยาบรรณ) เสนอร่างข้อบังคับ ประสานงาน DBD</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">3</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">ฐานอำนาจทางกฎหมาย</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">ตารางลำดับชั้นกฎหมาย 6 รายการ + ตารางแยก ม.7 14 อนุมาตรา (ดูส่วนที่ 5 ด้านบน)</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">4</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">องค์ประกอบ</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">✅ ยืนยันจากต้นฉบับข้อบังคับ 2563 ข้อ 5 แล้ว — ประธาน (เลือกตั้ง) + กรรมการ 7-15 คน (เสนอชื่อโดยประธาน + เห็นชอบจากสภาฯ ไม่ใช่เลือกตั้งตรง) + ที่ปรึกษา/ผู้แทนภายนอก + เลขานุการ</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">5</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">คุณสมบัติ/ลักษณะต้องห้าม</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">✅ ยืนยันจากข้อบังคับ 2563 ข้อ 6-7 แล้ว — ประธานต้องมีประสบการณ์เฉพาะด้าน ≥10 ปีตามเกณฑ์ 5 ด้าน, กรรมการ ≥10 ปีทั่วไป</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">6</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">วาระการดำรงตำแหน่ง</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">✅ ยืนยันจากข้อบังคับ 2563 ข้อ 8 แล้ว — คราวละ 3 ปี ประธานติดต่อกันไม่เกิน 2 วาระ กรรมการไม่จำกัดวาระ</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">7</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การพ้นจากตำแหน่ง</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">✅ ยืนยันจากข้อบังคับ 2563 ข้อ 9 แล้ว — ตาย ลาออก ขาดคุณสมบัติ หรือที่ประชุมใหญ่มีมติ ≥200 เสียง</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">8</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);"><b>บทบาท อำนาจหน้าที่</b></td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">✅ ข้อ (1)-(7) ยืนยันตรงกับข้อบังคับ 2563 ข้อ 10 คำต่อคำ 🟡 ข้อ (8) พบเฉพาะในประกาศ 35/2569 (ดูรายละเอียดเต็มในส่วนที่ 4 ด้านบน)</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">9</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การประชุม</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">≥ทุก 2 เดือน องค์ประชุมกึ่งหนึ่ง มติเสียงข้างมาก มีขั้นตอนกรณีประธานไม่อยู่และการเชิญประชุมล่วงหน้า</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">10</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">คณะอนุกรรมการ/คณะทำงาน</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">แต่งตั้งได้ภายใต้ขอบเขตอำนาจตามข้อ 8 ต้องรายงานผลกลับ</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">11</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การรายงานและแผนงานประจำปี</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">แผนงาน+KPI ต้นปี, รายงานรายไตรมาส, สรุปประจำปีต่อที่ประชุมใหญ่</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">12</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">Conflict of Interest</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">เปิดเผยส่วนได้เสียประจำปี + รายวาระ + งดออกเสียง + บันทึกในรายงานการประชุม</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">13</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การรักษาความลับและข้อมูล</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">รักษาความลับแม้พ้นตำแหน่ง + พิจารณา PDPA หากมีการประมวลผลข้อมูลส่วนบุคคล</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">14</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">จรรยาบรรณของกรรมการ</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">ยึดข้อบังคับจรรยาบรรณ 2561 อย่างเคร่งครัด</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">15</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การประเมินผลการปฏิบัติงาน</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">ประเมินตนเองอย่างน้อยปีละครั้ง เทียบกับแผนงาน/KPI</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">16</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">การทบทวนและอนุมัติกฎบัตร</td><td style="padding:8px 12px; font-size:13px; border-bottom:1px solid var(--line);">ทบทวนอย่างน้อยปีละครั้ง หรือเมื่อกฎหมายเปลี่ยนแปลงมีนัยสำคัญ</td></tr>
+      <tr><td style="padding:8px 12px; font-size:13px;">17</td><td style="padding:8px 12px; font-size:13px;">บทเฉพาะกาล</td><td style="padding:8px 12px; font-size:13px;">หากขัดกับกฎหมาย/ข้อบังคับ ให้ถือกฎหมาย/ข้อบังคับเป็นสำคัญ</td></tr>
+    </table>
+    <p style="margin:12px 0 0; font-size:13.5px; color:var(--warn);">🔎 เหลือ 3 จุดในกฎบัตรที่ยังรอตรวจสอบ: (1) ข้อ 8(8) "แต่งตั้งคณะทำงาน" ไม่พบในต้นฉบับข้อบังคับ 2563 ข้อ 10 (มีแค่ในประกาศ 35/2569) (2) ข้อ 9 การประชุม — องค์ประชุม/มติเฉพาะยังไม่มีในข้อบังคับ 2563 ที่ได้รับ (3) ข้อ 13(3) PDPA — ยังไม่ประเมินขอบเขตการใช้จริง — รายการอื่น (จำนวนกรรมการ, ประสบการณ์, วาระ, อำนาจหน้าที่ข้อ 1-7) ยืนยันครบแล้วดังตารางด้านบน</p>
+
+    <h3 style="color:var(--navy); font-size:18px; margin:28px 0 10px; border-bottom:2px solid var(--gold); padding-bottom:6px;">ส่วนที่ 7 — ขอบเขตที่ไม่มีอำนาจ (Scope Limitations)</h3>
+    <div class="correction" style="background:#fdecec; border-color:#f0b6b6; color:#8a1f1f;">
+      <b>⚠ จุดที่ต้องระวังไม่ให้ทำเกินขอบเขตกฎหมาย:</b>
+      <ul style="margin:8px 0 0; padding-left:20px;">
+        <li><b>ไม่มีอำนาจสอบสวน วินิจฉัย หรือลงโทษทางจรรยาบรรณ</b> — เป็นอำนาจเฉพาะของคณะกรรมการจรรยาบรรณตามมาตรา 50 แห่งพระราชบัญญัติวิชาชีพบัญชี พ.ศ. 2547 คณะกรรมการชุดนี้ทำได้เพียงส่งเสริม ให้ความรู้ และเสนอแนะเท่านั้น</li>
+        <li><b>ไม่มีอำนาจออกข้อบังคับด้วยตนเอง</b> — ทำได้เพียงศึกษา จัดทำ หรือเสนอร่างต่อคณะกรรมการสภาวิชาชีพบัญชีเพื่อพิจารณาอนุมัติ</li>
+      </ul>
+    </div>
+
+    <div style="margin-top:16px; font-size:13px; color:#6b6558;">
+      อ้างอิง: ร่างกฎบัตรคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี (ข้อ 2, 5, 8, 12), แนวปฏิบัติที่ดีในการกำหนดบทบาทหน้าที่และความรับผิดชอบของคณะกรรมการและฝ่ายจัดการ (IOD, ในโปรเจกต์) — ปรับจากบริบทบริษัทเอกชนมาใช้กับองค์กรวิชาชีพ ยังไม่ได้ตรวจสอบว่ามีกรอบเฉพาะสำหรับองค์กรวิชาชีพแยกต่างหากหรือไม่
+    </div>
+
+  </div>
+
+  <!-- ========================= TAB 4: LAW DIRECTORY ========================= -->
+  <div class="panel" id="t4">
+
+    <div style="background:linear-gradient(135deg,var(--navy),var(--navy2)); border-radius:12px; padding:16px 20px; margin-bottom:18px; color:#f7f4ea;">
+      <b style="font-size:16px;">สารบัญกฎหมายและประกาศที่เกี่ยวข้องทั้งหมด</b>
+      <div style="font-size:14px; color:#d9d2bd; margin-top:4px;">รวมทุกฉบับที่อ้างอิงในเอกสารนี้ — กดลิงก์เพื่อเปิดอ่านฉบับเต็ม (เปิดแท็บใหม่) รายการที่ยังหาลิงก์ตรงไม่เจอ ระบุสถานะ "รอ update" ไว้อย่างตรงไปตรงมา</div>
+    </div>
+
+    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+      <span style="font-size:13px; padding:5px 12px; border-radius:14px; background:var(--okbg); color:var(--ok); border:1px solid #a9d6a9; font-weight:700;">🟢 มีลิงก์ตรง กดอ่านได้</span>
+      <span style="font-size:13px; padding:5px 12px; border-radius:14px; background:var(--warnbg); color:var(--warn); border:1px solid #eecf85; font-weight:700;">🟡 มีลิงก์หน้ารวม (ไม่ใช่ไฟล์เดี่ยว)</span>
+      <span style="font-size:13px; padding:5px 12px; border-radius:14px; background:var(--missbg); color:var(--miss); border:1px solid #f0b6b6; font-weight:700;">🔴 ยังไม่พบ — รอ update</span>
+    </div>
+
+    <h3 style="color:var(--navy); font-size:17px; margin:20px 0 8px; border-bottom:2px solid var(--gold); padding-bottom:5px;">A. กฎหมายหลัก (พระราชบัญญัติ)</h3>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05); margin-bottom:20px;">
+      <tr><td style="width:8%; padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;"><b>พระราชบัญญัติการบัญชี พ.ศ. 2543</b> (ฉบับเต็ม 45 มาตรา — ตรวจสอบเนื้อหาจริงแล้ว)</td><td style="padding:11px 14px; text-align:right;"><a href="https://www.dbd.go.th/data-storage/attachment/cf553ff61a275899be24bbc4.pdf" target="_blank" style="color:#0b4a7a; font-weight:600;">เปิดอ่าน (DBD) ↗</a><br><a href="files/%E0%B8%9E%E0%B8%A3%E0%B8%9A_%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5_2543_%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%A1.pdf" target="_blank" style="color:#1f5c2e; font-weight:600; font-size:13px;">📄 เปิด PDF ในเว็บนี้ ↗</a></td></tr>
+      <tr><td style="width:8%; padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;"><b>พระราชบัญญัติวิชาชีพบัญชี พ.ศ. 2547</b> <span style="font-size:12px; color:#6b6558;">(ฉบับเต็ม 78 มาตรา)</span></td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%9E%E0%B8%A3%E0%B8%9A_%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%8A%E0%B8%B5%E0%B8%9E%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5_2547_%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B9%80%E0%B8%95%E0%B9%87%E0%B8%A1.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a> <span style="color:#c9c4b0;">|</span> <a href="https://www.krisdika.go.th" target="_blank" style="color:#0b4a7a; font-weight:600;">krisdika.go.th ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--warnbg); text-align:center;">🟡</td><td style="padding:11px 14px; font-size:14.5px;">พระราชบัญญัติว่าด้วยการปรับเป็นพินัย พ.ศ. 2565 <span style="font-size:12px; color:#6b6558;">(กระทบบทลงโทษ พ.ร.บ.การบัญชี — ดูข้อ 15 แท็บ 2)</span></td><td style="padding:11px 14px; text-align:right;"><a href="https://multi.dopa.go.th/legal/news/cate1/view216" target="_blank" style="color:#0b4a7a; font-weight:600;">เปิดอ่าน ↗</a></td></tr>
+    </table>
+
+    <h3 style="color:var(--navy); font-size:17px; margin:20px 0 8px; border-bottom:2px solid var(--gold); padding-bottom:5px;">B. ข้อบังคับสภาวิชาชีพบัญชี (TFAC)</h3>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05); margin-bottom:20px;">
+      <tr><td style="width:8%; padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">ว่าด้วยจรรยาบรรณของผู้ประกอบวิชาชีพบัญชี พ.ศ. 2561</td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B1%E0%B8%9A%E0%B8%88%E0%B8%A3%E0%B8%A3%E0%B8%A2%E0%B8%B2%E0%B8%9A%E0%B8%A3%E0%B8%A3%E0%B8%93_2561.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">ว่าด้วยคุณสมบัติฯ นายกและกรรมการสภาฯ พ.ศ. 2563 <span style="font-size:12px; color:#6b6558;">(คนละฉบับกับกรรมการวิชาชีพแต่ละด้าน)</span></td><td style="padding:11px 14px; text-align:right;"><a href="files/TFAC_%E0%B8%82%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B1%E0%B8%9A2563_%E0%B8%99%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%AA%E0%B8%A0%E0%B8%B2%E0%B8%AF.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;"><b>ว่าด้วยคุณสมบัติฯ คณะกรรมการวิชาชีพบัญชีของแต่ละด้าน พ.ศ. 2563</b> <span style="font-size:12px; color:var(--ok);">(ฉบับสำคัญที่สุด — ได้ต้นฉบับเต็มแล้ว!)</span></td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B1%E0%B8%9A2563_%E0%B8%84%E0%B8%93%E0%B8%B0%E0%B8%81%E0%B8%A3%E0%B8%A3%E0%B8%A1%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A7%E0%B8%B4%E0%B8%8A%E0%B8%B2%E0%B8%8A%E0%B8%B5%E0%B8%9E%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B9%81%E0%B8%95%E0%B9%88%E0%B8%A5%E0%B8%B0%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%99.pdf" target="_blank" style="color:#1f5c2e; font-weight:700;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">ฉบับที่ 12 (2549) — การพิจารณาจรรยาบรรณ</td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B1%E0%B8%9A%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%8812_%E0%B8%9B%E0%B8%B549.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">ฉบับที่ 21 (2554) — แก้ไขเพิ่มเติมฉบับที่ 12</td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%9A%E0%B8%B1%E0%B8%87%E0%B8%84%E0%B8%B1%E0%B8%9A%E0%B8%89%E0%B8%9A%E0%B8%B1%E0%B8%9A%E0%B8%97%E0%B8%B5%E0%B9%8821_%E0%B8%9B%E0%B8%B554.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--missbg); text-align:center;">🔴</td><td style="padding:11px 14px; font-size:14.5px;">ฉบับที่ 10 (2552) — การรับรองปริญญาฯ</td><td style="padding:11px 14px; text-align:right; color:var(--miss); font-size:13px;">รอ update</td></tr>
+      <tr><td style="padding:11px 14px; background:var(--missbg); text-align:center;">🔴</td><td style="padding:11px 14px; font-size:14.5px;">ประกาศสภาฯ ที่ 18/2558 — หลักเกณฑ์ CPD ผู้ทำบัญชี <span style="font-size:12px; color:#6b6558;">(เลขที่ยังไม่ยืนยัน — ตัวเลือกใกล้เคียง 9/2558, 61/2558, 74/2559)</span></td><td style="padding:11px 14px; text-align:right; color:var(--miss); font-size:13px;">รอ update</td></tr>
+      <tr><td style="padding:11px 14px; background:var(--missbg); text-align:center;">🔴</td><td style="padding:11px 14px; font-size:14.5px;">ว่าด้วยตำแหน่งอุปนายก/เลขาธิการ ฯลฯ พ.ศ. 2569 <span style="font-size:12px; color:#6b6558;">(พบใหม่ — ยังไม่ได้ตรวจเนื้อหา)</span></td><td style="padding:11px 14px; text-align:right; color:var(--miss); font-size:13px;">รอ update</td></tr>
+      <tr><td style="padding:11px 14px; background:var(--missbg); text-align:center;">🔴</td><td style="padding:11px 14px; font-size:14.5px;">ว่าด้วยการเปิดเผยคำสั่งลงโทษจรรยาบรรณ <span style="font-size:12px; color:#6b6558;">(พบใหม่ — อาจเชื่อมกับข้อ 20 แท็บ 2)</span></td><td style="padding:11px 14px; text-align:right; color:var(--miss); font-size:13px;">รอ update</td></tr>
+    </table>
+
+    <h3 style="color:var(--navy); font-size:17px; margin:20px 0 8px; border-bottom:2px solid var(--gold); padding-bottom:5px;">C. ประกาศกรมพัฒนาธุรกิจการค้า (DBD)</h3>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05); margin-bottom:20px;">
+      <tr><td style="width:8%; padding:11px 14px; background:var(--warnbg); text-align:center;">🟡</td><td style="padding:11px 14px; font-size:14.5px;">ชนิดของบัญชีที่ต้องจัดทำ / ข้อความและรายการในบัญชี <span style="font-size:12px; color:#6b6558;">(กำหนดไว้ในตัว พ.ร.บ.เอง ไม่พบประกาศแยกเป็นไฟล์เดี่ยว)</span></td><td style="padding:11px 14px; text-align:right; font-size:13px; color:#6b6558;">ดูมาตรา 7 ใน พ.ร.บ.การบัญชี 2543 (แถว A ด้านบน)</td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">กำหนดรายการย่อที่ต้องมีในงบการเงิน พ.ศ. 2566 <span style="font-size:12px; color:#6b6558;">(ยืนยันเป็นฉบับล่าสุด — ตรวจสอบเนื้อหาจริงแล้ว)</span></td><td style="padding:11px 14px; text-align:right;"><a href="https://www.dbd.go.th/storage/law/0fafe207-f3e1-4173-bca7-47c32219a932.pdf" target="_blank" style="color:#0b4a7a; font-weight:600;">เปิดอ่าน ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">กำหนดคุณสมบัติฯ ผู้ทำบัญชี พ.ศ. 2557</td><td style="padding:11px 14px; text-align:right;"><a href="files/%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%AA%E0%B8%A1%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%B4%E0%B9%81%E0%B8%A5%E0%B8%B0%E0%B9%80%E0%B8%87%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%99%E0%B9%84%E0%B8%82%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%97%E0%B8%B3%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5_DBD2557.pdf" target="_blank" style="color:#1f5c2e; font-weight:600;">📄 เปิด PDF ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--warnbg); text-align:center;">🟡</td><td style="padding:11px 14px; font-size:14.5px;">กำหนดคุณสมบัติฯ ผู้ทำบัญชี (ฉบับใหม่ 2568 — มีผล 1 ม.ค. 2569)</td><td style="padding:11px 14px; text-align:right;"><a href="https://www.dbd.go.th/law/2424" target="_blank" style="color:#0b4a7a; font-weight:600;">เปิดอ่าน ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--warnbg); text-align:center;">🟡</td><td style="padding:11px 14px; font-size:14.5px;">ระบบยื่นงบการเงิน (DBD e-Filing) <span style="font-size:12px; color:#6b6558;">(พบระบบจริง แต่ยังไม่เจอเอกสารหลักเกณฑ์แยก)</span></td><td style="padding:11px 14px; text-align:right;"><a href="https://efiling.dbd.go.th/EfilingRemoteWeb/memberpages/login.xhtml" target="_blank" style="color:#0b4a7a; font-weight:600;">เข้าระบบ ↗</a></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--missbg); text-align:center;">🔴</td><td style="padding:11px 14px; font-size:14.5px;">ระบบ e-Accountant Plus (มีผล 1 ม.ค. 2569)</td><td style="padding:11px 14px; text-align:right; color:var(--miss); font-size:13px;">รอ update</td></tr>
+    </table>
+
+    <h3 style="color:var(--navy); font-size:17px; margin:20px 0 8px; border-bottom:2px solid var(--gold); padding-bottom:5px;">D. กฎหมายอื่นที่เกี่ยวข้อง</h3>
+    <table style="width:100%; border-collapse:collapse; background:#fff; border-radius:10px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,.05); margin-bottom:20px;">
+      <tr><td style="width:8%; padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">พระราชบัญญัติการแข่งขันทางการค้า พ.ศ. 2560 <span style="font-size:12px; color:#6b6558;">(ม.54(1) — เกี่ยวข้องกับนโยบายค่าธรรมเนียม)</span></td><td style="padding:11px 14px; text-align:right;"><span style="color:#6b6558; font-size:13px;">ค้นหาเพิ่มเติมได้ที่ krisdika.go.th</span></td></tr>
+      <tr><td style="padding:11px 14px; background:var(--okbg); text-align:center;">🟢</td><td style="padding:11px 14px; font-size:14.5px;">พระราชบัญญัติคุ้มครองข้อมูลส่วนบุคคล พ.ศ. 2562 (PDPA)</td><td style="padding:11px 14px; text-align:right;"><span style="color:#6b6558; font-size:13px;">ค้นหาเพิ่มเติมได้ที่ krisdika.go.th</span></td></tr>
+    </table>
+
+    <div style="margin-top:8px; font-size:13px; color:#6b6558;">
+      หมายเหตุ: ลิงก์ทั้งหมดตรวจสอบว่าเปิดได้จริง ณ วันที่จัดทำ — รายการ "📄 เปิด PDF" เป็นไฟล์ที่แนบไว้กับเว็บนี้โดยตรง กดแล้วเปิดได้ทันทีไม่ต้องพึ่งเว็บไซต์ภายนอก เว็บไซต์ราชการภายนอกอาจย้าย/เปลี่ยน URL ได้ในอนาคต หากลิงก์ใดเสีย โปรดแจ้งเพื่ออัปเดต — รายการ 🔴 จะย้ายไป 🟢 ทันทีที่หาต้นฉบับเจอ
+    </div>
+  </div>
+
+
+  <footer>
+    จัดทำเพื่อสนับสนุนงานคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี | อ้างอิงหลัก: พ.ร.บ.การบัญชี พ.ศ. 2543, พ.ร.บ.วิชาชีพบัญชี พ.ศ. 2547, Booklet คำชี้แจงข้อบังคับฯ ฉบับที่ 19 (สภาวิชาชีพบัญชี, 2556), คู่มือประมวลจรรยาบรรณฯ แนบท้ายประกาศสภาวิชาชีพบัญชี ที่ 39/2564<br>
+    หมายเหตุ: ตารางในแท็บ 2 จัดเรียงใหม่เป็น 7 กลุ่มตามวงจรชีวิตผู้ทำบัญชี (Lifecycle) ตั้งแต่ก่อนเข้าสู่วิชาชีพจนถึงระดับสำนักงาน/องค์กรวิชาชีพ (กลุ่ม A-G, รวม 20 ข้อ) การอ้างอิงมาตราใน พ.ร.บ.วิชาชีพบัญชี 2547 และ พ.ร.บ.การบัญชี 2543 ที่ตรวจทานกับต้นฉบับเต็ม (ราชกิจจานุเบกษา) แล้วคือกลุ่มข้อ 1, 4, 7, 11, 14, 15, 17 (ชุดเดิมที่ตรวจตั้งแต่ต้น) ส่วนข้อบังคับ/ประกาศย่อยอื่น (เช่น ฉบับที่ 10/2552, ประกาศสภาฯ 18/2558) และหัวข้อที่เพิ่มใหม่ทั้งหมด (ข้อ 2, 3, 5, 8, 9, 13, 16, 18, 19, 20) ยังไม่ได้ตรวจกับต้นฉบับโดยตรง ควรยืนยันอีกครั้งก่อนใช้ในเอกสารทางการหรือการพิจารณาคดี
+  </footer>
+</div>
+
+<script>
+document.querySelectorAll('.tabbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+function attachFilter(inputId, tableId){
+  document.getElementById(inputId).addEventListener('input', function(e){
+    const q = e.target.value.trim().toLowerCase();
+    document.querySelectorAll('#'+tableId+' tbody tr').forEach(row=>{
+      if(row.classList.contains('hmv')){ row.style.display=''; return; }
+      const text = row.innerText.toLowerCase();
+      row.style.display = text.includes(q) ? '' : 'none';
+    });
+  });
+}
+attachFilter('search1','tbl1');
+attachFilter('search2','tbl2');
+</script>
+</body>
+</html>
