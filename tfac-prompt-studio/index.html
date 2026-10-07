@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TFAC AI Prompt Studio — คณะทำบัญชี</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F4F7FC;--surface:#FFFFFF;--surface-2:#F1F4FA;--line:#E2E8F3;--ink:#1B2A4E;--ink-2:#5A6784;
+  --brand:#3E63DD;--brand-ink:#FFFFFF;--brand-soft:#E9EFFD;--navy:#16285C;
+  --warn-bg:#FFF6EB;--warn-line:#F6D2A8;--warn-ink:#B4530B;--ok:#1F8A4C;--ok-soft:#E5F5EC;
+  --amber-soft:#FFF1DA;--amber-ink:#A86200;--bad:#C0392B;--bad-soft:#FDECEA;--footer:#1F4FBF;
+  --radius-lg:16px;--radius:10px;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1626;--surface:#172036;--surface-2:#1D2842;--line:#2A3654;--ink:#E6ECF8;--ink-2:#9AA8C7;
+  --brand:#7290F2;--brand-ink:#0F1626;--brand-soft:#22305A;--navy:#C9D6FF;
+  --warn-bg:#2E2214;--warn-line:#5A3D1C;--warn-ink:#F0B26B;--ok:#4CC384;--ok-soft:#173326;
+  --amber-soft:#33280F;--amber-ink:#E8B04E;--bad:#F08A7E;--bad-soft:#3A1E1B;--footer:#16285C;}}
+:root[data-theme="dark"]{
+  --bg:#0F1626;--surface:#172036;--surface-2:#1D2842;--line:#2A3654;--ink:#E6ECF8;--ink-2:#9AA8C7;
+  --brand:#7290F2;--brand-ink:#0F1626;--brand-soft:#22305A;--navy:#C9D6FF;
+  --warn-bg:#2E2214;--warn-line:#5A3D1C;--warn-ink:#F0B26B;--ok:#4CC384;--ok-soft:#173326;
+  --amber-soft:#33280F;--amber-ink:#E8B04E;--bad:#F08A7E;--bad-soft:#3A1E1B;--footer:#16285C;}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Thai","Noto Sans Thai","Leelawadee UI","Tahoma",sans-serif;font-size:15px;line-height:1.65}
+a{color:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+img{max-width:100%}
+
+/* header */
+.top{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.top .wrap{display:flex;align-items:center;gap:18px;min-height:64px;flex-wrap:wrap}
+.org{display:flex;align-items:center;gap:10px;min-width:0}
+.seal{width:38px;height:38px;border-radius:50%;border:2px dashed var(--line);display:grid;place-items:center;font-size:10px;color:var(--ink-2);flex:none}
+.org b{display:block;font-size:14px;color:var(--navy);line-height:1.3}
+.org small{font-size:11px;color:var(--ink-2)}
+.nav{display:flex;gap:4px;margin-left:auto}
+.nav button{background:none;border:0;padding:8px 14px;border-radius:8px;cursor:pointer;font-weight:600;color:var(--ink-2);border-bottom:2px solid transparent}
+.nav button[aria-current="page"]{color:var(--brand);border-bottom-color:var(--brand);border-radius:8px 8px 0 0}
+.theme{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:13px}
+
+/* hero */
+.hero{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);margin:22px 0;padding:26px 30px;display:flex;align-items:center;gap:24px}
+.hero .ico{width:52px;height:52px;border-radius:14px;background:var(--brand-soft);display:grid;place-items:center;flex:none}
+.hero .pill{display:inline-block;background:var(--brand-soft);color:var(--brand);font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px}
+.hero h1{margin:4px 0 2px;font-size:clamp(26px,4vw,36px);line-height:1.2;color:var(--navy);letter-spacing:-.01em}
+.hero h1 span{color:var(--brand)}
+.hero p{margin:0;color:var(--ink-2);max-width:62ch}
+.hero .art{margin-left:auto;width:170px;flex:none;background:var(--brand-soft);border-radius:14px;padding:16px;position:relative}
+.hero .art i{display:block;height:7px;border-radius:4px;background:var(--surface);margin:6px 0;opacity:.9}
+.hero .art i:nth-child(2){width:70%}.hero .art i:nth-child(3){width:85%}
+.hero .art b{position:absolute;top:-10px;right:-8px;background:var(--brand);color:var(--brand-ink);font-size:13px;padding:3px 9px;border-radius:8px}
+@media (max-width:720px){.hero{padding:20px;flex-wrap:wrap}.hero .art{display:none}}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:22px 26px;margin-bottom:20px}
+.panel h2{font-size:19px;margin:0 0 4px;color:var(--navy)}
+.panel h3{font-size:16px;margin:24px 0 10px;color:var(--navy)}
+.muted{color:var(--ink-2)}
+.small{font-size:13px}
+[hidden]{display:none!important}
+
+/* chips & badges */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 14px;font-size:13px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand-soft);border-color:var(--brand);color:var(--brand);font-weight:600}
+.badge{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:6px}
+.b-Prompt{background:var(--brand-soft);color:var(--brand)}
+.b-Workflow{background:var(--ok-soft);color:var(--ok)}
+.b-Template{background:var(--amber-soft);color:var(--amber-ink)}
+.b-plain{background:var(--surface-2);color:var(--ink-2)}
+.ai{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-size:12.5px;background:var(--surface)}
+.ai::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--c,#888)}
+
+/* search */
+.search{display:flex;gap:10px;margin-bottom:14px}
+.search input{flex:1;min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:10px 14px}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:8px;padding:9px 16px;font-weight:600;cursor:pointer;background:var(--brand);color:var(--brand-ink)}
+.btn.ghost{background:var(--surface);color:var(--brand);border:1px solid var(--brand)}
+.btn.quiet{background:var(--surface-2);color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.block{width:100%}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.card h4{margin:0;font-size:15.5px;color:var(--navy);line-height:1.4}
+.card .desc{background:var(--surface-2);border-radius:8px;padding:8px 10px;font-size:13px;color:var(--ink-2);min-height:62px}
+.card .foot{display:flex;justify-content:space-between;font-size:12px;color:var(--ink-2);margin-top:auto}
+.card .foot b{color:var(--ink);font-weight:600}
+.card .lvl{color:var(--ok)}
+.empty{text-align:center;padding:40px;color:var(--ink-2)}
+
+/* detail */
+.crumb{font-size:13px;color:var(--ink-2);margin:0 0 12px}
+.crumb button{background:none;border:0;color:var(--brand);cursor:pointer;padding:0}
+.dtitle{font-size:clamp(22px,3.4vw,30px);margin:10px 0 6px;color:var(--navy);line-height:1.3}
+.dtitle small{display:block;font-size:15px;font-weight:500;color:var(--ink-2)}
+.meta{display:flex;flex-wrap:wrap;gap:16px;border-top:1px solid var(--line);margin-top:16px;padding-top:14px;font-size:13px;color:var(--ink-2)}
+.meta span:first-child{background:var(--brand-soft);color:var(--brand);border-radius:99px;padding:2px 12px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.promptbox{background:var(--surface-2);border-radius:var(--radius);padding:16px 18px;white-space:pre-wrap;font-size:14px;line-height:1.75;overflow-x:auto;margin-top:12px}
+.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{counter-increment:s;display:flex;gap:12px;margin:10px 0;align-items:flex-start}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;font-weight:700;font-size:13px}
+.ex{display:grid;grid-template-columns:1fr;gap:12px}
+.ex > div{border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;min-width:0}
+.ex h5{margin:0 0 6px;font-size:13px;color:var(--ink-2);font-weight:600}
+.files{display:flex;flex-wrap:wrap;gap:12px}
+.file{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:var(--radius);padding:10px 14px;min-width:220px;flex:1;max-width:360px}
+.file .fi{width:30px;height:34px;border-radius:5px;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:10px;font-weight:700;flex:none}
+.file b{display:block;font-size:13.5px}
+.warn{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:var(--radius);padding:14px 18px;margin-top:22px}
+.warn h4{margin:0 0 6px;color:var(--warn-ink);font-size:14.5px}
+.warn ul{margin:0;padding-left:20px;color:var(--warn-ink);font-size:13.5px}
+.tbl{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface-2);font-weight:600}
+.st-ok{color:var(--ok);font-weight:600;white-space:nowrap}
+.st-chk{color:var(--amber-ink);font-weight:600;white-space:nowrap}
+.ver{margin-top:18px;font-size:13px;color:var(--ink-2);border-top:1px solid var(--line);padding-top:12px}
+.complete{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12.5px;margin-top:12px}
+.complete span{border-radius:6px;padding:1px 8px;background:var(--ok-soft);color:var(--ok)}
+.complete span.miss{background:var(--bad-soft);color:var(--bad)}
+
+/* studio */
+.modes{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid var(--line);margin:14px 0 16px}
+.modes button{background:none;border:0;border-bottom:3px solid transparent;padding:8px 14px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.modes button[aria-selected="true"]{color:var(--brand);border-bottom-color:var(--brand)}
+label.lb{display:block;font-weight:600;font-size:14px;margin:12px 0 6px}
+textarea,select.inp{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:var(--radius);padding:12px 14px;resize:vertical}
+textarea{min-height:140px}
+.notice{display:flex;gap:10px;background:var(--warn-bg);border:1px solid var(--warn-line);color:var(--warn-ink);border-radius:var(--radius);padding:10px 14px;font-size:13px;margin:12px 0}
+.routes{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.route{border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.route h4{margin:0 0 4px;font-size:14.5px}
+.route p{margin:0 0 10px;font-size:13px;color:var(--ink-2)}
+@media (max-width:720px){.routes{grid-template-columns:1fr}.panel{padding:18px}}
+.status{font-size:13.5px;color:var(--ink-2);margin:14px 0 0;min-height:1.5em}
+.status.err{color:var(--bad)}
+.out{margin-top:16px}
+.out .md{border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px}
+.md p{margin:8px 0}.md ul,.md ol{margin:8px 0;padding-left:22px}
+.mdh{color:var(--navy);margin:16px 0 6px}
+h2.mdh{font-size:18px}h3.mdh{font-size:16px}h4.mdh{font-size:15px}
+pre.code{background:var(--surface-2);border-radius:8px;padding:12px 14px;white-space:pre-wrap;overflow-x:auto;font-size:13.5px}
+code{background:var(--surface-2);padding:0 4px;border-radius:4px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--navy);color:var(--surface);padding:10px 18px;border-radius:10px;font-size:14px;z-index:50}
+footer{background:var(--footer);color:#fff;margin-top:30px;padding:18px 0;font-size:13px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+@media (prefers-reduced-motion:no-preference){.btn{transition:filter .15s}.btn:hover{filter:brightness(1.07)}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="org">
+      <div class="seal" aria-hidden="true">โลโก้</div>
+      <div><b>สภาวิชาชีพบัญชี ในพระบรมราชูปถัมภ์</b><small>Prompt Studio คณะทำบัญชี (ฉบับร่าง)</small></div>
+    </div>
+    <nav class="nav" aria-label="เมนูหลัก">
+      <button data-view="library" aria-current="page">คลัง Prompt</button>
+      <button data-view="studio">สร้างและตรวจชิ้นงาน</button>
+    </nav>
+    <button class="theme" id="themeBtn" aria-label="สลับโหมดสี">โหมดสี</button>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="ico" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--brand)"><path d="M12 3l1.8 4.2L18 9l-4.2 1.8L12 15l-1.8-4.2L6 9l4.2-1.8z"/><path d="M19 15l.9 2.1L22 18l-2.1.9L19 21l-.9-2.1L16 18l2.1-.9z"/></svg>
+    </div>
+    <div>
+      <span class="pill">คลังทรัพยากรวิชาชีพบัญชี</span>
+      <h1>TFAC <span>AI Prompt Library</span></h1>
+      <p>เครื่องมือของคณะทำบัญชีสำหรับร่าง ตรวจ และทดสอบ Prompt ให้ครบ 13 ฟิลด์ ก่อนเผยแพร่ใน TFAC Knowledge Center</p>
+    </div>
+    <div class="art" aria-hidden="true"><b>AI</b><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- LIBRARY -->
+  <section id="view-library">
+    <div class="panel">
+      <div class="search">
+        <input id="q" type="search" placeholder="ค้นหา Prompt เช่น กระทบยอด, VAT, ใบกำกับภาษี" aria-label="ค้นหา">
+      </div>
+      <div class="small muted" style="margin-bottom:6px">หมวดหมู่</div>
+      <div class="chips" id="catChips"></div>
+    </div>
+    <div class="grid" id="cards"></div>
+  </section>
+
+  <!-- DETAIL -->
+  <section id="view-detail" hidden>
+    <p class="crumb"><button data-act="back">AI Prompt Library</button> › <span id="crumbCat"></span> › <span id="crumbTitle"></span></p>
+    <div id="detail"></div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="view-studio" hidden>
+    <div class="panel">
+      <h2>สร้างและตรวจชิ้นงาน</h2>
+      <p class="muted small" style="margin:0">เลือกโหมดการทำงาน แล้วใส่ไอเดียหรือชิ้นงาน ผลลัพธ์จะแสดงในรูปแบบเดียวกับหน้าเว็บ TFAC</p>
+      <div class="modes" role="tablist" id="modeTabs"></div>
+      <p id="modeHint" class="small muted" style="margin:0"></p>
+
+      <div id="pickWrap" hidden>
+        <label class="lb" for="pick">เลือกชิ้นงานจากคลัง</label>
+        <select class="inp" id="pick"></select>
+      </div>
+
+      <label class="lb" for="src" id="srcLabel">ไอเดีย</label>
+      <textarea id="src"></textarea>
+
+      <div class="notice" role="note"><span aria-hidden="true">⚠</span><span>ห้ามใส่ข้อมูลลูกค้า ชื่อบุคคล เลขบัตรประชาชน หรือเลขบัญชีธนาคารจริง ใช้ข้อมูลสมมติเท่านั้น</span></div>
+
+      <div class="routes">
+        <div class="route" id="routeClaude" hidden>
+          <h4>สร้างด้วย Claude ในหน้านี้</h4>
+          <p>ใช้บัญชี Claude ของผู้ใช้ ครั้งแรกระบบจะขออนุญาตก่อน ใช้เวลาประมาณ 30–90 วินาที</p>
+          <div class="row"><button class="btn" id="runBtn">สร้างด้วย Claude</button><button class="btn quiet" id="stopBtn" hidden>หยุด</button></div>
+        </div>
+        <div class="route">
+          <h4>ใช้กับ AI ค่ายอื่น</h4>
+          <p>คัดลอกคำสั่งไปวางใน ChatGPT, Copilot, Gemini หรือ Grok แล้วนำคำตอบกลับมาวางด้านล่าง</p>
+          <button class="btn ghost" id="copyCmd">คัดลอกคำสั่ง</button>
+        </div>
+      </div>
+
+      <label class="lb" for="paste">วางคำตอบจาก AI</label>
+      <textarea id="paste" style="min-height:90px" placeholder="วางคำตอบทั้งหมดที่ได้จาก AI ที่นี่"></textarea>
+      <div class="row" style="margin-top:10px"><button class="btn quiet" id="pasteBtn">แสดงผล</button></div>
+
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </div>
+    <div class="out" id="out"></div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>ร่างเครื่องมือภายในคณะทำบัญชี ไม่ใช่เว็บไซต์ทางการของสภาวิชาชีพบัญชี</span><span>ผลลัพธ์จาก AI เป็นเพียงร่าง ต้องสอบทานก่อนเผยแพร่</span></div></footer>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+/* ---------- constants ---------- */
+const CATS=["บันทึกบัญชี","ปิดบัญชี","กระทบยอด","ภาษีอากร","งบการเงิน","วิเคราะห์","ตรวจเอกสาร","Compliance","จรรยาบรรณ","รายละเอียดประกอบการทำบัญชี"];
+const AI_COLORS={ChatGPT:"#10A37F",Copilot:"#2F7FE0",Claude:"#C8683F",Gemini:"#6A5BE2",Grok:"#555"};
+const STD_WARN=["ห้ามนำข้อมูลที่เป็นความลับหรือข้อมูลส่วนบุคคลไปใส่ใน AI สาธารณะ","ผลลัพธ์จาก AI เป็นเพียงร่าง ผู้ทำบัญชีต้องสอบทานและรับผิดชอบความถูกต้องตามกฎหมาย"];
+const TH_M=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
+const thDate=(d=new Date())=>d.getDate()+" "+TH_M[d.getMonth()]+" "+(d.getFullYear()+543);
+
+/* ---------- seed: piece 1 ---------- */
+const SEED=[{
+ id:"seed-1",seed:true,
+ title_th:"แปลงเอกสารเป็นรายการบันทึกบัญชี",title_en:"Document-to-Journal Entry Assistant",
+ description:"ใส่ข้อมูลจากใบกำกับภาษี ใบเสร็จ หรือใบแจ้งหนี้ แล้วได้ร่างรายการบันทึกบัญชี (Dr/Cr) ตามผังบัญชีของกิจการ พร้อมตรวจความครบถ้วนของเอกสารและระบุจุดที่ต้องสอบทาน",
+ category:"บันทึกบัญชี",type:"Prompt",level:"สำหรับผู้เริ่มต้น",
+ ai_supported:["ChatGPT","Copilot","Claude","Gemini","Grok"],
+ prompt:`# บทบาท
+คุณคือผู้ช่วยผู้ทำบัญชีของกิจการ SME ในประเทศไทย ที่ใช้มาตรฐานการรายงานทางการเงินสำหรับกิจการที่ไม่มีส่วนได้เสียสาธารณะ (TFRS for NPAEs)
+
+# บริบทกิจการ
+- ประเภทธุรกิจ: [เช่น ซื้อมาขายไป / บริการ / ผลิต]
+- จดทะเบียนภาษีมูลค่าเพิ่ม: [ใช่ / ไม่ใช่]
+- ผังบัญชี: [วางผังบัญชี (รหัส + ชื่อบัญชี) หรือพิมพ์ "ใช้ผังบัญชีทั่วไป"]
+- วิธีชำระเงิน: [เงินสด / โอนธนาคาร / เงินเชื่อ]
+
+# ข้อมูลเอกสาร
+[พิมพ์หรือวางข้อมูลจากเอกสาร: ชื่อเอกสาร เลขที่ วันที่ ผู้ออก รายการ จำนวนเงิน VAT ภาษีหัก ณ ที่จ่าย]
+
+# ขั้นตอนที่ต้องทำ
+1. สรุปข้อมูลสำคัญจากเอกสารเป็นตาราง
+2. ตรวจว่าเอกสารมีรายการขั้นต่ำครบหรือไม่ ได้แก่ ชื่อผู้จัดทำ ชื่อเอกสาร เลขที่ วันที่ และจำนวนเงินรวม
+3. หากเป็นใบกำกับภาษี ให้ตรวจรายการตามมาตรา 86/4 แห่งประมวลรัษฎากร แล้วระบุผลว่า ครบ / ไม่ครบ / ไม่แน่ใจ
+4. จัดประเภทรายการว่าเป็นสินทรัพย์ ค่าใช้จ่าย หรือหนี้สิน พร้อมเหตุผลสั้น ๆ
+5. ร่างรายการบันทึกบัญชีโดยใช้บัญชีในผังที่ให้มาเท่านั้น
+6. ตรวจว่ายอดเดบิตเท่ากับยอดเครดิต
+
+# รูปแบบ Output
+ตารางที่ 1 ข้อมูลเอกสาร: รายการ | ข้อมูลที่อ่านได้
+ตารางที่ 2 ผลตรวจเอกสาร: รายการที่ต้องมี | ผล (ครบ/ไม่ครบ/ไม่แน่ใจ) | หมายเหตุ
+ตารางที่ 3 รายการบันทึกบัญชี: วันที่ | เลขที่เอกสาร | รหัสบัญชี | ชื่อบัญชี | เดบิต | เครดิต | คำอธิบาย
+ตารางที่ 4 ข้อสังเกต: ประเด็น | เหตุผล | สิ่งที่ผู้ทำบัญชีต้องตรวจสอบ
+
+# ข้อจำกัด
+- ห้ามเดาตัวเลข ถ้าอ่านไม่ชัดหรือข้อมูลไม่ครบ ให้ใส่ "[ไม่พบข้อมูล]" และแจ้งในตารางที่ 4
+- ห้ามสร้างชื่อบัญชีนอกผัง ถ้าจำเป็นต้องมีบัญชีใหม่ ให้เสนอแยกในตารางที่ 4
+- อัตราภาษีหัก ณ ที่จ่าย และสิทธิในการใช้ภาษีซื้อ ให้ระบุว่า "ผู้ทำบัญชีต้องยืนยัน" ทุกครั้ง ห้ามสรุปเอง
+- ห้ามอ้างอิงมาตรากฎหมายที่ไม่แน่ใจ ให้เขียนว่า "ต้องตรวจสอบ"
+- ห้ามเสนอวิธีหลีกเลี่ยงภาษี
+- ผลลัพธ์นี้เป็นร่าง ผู้ทำบัญชีต้องสอบทานก่อนบันทึกจริง`,
+ steps:["คัดลอก Prompt แล้วกรอกช่อง [วงเล็บเหลี่ยม] ให้ครบ","วางข้อมูลเอกสาร โดยลบชื่อบุคคล เลขบัตรประชาชน และเลขบัญชีธนาคารออกก่อน","ส่งให้ AI แล้วตรวจตารางที่ 2 และ 4 ก่อนเป็นอันดับแรก","สอบทานรายการในตารางที่ 3 กับเอกสารจริง แล้วบันทึกในโปรแกรมบัญชี","เก็บผลตรวจไว้เป็นหลักฐานประกอบการสอบทาน"],
+ example:{
+  input:"บริษัท ตัวอย่างการค้า จำกัด (จด VAT) ได้รับใบกำกับภาษี/ใบเสร็จรับเงินเลขที่ INV-0001 ลงวันที่ 15/09/2569 จากบริษัท สะอาดสมมติ จำกัด ค่าบริการทำความสะอาด 5,000 บาท VAT 350 บาท รวม 5,350 บาท หักภาษี ณ ที่จ่าย 150 บาท โอนชำระ 5,200 บาท",
+  output:"ตารางที่ 3 รายการบันทึกบัญชี\n| รหัส | ชื่อบัญชี | เดบิต | เครดิต |\n|---|---|---|---|\n| 5xxx | ค่าทำความสะอาด | 5,000 | |\n| 1xxx | ภาษีซื้อ | 350 | |\n| 2xxx | ภาษีหัก ณ ที่จ่ายค้างจ่าย | | 150 |\n| 1xxx | เงินฝากธนาคาร | | 5,200 |\n| | **รวม** | **5,350** | **5,350** |\n\nตารางที่ 4 ข้อสังเกต\n- ใบกำกับภาษีไม่ระบุว่าผู้ซื้อเป็นสำนักงานใหญ่หรือสาขา ต้องตรวจสอบก่อนใช้สิทธิภาษีซื้อ\n- อัตราหัก ณ ที่จ่าย 3% ผู้ทำบัญชีต้องยืนยัน"
+ },
+ files:[{name:"ตัวอย่างผังบัญชี SME.xlsx",desc:"จัดทำในโหมด [ข้อมูล]"},{name:"ชุดเอกสารสมมติ 5 รายการ.xlsx",desc:"จัดทำในโหมด [ข้อมูล]"}],
+ cautions:["AI อาจอ่านตัวเลขจากภาพผิด ต้องเทียบกับเอกสารต้นฉบับทุกครั้ง","การจัดประเภทสินทรัพย์หรือค่าใช้จ่ายต้องดูนโยบายบัญชีของกิจการด้วย","ผลการตรวจใบกำกับภาษีเป็นการตรวจเบื้องต้น ไม่ใช่ความเห็นทางภาษี"],
+ references:[
+  {issue:"หน้าที่ส่งมอบเอกสารประกอบการลงบัญชี",reference:"พ.ร.บ.การบัญชี พ.ศ. 2543 มาตรา 12",source:"https://www.krisdika.go.th",status:"ตรวจแล้ว",note:"ตรงกับตัวบทในไฟล์ Knowledge ควรตรวจซ้ำกับ krisdika.go.th"},
+  {issue:"รายการขั้นต่ำของเอกสาร และระยะเวลาลงบัญชี",reference:"ประกาศกรมทะเบียนการค้า ลงวันที่ 19 มิถุนายน 2544 ข้อ 7–13",source:"https://www.dbd.go.th",status:"ต้องตรวจสอบ",note:"เนื้อหาตรงกับไฟล์ Knowledge ต้องตรวจชื่อเต็มและฉบับแก้ไข"},
+  {issue:"รายการในใบกำกับภาษี",reference:"ประมวลรัษฎากร มาตรา 86/4 และประกาศอธิบดีกรมสรรพากรเกี่ยวกับภาษีมูลค่าเพิ่ม (ฉบับที่ 199)",source:"https://rd.go.th/27982.html",status:"ตรวจแล้ว",note:""},
+  {issue:"ภาษีซื้อต้องห้าม",reference:"ประมวลรัษฎากร มาตรา 82/5",source:"https://www.rd.go.th",status:"ต้องตรวจสอบ",note:""},
+  {issue:"อัตราภาษีหัก ณ ที่จ่าย",reference:"คำสั่งกรมสรรพากร ที่ ท.ป.4/2528",source:"https://www.rd.go.th",status:"ต้องตรวจสอบ",note:""},
+  {issue:"การรับรู้สินทรัพย์และค่าใช้จ่าย",reference:"TFRS for NPAEs (ปรับปรุง 2565) บทที่ 3 ย่อหน้า 3.1–3.23 และบทที่ 10 ย่อหน้า 10.1–10.47",source:"https://www.tfac.or.th",status:"ตรวจแล้ว",note:"ประกาศสภาวิชาชีพบัญชี ที่ 48/2565"}
+ ],
+ version:"1.0",updated:"7 ตุลาคม 2569"
+}];
+
+/* ---------- AI instructions ---------- */
+const CORE=`# บทบาท
+คุณคือผู้ช่วยสร้าง AI Prompt ของคณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี สภาวิชาชีพบัญชี ในพระบรมราชูปถัมภ์ ทำหน้าที่แปลงไอเดียของกรรมการเป็นชิ้นงานสำเร็จรูป (Prompt / Workflow / Template) สำหรับเผยแพร่ใน TFAC Knowledge Center
+กลุ่มผู้ใช้ปลายทาง: ผู้ทำบัญชีและนักบัญชี SME ตั้งแต่ระดับเริ่มต้นถึงระดับสูง
+
+# รูปแบบชิ้นงานมาตรฐาน 13 ฟิลด์
+1. ชื่อชิ้นงาน (ไทย และ EN)
+2. คำอธิบายสั้น ไม่เกิน 2 บรรทัด
+3. หมวดหมู่: ${CATS.join(" / ")}
+4. ประเภท: Prompt / Workflow / Template
+5. ระดับ: สำหรับผู้เริ่มต้น / ระดับกลาง / ระดับสูง
+6. AI ที่รองรับ: ChatGPT / Copilot / Claude / Gemini / Grok
+7. Prompt ที่ใช้งาน เรียงตาม Role → บริบท → ขั้นตอน → รูปแบบ Output → ข้อจำกัด
+8. วิธีใช้งาน 3–5 ขั้นตอน
+9. ตัวอย่าง Input และ Output (ข้อมูลสมมติ)
+10. ไฟล์ประกอบ (ถ้ามี)
+11. ข้อควรระวัง
+12. อ้างอิงกฎหมาย/มาตรฐาน (ระบุมาตรา/ข้อ/ย่อหน้า)
+13. Version และวันที่ปรับปรุง (พ.ศ.)
+
+# หลักการเขียน Prompt
+- ใช้ได้กับ AI ทุกค่าย ไม่พึ่งฟีเจอร์เฉพาะ
+- มีช่อง [วงเล็บเหลี่ยม] ให้ผู้ใช้กรอกข้อมูลชัดเจน
+- กำหนด Output เป็นตาราง และให้ AI ระบุสิ่งที่ไม่แน่ใจ
+- สั่งให้ AI ห้ามเดาตัวเลขหรือมาตรากฎหมาย
+- ความยาว Prompt เหมาะกับระดับผู้ใช้
+
+# การอ้างอิงแหล่งทางการ
+- ภาษีอากร / ประมวลรัษฎากร / คำสั่ง / ประกาศอธิบดี → www.rd.go.th
+- งบการเงิน / e-Filing / ประกาศ DBD / ผู้ทำบัญชี → www.dbd.go.th
+- NPAEs / TFRS / ข้อบังคับสภาฯ → www.tfac.or.th
+- ตัวบทกฎหมาย → www.krisdika.go.th
+ระบุมาตรา/ข้อ ชื่อประกาศ และเว็บไซต์ทางการที่ต้องตรวจทุกครั้ง หากไม่ได้ตรวจจากแหล่งทางการจริงในการทำงานครั้งนี้ หรือไม่แน่ใจ ให้สถานะเป็น "ต้องตรวจสอบ" ห้ามเดา
+
+# ข้อห้าม
+- ห้ามอ้างอิงกฎหมายโดยไม่ระบุแหล่งที่มา
+- ห้ามสร้าง Prompt ที่ชี้นำการหลีกเลี่ยงภาษีหรือขัดจรรยาบรรณ
+- ตัวอย่างทั้งหมดต้องเป็นข้อมูลสมมติ ห้ามใช้ชื่อบริษัทหรือบุคคลจริง
+- ใช้ภาษาไทยทางการ อ่านง่าย และศัพท์บัญชีตามมาตรฐานวิชาชีพไทย`;
+
+const QC=`# Quality Checklist
+1. ถูกต้องตาม NPAEs / TFRS / ประมวลรัษฎากร / พ.ร.บ.การบัญชี 2543 / พ.ร.บ.วิชาชีพบัญชี 2547 / ประกาศ DBD ฉบับปัจจุบัน
+2. อ้างอิงระบุมาตราได้จริง หากไม่แน่ใจให้ระบุว่า "ต้องตรวจสอบ"
+3. ใช้ได้จริงกับงานประจำ และลดเวลาได้ชัดเจน
+4. ไม่ซ้ำกับชิ้นงานที่มีอยู่ใน Library
+5. มีคำเตือนความลับ, PDPA และ Human Review ครบ
+6. ข้อมูลตัวอย่างเป็นข้อมูลสมมติทั้งหมด
+7. ภาษาไทยถูกต้อง เป็นทางการ อ่านง่าย`;
+
+const SCHEMA=()=>`ตอบเป็น JSON object เดียวเท่านั้น ไม่มีข้อความอื่นก่อนหรือหลัง ใช้โครงสร้างนี้:
+{"title_th":"ชื่อภาษาไทย","title_en":"English name","description":"ไม่เกิน 2 บรรทัด","category":"เลือก 1 หมวดจากรายการ","type":"Prompt หรือ Workflow หรือ Template","level":"สำหรับผู้เริ่มต้น หรือ ระดับกลาง หรือ ระดับสูง","ai_supported":["ChatGPT","Copilot","Claude","Gemini","Grok"],"prompt":"Prompt เต็ม ใช้ \\n ขึ้นบรรทัดใหม่","steps":["ขั้นตอน 3–5 ข้อ"],"example":{"input":"ตัวอย่าง input ข้อมูลสมมติ","output":"ตัวอย่าง output เป็น Markdown ใช้ตารางได้"},"files":[{"name":"ชื่อไฟล์.xlsx","desc":"คำอธิบาย"}],"cautions":["ข้อควรระวัง"],"references":[{"issue":"ประเด็น","reference":"ชื่อกฎหมาย/มาตรฐาน และมาตรา/ข้อ/ย่อหน้า","source":"URL เว็บไซต์ทางการที่ต้องตรวจ","status":"ตรวจแล้ว หรือ ต้องตรวจสอบ","note":"หมายเหตุสั้น ๆ"}],"version":"1.0","updated":"${thDate()}"}
+ถ้าไม่มีไฟล์ประกอบ ให้ files เป็น [] และห้ามใส่คำเตือนมาตรฐานซ้ำใน cautions เพราะระบบแนบให้อัตโนมัติ`;
+
+const libTitles=()=>state.pieces.map(p=>"- "+p.title_th).join("\n");
+
+const MODES={
+ create:{label:"[สร้าง]",out:"json",srcLabel:"ไอเดีย",hint:"พิมพ์ไอเดียของชิ้นงาน ระบบจะร่างให้ครบ 13 ฟิลด์ในรูปแบบหน้าเว็บ TFAC",
+  ph:"เช่น Prompt ช่วยกระทบยอดภาษีขาย ภ.พ.30 กับบัญชีแยกประเภท สำหรับผู้ทำบัญชีระดับกลาง",
+  build:s=>`${CORE}\n\n# ชิ้นงานที่มีอยู่แล้วใน Library (ห้ามซ้ำ)\n${libTitles()}\n\n# งาน\nแปลงไอเดียต่อไปนี้เป็นชิ้นงานสำเร็จรูปครบ 13 ฟิลด์\nไอเดีย: """${s}"""\n\n${SCHEMA()}`},
+ review:{label:"[ตรวจ]",out:"md",pick:true,srcLabel:"ชิ้นงานที่ต้องการตรวจ",hint:"เลือกชิ้นงานจากคลังหรือวางชิ้นงาน ระบบจะสอบทานตาม Quality Checklist 7 ข้อ และตรวจแหล่งอ้างอิง",
+  ph:"วางชิ้นงานทั้ง 13 ฟิลด์ที่นี่",
+  build:s=>`${CORE}\n\n${QC}\n\n# ชิ้นงานที่มีอยู่แล้วใน Library\n${libTitles()}\n\n# งาน\nสอบทานชิ้นงานต่อไปนี้ แล้วรายงานเป็น Markdown ภาษาไทย ประกอบด้วย\n## สรุปผลการตรวจ (2–3 บรรทัด และระบุว่าพร้อมเผยแพร่ / ต้องแก้ไข)\n## ตาราง Quality Checklist: ข้อ | เกณฑ์ | ผล (ผ่าน / ต้องแก้ / ต้องตรวจสอบ) | จุดที่ต้องแก้\n## ตาราง Source Verification: ประเด็น | อ้างอิงในชิ้นงาน | ผลตรวจจากแหล่งทางการ | สถานะ\n## รายการแก้ไขที่แนะนำ (เรียงตามความสำคัญ)\nหากไม่ได้ตรวจกับเว็บไซต์ทางการจริงในการทำงานครั้งนี้ ให้ผลตรวจเป็น "ยังไม่ได้ตรวจกับแหล่งทางการ" และสถานะ "ต้องตรวจสอบ"\n\n# ชิ้นงาน\n${s}`},
+ data:{label:"[ข้อมูล]",out:"md",pick:true,csv:true,srcLabel:"ชิ้นงานที่ต้องการข้อมูลประกอบ",hint:"สร้างข้อมูลสมมติเป็นตาราง ดาวน์โหลดเป็นไฟล์ CSV เปิดด้วย Excel ได้",
+  ph:"เลือกชิ้นงานจากคลัง หรือวางชิ้นงาน และระบุข้อมูลที่ต้องการเพิ่มได้",
+  build:s=>`${CORE}\n\n# งาน\nสร้างข้อมูลสมมติสำหรับใช้ประกอบชิ้นงานต่อไปนี้ เพื่อให้ผู้ใช้ทดลองใช้ Prompt ได้ทันที\n- สร้างตาราง Markdown 1–3 ตาราง ตามไฟล์ประกอบในชิ้นงาน แต่ละตารางมีอย่างน้อย 8 แถว\n- ใส่หัวข้อ ## ชื่อไฟล์ ก่อนแต่ละตาราง\n- ใส่ข้อผิดพลาดหรือรายการผิดปกติที่ตั้งใจไว้ 2–3 จุด เพื่อทดสอบว่า Prompt จับได้หรือไม่ และสรุปจุดเหล่านั้นท้ายคำตอบ\n- ตัวเลขต้องกระทบยอดกันได้ ชื่อบริษัทและบุคคลเป็นชื่อสมมติทั้งหมด\n\n# ชิ้นงาน\n${s}`},
+ test:{label:"[ทดสอบ]",out:"md",pick:true,srcLabel:"ชิ้นงานที่ต้องการทดสอบ",hint:"จำลองการใช้ Prompt กับข้อมูลสมมติ แล้วประเมินคุณภาพผลลัพธ์",
+  ph:"เลือกชิ้นงานจากคลัง หรือวางชิ้นงาน",
+  build:s=>`${CORE}\n\n# งาน\nทดสอบชิ้นงานต่อไปนี้ แล้วรายงานเป็น Markdown ภาษาไทย\n## 1. ข้อมูลทดสอบ (ข้อมูลสมมติที่ใช้กรอกช่อง [ ] ของ Prompt)\n## 2. ผลลัพธ์จำลอง (ตอบตาม Prompt ในชิ้นงานอย่างเคร่งครัด เสมือนผู้ใช้ส่ง Prompt จริง)\n## 3. ตารางประเมิน: เกณฑ์ | คะแนน 1–5 | ข้อสังเกต โดยใช้เกณฑ์ ความถูกต้องทางบัญชี, ทำตามรูปแบบ Output, ไม่เดาตัวเลขหรือมาตรา, ระบุสิ่งที่ไม่แน่ใจ, ความง่ายสำหรับระดับผู้ใช้\n## 4. ข้อเสนอปรับ Prompt (ระบุข้อความที่ควรเพิ่มหรือแก้)\n\n# ชิ้นงาน\n${s}`},
+ builder:{label:"[Builder]",out:"md",srcLabel:"ความต้องการของ Prompt Builder",hint:"พัฒนา Meta-Prompt “Prompt Builder สำหรับนักบัญชี” ที่ถามผู้ใช้ทีละข้อแล้วประกอบ Prompt ให้เอง",
+  ph:"เช่น ต้องการ Builder ที่ถามผู้ใช้ไม่เกิน 5 คำถาม แล้วสร้าง Prompt ตามโครง Role → บริบท → ขั้นตอน → Output → ข้อจำกัด",
+  build:s=>`${CORE}\n\n# งาน\nพัฒนา Meta-Prompt ชื่อ "Prompt Builder สำหรับนักบัญชี" ตามความต้องการด้านล่าง รายงานเป็น Markdown ภาษาไทย\n## Meta-Prompt (อยู่ใน code block พร้อมคัดลอกไปใช้กับ AI ทุกค่าย)\n## วิธีใช้งาน 3–5 ขั้นตอน\n## ตัวอย่างบทสนทนา (ข้อมูลสมมติ)\n## ข้อควรระวัง\n\n# ความต้องการ\n${s}`}
+};
+
+/* ---------- state ---------- */
+const KEY="tfac-studio-pieces-v1";
+const state={pieces:[],mode:"create",cat:"ทั้งหมด",q:"",draft:null,lastMd:""};
+let sample=null,downloads=null,ctl=null;
+const inClaude=()=>!!(window.claude&&window.claude.use);
+const canSave=()=>!!downloads||!inClaude();
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+function loadSaved(){try{return JSON.parse(localStorage.getItem(KEY)||"[]")}catch(e){return[]}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(state.pieces.filter(p=>!p.seed)))}catch(e){}}
+state.pieces=[...SEED,...loadSaved()];
+
+function normalize(d){
+ d=d&&typeof d==="object"?d:{};
+ const arr=v=>Array.isArray(v)?v:(v?[v]:[]);
+ return{
+  id:"p-"+Date.now(),
+  title_th:String(d.title_th||""),title_en:String(d.title_en||""),description:String(d.description||""),
+  category:String(d.category||""),type:["Prompt","Workflow","Template"].includes(d.type)?d.type:String(d.type||"Prompt"),
+  level:String(d.level||""),ai_supported:arr(d.ai_supported).map(String),prompt:String(d.prompt||""),
+  steps:arr(d.steps).map(String),example:{input:String(d.example?.input||""),output:String(d.example?.output||"")},
+  files:arr(d.files).map(f=>typeof f==="string"?{name:f,desc:""}:{name:String(f?.name||""),desc:String(f?.desc||"")}),
+  cautions:arr(d.cautions).map(String),
+  references:arr(d.references).map(r=>({issue:String(r?.issue||""),reference:String(r?.reference||""),source:String(r?.source||""),status:String(r?.status||"ต้องตรวจสอบ"),note:String(r?.note||"")})),
+  version:String(d.version||"1.0"),updated:String(d.updated||thDate())
+ };
+}
+
+/* ---------- markdown ---------- */
+function inline(s){
+ s=esc(s).replace(/`([^`]+)`/g,"<code>$1</code>").replace(/\*\*([^*]+)\*\*/g,"<strong>$1</strong>");
+ return s.replace(/(https?:\/\/[^\s<)]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+}
+function md(src){
+ const L=String(src||"").replace(/\r/g,"").split("\n");const out=[];let i=0;
+ const isBlock=l=>/^(```|\s*\||#{1,4}\s|\s*[-*•]\s|\s*\d+[.)]\s)/.test(l);
+ while(i<L.length){const l=L[i];
+  if(/^```/.test(l)){const b=[];i++;while(i<L.length&&!/^```/.test(L[i])){b.push(L[i]);i++}i++;out.push('<pre class="code">'+esc(b.join("\n"))+"</pre>");continue}
+  if(/^\s*\|/.test(l)){const rows=[];while(i<L.length&&/^\s*\|/.test(L[i])){rows.push(L[i]);i++}
+   const cells=r=>r.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>c.trim());
+   const head=cells(rows[0]);const body=rows.slice(1).filter(r=>!/^\s*\|?\s*:?-{2,}/.test(r));
+   out.push('<div class="tbl"><table><thead><tr>'+head.map(h=>"<th>"+inline(h)+"</th>").join("")+"</tr></thead><tbody>"+body.map(r=>"<tr>"+cells(r).map(c=>"<td>"+inline(c)+"</td>").join("")+"</tr>").join("")+"</tbody></table></div>");continue}
+  const h=l.match(/^(#{1,4})\s+(.*)/);if(h){const n=Math.min(h[1].length+1,4);out.push(`<h${n} class="mdh">${inline(h[2])}</h${n}>`);i++;continue}
+  if(/^\s*[-*•]\s+/.test(l)){const it=[];while(i<L.length&&/^\s*[-*•]\s+/.test(L[i])){it.push(L[i].replace(/^\s*[-*•]\s+/,""));i++}out.push("<ul>"+it.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ul>");continue}
+  if(/^\s*\d+[.)]\s+/.test(l)){const it=[];while(i<L.length&&/^\s*\d+[.)]\s+/.test(L[i])){it.push(L[i].replace(/^\s*\d+[.)]\s+/,""));i++}out.push("<ol>"+it.map(x=>"<li>"+inline(x)+"</li>").join("")+"</ol>");continue}
+  if(!l.trim()){i++;continue}
+  const p=[];while(i<L.length&&L[i].trim()&&!isBlock(L[i])){p.push(L[i]);i++}
+  out.push("<p>"+p.map(x=>inline(x.replace(/^>\s?/,""))).join("<br>")+"</p>");
+ }
+ return out.join("");
+}
+
+/* ---------- render: library ---------- */
+const aiChips=list=>(list||[]).map(a=>`<span class="ai" style="--c:${AI_COLORS[a]||"#888"}">${esc(a)}</span>`).join(" ");
+function renderChips(){
+ $("#catChips").innerHTML=["ทั้งหมด",...CATS].map(c=>`<button class="chip" data-cat="${esc(c)}" aria-pressed="${c===state.cat}">${esc(c)}</button>`).join("");
+}
+function renderCards(){
+ const q=state.q.trim().toLowerCase();
+ const list=state.pieces.filter(p=>(state.cat==="ทั้งหมด"||p.category===state.cat)&&(!q||[p.title_th,p.title_en,p.description,p.category].join(" ").toLowerCase().includes(q)));
+ $("#cards").innerHTML=list.length?list.map(p=>`
+  <article class="card">
+   <div><span class="badge b-${esc(p.type)}">${esc(p.type)}</span></div>
+   <h4>${esc(p.title_th)}</h4>
+   <div class="desc">${esc(p.description)}</div>
+   <div class="small"><b>ใช้กับ AI :</b><div class="chips" style="gap:6px;margin-top:6px">${aiChips(p.ai_supported)}</div></div>
+   <div class="foot"><span><b>${esc(p.category)}</b><br>อัปเดต ${esc(p.updated)}</span><span class="lvl">${esc(p.level)}</span></div>
+   <button class="btn block" data-act="open" data-id="${esc(p.id)}">ดูรายละเอียด prompt</button>
+  </article>`).join(""):`<div class="empty panel" style="grid-column:1/-1">ยังไม่มีชิ้นงานในหมวดนี้ ไปที่ “สร้างและตรวจชิ้นงาน” เพื่อร่างชิ้นใหม่</div>`;
+}
+
+/* ---------- render: detail ---------- */
+const FIELDS=[["1",p=>p.title_th],["2",p=>p.description],["3",p=>p.category],["4",p=>p.type],["5",p=>p.level],["6",p=>p.ai_supported?.length],["7",p=>p.prompt],["8",p=>p.steps?.length],["9",p=>p.example?.input&&p.example?.output],["10",p=>Array.isArray(p.files)],["11",p=>p.cautions?.length],["12",p=>p.references?.length],["13",p=>p.version&&p.updated]];
+function completeness(p){
+ const r=FIELDS.map(([n,f])=>[n,!!f(p)]);const ok=r.filter(x=>x[1]).length;
+ return `<div class="complete"><b>ความครบถ้วน ${ok}/13</b>${r.map(([n,v])=>`<span class="${v?"":"miss"}" title="ฟิลด์ที่ ${n}">${n}</span>`).join("")}</div>`;
+}
+function detailHTML(p,actions=true){
+ const stCls=s=>/ตรวจแล้ว/.test(s)?"st-ok":"st-chk";
+ const stTxt=s=>/ตรวจแล้ว/.test(s)?"✅ ตรวจแล้ว":"⚠️ ต้องตรวจสอบ";
+ return `
+ <div class="panel">
+  <div class="sec-head"><div class="chips" style="gap:6px"><span class="badge b-${esc(p.type)}">${esc(p.type)}</span><span class="badge b-plain">${esc(p.category)}</span><span class="badge b-plain">${esc(p.level)}</span></div>
+  ${actions?`<div class="row">${p.seed||p._saved?"":`<button class="btn" data-act="save">บันทึกเข้าคลัง</button>`}<button class="btn quiet" data-act="to-review">ส่งไปตรวจ</button><button class="btn quiet" data-act="export" data-needs="dl" ${canSave()?"":"hidden"}>Export HTML</button></div>`:""}</div>
+  <h2 class="dtitle">${esc(p.title_th)}<small>${esc(p.title_en)}</small></h2>
+  <p class="muted" style="margin:0">${esc(p.description)}</p>
+  <div class="row small" style="margin-top:12px"><b>ใช้กับ :</b> ${aiChips(p.ai_supported)}</div>
+  <div class="meta"><span>${esc(p.category)}</span><span>${esc(p.level)}</span><span>อัปเดต ${esc(p.updated)}</span><span>v${esc(p.version)}</span></div>
+  ${completeness(p)}
+ </div>
+ <div class="panel">
+  <div class="sec-head"><h2>Prompt ที่ใช้งาน</h2><button class="btn" data-act="copy-prompt">คัดลอก Prompt</button></div>
+  <div class="promptbox">${esc(p.prompt)}</div>
+
+  <h3>วิธีใช้งานและขั้นตอนการรัน</h3>
+  <ol class="steps">${p.steps.map(s=>`<li><span>${esc(s)}</span></li>`).join("")}</ol>
+
+  <h3>ตัวอย่าง Input และ Output (ข้อมูลสมมติ)</h3>
+  <div class="ex"><div><h5>Input</h5><div class="md">${md(p.example.input)}</div></div><div><h5>Output</h5><div class="md">${md(p.example.output)}</div></div></div>
+
+  <h3>ตัวอย่างไฟล์ / Template สำหรับเริ่มใช้งาน</h3>
+  ${p.files.length?`<div class="files">${p.files.map(f=>`<div class="file"><div class="fi">${esc((f.name.split(".").pop()||"FILE").toUpperCase().slice(0,4))}</div><div><b>${esc(f.name)}</b><span class="small muted">${esc(f.desc)}</span></div></div>`).join("")}</div>`:`<p class="muted small">ไม่มีไฟล์ประกอบ</p>`}
+
+  <h3>อ้างอิงกฎหมาย / มาตรฐาน</h3>
+  <div class="tbl"><table><thead><tr><th>ประเด็น</th><th>อ้างอิงในชิ้นงาน</th><th>แหล่งทางการ</th><th>สถานะ</th></tr></thead><tbody>
+  ${p.references.map(r=>`<tr><td>${esc(r.issue)}</td><td>${esc(r.reference)}${r.note?`<div class="small muted">${esc(r.note)}</div>`:""}</td><td>${/^https?:/.test(r.source)?`<a href="${esc(r.source)}" target="_blank" rel="noopener">${esc(r.source.replace(/^https?:\/\//,""))}</a>`:esc(r.source)}</td><td class="${stCls(r.status)}">${stTxt(r.status)}</td></tr>`).join("")}
+  </tbody></table></div>
+
+  <div class="warn"><h4>⚠ ข้อควรระวังสำคัญ</h4><ul>${[...p.cautions,...STD_WARN].map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
+  <div class="ver">Version ${esc(p.version)} | ปรับปรุง ${esc(p.updated)}</div>
+ </div>`;
+}
+
+/* ---------- views ---------- */
+let current=null;
+function show(view){
+ ["library","detail","studio"].forEach(v=>$("#view-"+v).hidden=v!==view);
+ document.querySelectorAll(".nav button").forEach(b=>b.setAttribute("aria-current",b.dataset.view===view||(view==="detail"&&b.dataset.view==="library")?"page":"false"));
+ window.scrollTo({top:0});
+}
+function openPiece(id){
+ current=state.pieces.find(p=>p.id===id);if(!current)return;
+ $("#crumbCat").textContent=current.category;$("#crumbTitle").textContent=current.title_th;
+ $("#detail").innerHTML=detailHTML(current);show("detail");
+}
+
+/* ---------- studio ---------- */
+function pieceText(p){
+ return `1. ชื่อชิ้นงาน: ${p.title_th} (${p.title_en})
+2. คำอธิบายสั้น: ${p.description}
+3. หมวดหมู่: ${p.category}
+4. ประเภท: ${p.type}
+5. ระดับ: ${p.level}
+6. AI ที่รองรับ: ${p.ai_supported.join(" / ")}
+7. Prompt ที่ใช้งาน:
+${p.prompt}
+8. วิธีใช้งาน:
+${p.steps.map((s,i)=>`${i+1}) ${s}`).join("\n")}
+9. ตัวอย่าง Input: ${p.example.input}
+   ตัวอย่าง Output:
+${p.example.output}
+10. ไฟล์ประกอบ: ${p.files.map(f=>f.name).join(", ")||"ไม่มี"}
+11. ข้อควรระวัง: ${p.cautions.join(" / ")}
+12. อ้างอิง:
+${p.references.map(r=>`- ${r.issue}: ${r.reference} (${r.source}) [${r.status}]`).join("\n")}
+13. Version ${p.version} ปรับปรุง ${p.updated}
+คำเตือนมาตรฐาน: ${STD_WARN.join(" / ")}`;
+}
+function renderModes(){
+ $("#modeTabs").innerHTML=Object.entries(MODES).map(([k,m])=>`<button role="tab" data-mode="${k}" aria-selected="${k===state.mode}">${m.label}</button>`).join("");
+ const m=MODES[state.mode];
+ $("#modeHint").textContent=m.hint;$("#srcLabel").textContent=m.srcLabel;$("#src").placeholder=m.ph;
+ $("#pickWrap").hidden=!m.pick;
+ $("#pick").innerHTML=`<option value="">— เลือกชิ้นงาน —</option>`+state.pieces.map(p=>`<option value="${esc(p.id)}">${esc(p.title_th)}</option>`).join("");
+ $("#runBtn").textContent=state.mode==="create"?"สร้างด้วย Claude":"ให้ Claude ทำ"+m.label;
+}
+function setMode(k,fill){
+ state.mode=k;renderModes();if(fill!==undefined)$("#src").value=fill;status("");
+}
+function status(t,err){const s=$("#status");s.textContent=t;s.classList.toggle("err",!!err)}
+function setBusy(b){$("#runBtn").disabled=b;$("#stopBtn").hidden=!b;$("#pasteBtn").disabled=b}
+
+function showPiece(p){
+ state.draft=p;
+ $("#out").innerHTML=detailHTML(p);
+ $("#out").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function showMd(t){
+ state.lastMd=t;const m=MODES[state.mode];
+ $("#out").innerHTML=`<div class="panel"><div class="sec-head"><h2>ผลลัพธ์ ${esc(m.label)}</h2><div class="row"><button class="btn quiet" data-act="copy-md">คัดลอกผล</button>${m.csv?`<button class="btn quiet" data-act="csv" ${canSave()?"":"hidden"} data-needs="dl">ดาวน์โหลด CSV</button>`:""}</div></div><div class="md" style="margin-top:12px">${md(t)}</div></div>`;
+}
+const ERR={not_granted:"ยังไม่ได้อนุญาตให้หน้านี้ใช้ Claude ใช้วิธีคัดลอกคำสั่งไปยัง AI อื่นแทนได้",sampling_disabled:"บัญชีนี้ใช้ Claude ในหน้านี้ไม่ได้ ใช้วิธีคัดลอกคำสั่งแทน",rate_limited:"ใช้งานถี่เกินไปหรือถึงขีดจำกัด รอสักครู่แล้วลองใหม่",session_expired:"กรุณาเข้าสู่ระบบ Claude ใหม่",refused:"Claude ปฏิเสธคำขอนี้ ปรับไอเดียแล้วลองใหม่",invalid_json:"คำตอบไม่อยู่ในรูปแบบ JSON ที่อ่านได้ กดสร้างใหม่อีกครั้ง",empty_completion:"ไม่ได้รับคำตอบ ลองลดขอบเขตแล้วสร้างใหม่",prompt_too_large:"ข้อมูลยาวเกินไป ตัดให้สั้นลงแล้วลองใหม่"};
+function hideClaude(){$("#routeClaude").hidden=true}
+
+async function runClaude(){
+ const m=MODES[state.mode];const input=$("#src").value.trim();
+ if(!input){status("ใส่ข้อมูลในช่อง “"+m.srcLabel+"” ก่อน",true);$("#src").focus();return}
+ ctl=new AbortController();setBusy(true);status("Claude กำลังคิด… ปกติใช้เวลา 30–90 วินาที");
+ try{
+  if(m.out==="json"){
+   const data=await sample.json(m.build(input),{signal:ctl.signal,cache:false,onText:({text})=>status("กำลังร่าง… "+text.length.toLocaleString()+" ตัวอักษร")});
+   showPiece(normalize(data));status("ร่างเสร็จแล้ว ตรวจทานก่อนกด “บันทึกเข้าคลัง”");
+  }else{
+   const r=await sample(m.build(input),{signal:ctl.signal,cache:false,onText:({text})=>showMd(text)});
+   showMd(r.text);status(r.truncated?"คำตอบถูกตัดกลางทาง ลดขอบเขตแล้วลองใหม่":"เสร็จแล้ว");
+  }
+ }catch(e){
+  if(e?.code==="cancelled"){status("หยุดแล้ว");}
+  else{status(ERR[e?.code]||"เชื่อมต่อไม่สำเร็จ กดลองใหม่อีกครั้ง",true);
+   if(["not_granted","sampling_disabled","not_declared","capability_disabled","capability_removed"].includes(e?.code))hideClaude();
+   if(e?.text&&m.out==="md")showMd(e.text);}
+ }finally{setBusy(false)}
+}
+function parseLoose(t){
+ t=t.trim();const f=t.match(/```(?:json)?\s*([\s\S]*?)```/);if(f)t=f[1];
+ const a=t.indexOf("{"),b=t.lastIndexOf("}");if(a<0||b<a)throw new Error("nojson");
+ return JSON.parse(t.slice(a,b+1));
+}
+function fromPaste(){
+ const t=$("#paste").value.trim();if(!t){status("วางคำตอบจาก AI ก่อน",true);return}
+ if(MODES[state.mode].out==="json"){
+  try{showPiece(normalize(parseLoose(t)));status("แสดงผลแล้ว ตรวจทานก่อนกด “บันทึกเข้าคลัง”")}
+  catch(e){status("อ่านคำตอบไม่ได้ ให้ AI ตอบเป็น JSON ตามคำสั่ง แล้วคัดลอกมาทั้งหมด",true)}
+ }else{showMd(t);status("แสดงผลแล้ว")}
+}
+
+/* ---------- utilities ---------- */
+function toast(t){const el=$("#toast");el.textContent=t;el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2400)}
+async function copyText(t){
+ try{await navigator.clipboard.writeText(t);toast("คัดลอกแล้ว");return}catch(e){}
+ const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();
+ let ok=false;try{ok=document.execCommand("copy")}catch(e){}ta.remove();
+ toast(ok?"คัดลอกแล้ว":"คัดลอกไม่สำเร็จ เลือกข้อความแล้วกด Ctrl+C");
+}
+function tablesToCsv(text){
+ const L=text.split("\n");const out=[];let title="";
+ for(let i=0;i<L.length;i++){const l=L[i];const h=l.match(/^#{1,4}\s+(.*)/);if(h)title=h[1];
+  if(/^\s*\|/.test(l)){const rows=[];while(i<L.length&&/^\s*\|/.test(L[i])){if(!/^\s*\|?\s*:?-{2,}/.test(L[i]))rows.push(L[i]);i++}
+   if(title)out.push(csvCell(title));
+   rows.forEach(r=>out.push(r.trim().replace(/^\|/,"").replace(/\|$/,"").split("|").map(c=>csvCell(c.trim().replace(/\*\*/g,""))).join(",")));out.push("");}}
+ return out.join("\r\n");
+}
+const csvCell=c=>/[",\r\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;
+async function save(name,data){
+ if(!downloads){
+  if(inClaude())return;
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([data],{type:name.endsWith(".csv")?"text/csv;charset=utf-8":"text/html;charset=utf-8"}));
+  a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast("ดาวน์โหลดแล้ว");return}
+ try{await downloads.save({filename:name,data});toast("บันทึกไฟล์แล้ว")}
+ catch(e){if(e?.code!=="declined")toast("บันทึกไฟล์ไม่สำเร็จ")}
+}
+function exportHtml(p){
+ const css=document.querySelector("style").textContent;
+ const html=`<!DOCTYPE html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>${esc(p.title_th)}</title><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet"><style>${css}</style></head><body><main class="wrap" style="padding-top:22px">${detailHTML(p,false)}</main><script>document.querySelectorAll('[data-act="copy-prompt"]').forEach(b=>b.onclick=()=>navigator.clipboard.writeText(document.querySelector('.promptbox').innerText).then(()=>b.textContent='คัดลอกแล้ว'))<\/script></body></html>`;
+ save((p.title_en||"tfac-prompt").replace(/[^\w\- ]+/g,"").trim().replace(/\s+/g,"-")+".html",html);
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{
+ const t=e.target.closest("[data-view],[data-cat],[data-mode],[data-act]");if(!t)return;
+ if(t.dataset.view){show(t.dataset.view);return}
+ if(t.dataset.cat){state.cat=t.dataset.cat;renderChips();renderCards();return}
+ if(t.dataset.mode){setMode(t.dataset.mode);return}
+ const inOut=!!t.closest("#out");const p=inOut?state.draft:current;
+ switch(t.dataset.act){
+  case"open":openPiece(t.dataset.id);break;
+  case"back":show("library");break;
+  case"copy-prompt":p&&copyText(p.prompt);break;
+  case"copy-md":copyText(state.lastMd);break;
+  case"csv":save("ข้อมูลสมมติ.csv","\uFEFF"+tablesToCsv(state.lastMd));break;
+  case"export":p&&exportHtml(p);break;
+  case"save":if(p){p._saved=true;state.pieces.push(p);persist();renderCards();renderModes();t.remove();toast("บันทึกเข้าคลังแล้ว")}break;
+  case"to-review":if(p){show("studio");setMode("review",pieceText(p));$("#out").innerHTML="";$("#src").focus()}break;
+ }
+});
+$("#q").addEventListener("input",e=>{state.q=e.target.value;renderCards()});
+$("#pick").addEventListener("change",e=>{const p=state.pieces.find(x=>x.id===e.target.value);if(p)$("#src").value=pieceText(p)});
+$("#copyCmd").addEventListener("click",()=>{
+ const m=MODES[state.mode];const input=$("#src").value.trim();
+ if(!input){status("ใส่ข้อมูลในช่อง “"+m.srcLabel+"” ก่อน",true);$("#src").focus();return}
+ copyText(m.build(input));status("คัดลอกคำสั่งแล้ว นำไปวางใน AI ที่ใช้ แล้วนำคำตอบกลับมาวางในช่องด้านล่าง");
+});
+$("#pasteBtn").addEventListener("click",fromPaste);
+$("#runBtn").addEventListener("click",runClaude);
+$("#stopBtn").addEventListener("click",()=>ctl?.abort());
+$("#themeBtn").addEventListener("click",()=>{
+ const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+ r.dataset.theme=dark?"light":"dark";try{localStorage.setItem("tfac-theme",r.dataset.theme)}catch(e){}
+});
+try{const th=localStorage.getItem("tfac-theme");if(th)document.documentElement.dataset.theme=th}catch(e){}
+
+/* ---------- init ---------- */
+renderChips();renderCards();renderModes();
+(async()=>{
+ if(!window.claude?.use)return;
+ try{
+  const [s,d]=await Promise.all([claude.use("sample"),claude.use("downloads")]);
+  sample=s;downloads=d;
+  if(sample)$("#routeClaude").hidden=false;
+  if(downloads)document.querySelectorAll('[data-needs="dl"]').forEach(b=>b.hidden=false);
+ }catch(e){}
+})();
+</script>
+</body>
+</html>
