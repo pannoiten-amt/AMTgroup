@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://pannoiten-amt.github.io/AMTgroup/sitemap.xml
