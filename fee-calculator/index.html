@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>เครื่องมือคำนวณราคาขั้นต่ำ | งานทำบัญชี</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
+  :root{
+    --ink:#16233B; --ink-soft:#5A6576; --paper:#F4F5F7; --panel:#FFFFFF; --line:#DDE1E7;
+    --safe:#1F6E4D; --safe-bg:#E7F2EC; --warn:#A15A12; --warn-bg:#FBEEDE;
+    --danger:#9C2B26; --danger-bg:#F8E7E5; --accent:#1B3A6B;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans Thai',sans-serif;}
+  .wrap{max-width:860px;margin:0 auto;padding:32px 20px 60px;}
+  header .kicker{font-size:12.5px;color:var(--ink-soft);margin-bottom:4px;}
+  header h1{font-family:'Noto Serif Thai',serif;font-weight:700;font-size:24px;margin:0 0 8px;}
+  header p{font-size:14px;line-height:1.6;color:var(--ink-soft);margin:0 0 16px;max-width:620px;}
+
+  .tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:0;}
+  .tabbtn{appearance:none;border:none;background:none;padding:10px 16px;font-family:inherit;font-size:14px;
+    font-weight:600;color:var(--ink-soft);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;}
+  .tabbtn.active{color:var(--accent);border-bottom-color:var(--accent);}
+  .tabbtn:hover{color:var(--ink);}
+
+  .panel{display:none;}
+  .panel.active{display:block;}
+
+  .legalnote{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:12px 14px;font-size:12.5px;line-height:1.6;color:var(--ink-soft);margin-top:18px;}
+  .legalnote b{color:var(--ink);}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:20px 22px;margin-top:20px;}
+  .card h2{font-family:'Noto Serif Thai',serif;font-size:17px;margin:0 0 4px;}
+  .card .cardsub{font-size:12.5px;color:var(--ink-soft);margin:0 0 14px;}
+
+  .fieldrow{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center;margin-bottom:10px;}
+  .fieldrow label{font-size:13.5px;color:var(--ink-soft);}
+  .fieldrow input[type=number]{width:100%;padding:8px 9px;border:1px solid var(--line);border-radius:4px;font-size:15px;font-family:inherit;text-align:right;background:#FCFCFD;}
+  .fieldrow input[type=number]:focus{outline:2px solid var(--accent);outline-offset:1px;}
+  .fieldrow.sub input{background:#FAFAFB;}
+  .fieldrow.sub label{padding-left:10px;color:var(--ink-soft);font-size:13px;}
+
+  .rangefield{margin:14px 0 12px;}
+  .rangefield label{display:flex;justify-content:space-between;font-size:13.5px;color:var(--ink-soft);margin-bottom:4px;}
+  .rangefield input[type=range]{width:100%;accent-color:var(--accent);}
+  .hint{font-size:12px;color:var(--ink-soft);margin-top:-4px;margin-bottom:12px;}
+  .divider{height:1px;background:var(--line);margin:16px 0;}
+
+  .subtotal{display:flex;justify-content:space-between;font-size:13.5px;font-weight:600;color:var(--ink);
+    padding:8px 0 4px;border-top:1px dashed var(--line);margin-top:4px;}
+
+  .bigresult{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;}
+  .bigresult .lbl{font-size:13.5px;color:var(--ink-soft);}
+  .bigresult .num{font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--accent);}
+  .bigresult .num small{font-family:'IBM Plex Sans Thai',sans-serif;font-size:13px;font-weight:500;color:var(--ink-soft);}
+
+  table.ref{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:6px;}
+  table.ref th,table.ref td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line);color:var(--ink-soft);vertical-align:top;}
+  table.ref th{color:var(--ink);font-weight:600;}
+  tr.activerow td{color:var(--ink);font-weight:600;background:var(--paper);}
+  table.ref .col-h{white-space:nowrap;font-weight:600;color:var(--ink);}
+
+  .verdict{margin-top:14px;padding:14px 16px;border-radius:6px;font-size:14px;line-height:1.6;}
+  .verdict.safe{background:var(--safe-bg);color:var(--safe);border:1px solid #BFE0CE;}
+  .verdict.warn{background:var(--warn-bg);color:var(--warn);border:1px solid #EAD2AE;}
+  .verdict.danger{background:var(--danger-bg);color:var(--danger);border:1px solid #E9C4C1;}
+  .verdict .vt{font-weight:700;margin-bottom:3px;}
+  .verdict .cite{display:block;margin-top:6px;font-size:12px;opacity:.85;}
+
+  footer{margin-top:26px;font-size:12px;color:var(--ink-soft);line-height:1.7;border-top:1px solid var(--line);padding-top:14px;}
+
+  /* Guide panel styles */
+  .guide h2{font-family:'Noto Serif Thai',serif;font-size:18px;margin:0 0 8px;color:var(--ink);}
+  .guide h3{font-size:14.5px;margin:0 0 6px;color:var(--ink);}
+  .guide p, .guide li{font-size:13.5px;line-height:1.75;color:var(--ink-soft);}
+  .guide ol, .guide ul{margin:6px 0 0;padding-left:20px;}
+  .guide .step{display:flex;gap:12px;margin-bottom:14px;}
+  .guide .stepnum{flex:0 0 26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+  .guide .stepbody{flex:1;}
+  .guide .stepbody b{color:var(--ink);}
+  .colorkey{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px;}
+  .colorkey span{font-size:12.5px;padding:6px 10px;border-radius:4px;font-weight:600;}
+  .colorkey .k-safe{background:var(--safe-bg);color:var(--safe);}
+  .colorkey .k-warn{background:var(--warn-bg);color:var(--warn);}
+  .colorkey .k-danger{background:var(--danger-bg);color:var(--danger);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kicker">คณะกรรมการวิชาชีพบัญชีด้านการทำบัญชี · สภาวิชาชีพบัญชี</div>
+    <h1>เครื่องมือคำนวณราคาขั้นต่ำงานทำบัญชี</h1>
+    <p>ใช้ค่าแรงขั้นต่ำตามกฎหมายเป็นฐานต้นทุนแรงงาน บวกส่วนแบ่งโสหุ้ยต่อลูกค้า เพื่อหาราคาขั้นต่ำที่ไม่ขาดทุนก่อนเสนอราคา</p>
+
+    <div class="tabs">
+      <button class="tabbtn active" data-tab="calc">เครื่องมือคำนวณ</button>
+      <button class="tabbtn" data-tab="guide">คู่มือการใช้งาน</button>
+    </div>
+  </header>
+
+  <!-- ================= CALCULATOR PANEL ================= -->
+  <div class="panel active" id="panel-calc">
+
+    <div class="legalnote">
+      คำนวณจาก<b>ต้นทุนของผู้ใช้งานเอง</b> ไม่อ้างอิงราคาตลาดหรือราคาคู่แข่ง จึงไม่เข้าข่ายการตกลงราคาร่วมกันตามมาตรา 54(1) แห่ง พ.ร.บ.การแข่งขันทางการค้า พ.ศ. 2560 และสอดคล้องหมวด 330.3 A2 ของจรรยาบรรณวิชาชีพบัญชี
+    </div>
+
+    <div class="card">
+      <h2>1. ต้นทุนแรงงาน — ตามระดับผู้ปฏิบัติงาน</h2>
+      <div class="cardsub">ฐานเงินเดือนขั้นต่ำ = ระดับ Junior จากนั้นคูณเพื่อประมาณต้นทุน Senior/Manager แล้วถัวเฉลี่ยตาม % สัดส่วนเวลาที่แต่ละระดับลงมือทำงานจริงในจ็อบนี้</div>
+
+      <div class="fieldrow">
+        <label>เงินเดือนขั้นต่ำ (ฐาน Junior)</label>
+        <input type="number" id="wage" value="15000" step="500">
+      </div>
+      <div class="hint">บาท/เดือน — ใกล้เคียงงานที่มีทักษะเฉพาะทางมากกว่าค่าแรงขั้นต่ำรายวันทั่วไป เหมาะกับงานวิชาชีพบัญชีที่ต้องมีคุณวุฒิและขึ้นทะเบียน</div>
+
+      <div class="fieldrow">
+        <label>จำนวนวันทำงาน/เดือน</label>
+        <input type="number" id="workdays" value="20" step="1">
+      </div>
+      <div class="fieldrow">
+        <label>ชั่วโมงทำงาน/วัน</label>
+        <input type="number" id="hoursday" value="8" step="1">
+      </div>
+      <div class="hint">แปลงเป็นอัตรา/ชม. = เงินเดือน ÷ จำนวนวันทำงาน ÷ ชั่วโมงทำงาน/วัน = <b><span id="rateJuniorHint">-</span></b> บาท/ชม.</div>
+
+      <table class="ref" id="tierTable">
+        <tr><th>ระดับ</th><th>ตัวคูณจากฐาน</th><th>บาท/ชม.</th><th>% เวลาที่ลงงานนี้</th></tr>
+        <tr>
+          <td>Junior</td>
+          <td><input type="number" id="multJunior" value="1" step="0.1" disabled style="width:60px;text-align:right;background:#F0F1F3;border:1px solid var(--line);border-radius:4px;padding:4px 6px;"></td>
+          <td><b id="rateJunior">-</b></td>
+          <td><input type="range" id="pctJunior" min="0" max="100" value="100" step="5"> <span id="pctJuniorVal">100%</span></td>
+        </tr>
+        <tr>
+          <td>Senior</td>
+          <td><input type="number" id="multSenior" value="2" step="0.1" style="width:60px;text-align:right;"></td>
+          <td><b id="rateSenior">-</b></td>
+          <td><input type="range" id="pctSenior" min="0" max="100" value="0" step="5"> <span id="pctSeniorVal">0%</span></td>
+        </tr>
+        <tr>
+          <td>Manager</td>
+          <td><input type="number" id="multManager" value="3" step="0.1" style="width:60px;text-align:right;"></td>
+          <td><b id="rateManager">-</b></td>
+          <td><input type="range" id="pctManager" min="0" max="100" value="0" step="5"> <span id="pctManagerVal">0%</span></td>
+        </tr>
+      </table>
+      <div class="hint">ปรับ % แล้วอีกสองระดับจะขยับชดเชยอัตโนมัติให้รวมเท่ากับ 100% เสมอ — ตัวอย่าง: จ็อบพื้นฐานทั่วไปมักเป็น Junior 100% ส่วนจ็อบที่ต้องมีหัวหน้าตรวจทาน/ผู้จัดการดูแล ให้ปรับสัดส่วน Senior/Manager ตามจริง</div>
+
+      <div class="subtotal"><span>อัตราค่าแรงถัวเฉลี่ย (Blended Rate)</span><span id="blendedRate">-</span></div>
+    </div>
+
+    <div class="card">
+      <h2>2. โสหุ้ยการผลิต (ต่อเดือน)</h2>
+      <div class="cardsub">แจกแจงต้นทุนคงที่รายเดือน แล้วเฉลี่ยตามจำนวนลูกค้าที่รับผิดชอบ</div>
+
+      <div class="fieldrow sub"><label>ค่าเช่า/พื้นที่ทำงาน</label><input type="number" class="ov" id="ov1" value="4000" step="100"></div>
+      <div class="fieldrow sub"><label>ซอฟต์แวร์บัญชี + ระบบยื่นภาษีออนไลน์</label><input type="number" class="ov" id="ov2" value="2500" step="100"></div>
+      <div class="fieldrow sub"><label>ค่าประกันวิชาชีพ (เฉลี่ยจากรายปี)</label><input type="number" class="ov" id="ov3" value="1000" step="100"></div>
+      <div class="fieldrow sub"><label>ค่าพัฒนาความรู้ต่อเนื่อง CPD (เฉลี่ย)</label><input type="number" class="ov" id="ov4" value="500" step="100"></div>
+      <div class="fieldrow sub"><label>สาธารณูปโภค/อินเทอร์เน็ต/โทรศัพท์</label><input type="number" class="ov" id="ov5" value="2000" step="100"></div>
+      <div class="fieldrow sub"><label>ค่าเดินทางพบลูกค้า/รับ-ส่งเอกสาร</label><input type="number" class="ov" id="ov6" value="1500" step="100"></div>
+      <div class="fieldrow sub"><label>สำรองความเสี่ยง/เบ็ดเตล็ด</label><input type="number" class="ov" id="ov7" value="3500" step="100"></div>
+
+      <div class="subtotal"><span>รวมโสหุ้ย/เดือน</span><span id="ovTotal">-</span></div>
+
+      <div class="divider"></div>
+      <div class="fieldrow">
+        <label>จำนวนลูกค้าที่รับผิดชอบต่อเดือน</label>
+        <input type="number" id="clients" value="8" step="1">
+      </div>
+      <div class="hint">โสหุ้ยถูกเฉลี่ยเท่า ๆ กันตามจำนวนลูกค้า → ส่วนแบ่ง/ราย = <b><span id="ovPerClient">-</span></b> บาท/เดือน</div>
+
+      <div class="rangefield">
+        <label><span>กำไรขั้นต่ำที่ต้องการ</span><span id="marginval">20%</span></label>
+        <input type="range" id="margin" min="0" max="60" value="20" step="5">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>3. ชั่วโมงทำงานตามปริมาณ/ความยากง่ายของงาน</h2>
+      <div class="cardsub">ชั่วโมง = งานประจำที่ต้องทำทุกเดือน (ปิดงบ/ยื่นภาษี) + เวลาบันทึก-ตรวจสอบตามจำนวนรายการเอกสาร</div>
+      <table class="ref" id="refTable">
+        <tr><th>ขนาดกิจการลูกค้า</th><th>ที่มาของชั่วโมง</th><th class="col-h">รวม</th></tr>
+        <tr data-h="4"><td>เล็ก<br><span style="font-weight:400">≤50 รายการ/เดือน ไม่มี VAT</span></td>
+          <td>งานประจำ (ปิดงบ+ยื่นภาษีเบื้องต้น) 2 ชม. + บันทึกข้อมูล ~50 รายการ (2.4 นาที/รายการ) ≈ 2 ชม.</td>
+          <td class="col-h">4 ชม.</td></tr>
+        <tr data-h="8"><td>กลาง<br><span style="font-weight:400">50–200 รายการ/เดือน มี VAT+ประกันสังคม</span></td>
+          <td>งานประจำ (ปิดงบ+ยื่น VAT+ประกันสังคม) 4 ชม. + บันทึกข้อมูล ~150 รายการ (1.6 นาที/รายการ) ≈ 4 ชม.</td>
+          <td class="col-h">8 ชม.</td></tr>
+        <tr data-h="12"><td>ใหญ่/ซับซ้อน<br><span style="font-weight:400">>200 รายการ มี VAT/WHT/สต็อก</span></td>
+          <td>งานประจำ (ปิดงบ+ยื่นภาษีหลายประเภท) 6 ชม. + บันทึกข้อมูล ~300 รายการ (1.2 นาที/รายการ) ≈ 6 ชม. — ปรับเพิ่มได้ถึง 16 ชม. ตามปริมาณจริง</td>
+          <td class="col-h">12–16 ชม.</td></tr>
+      </table>
+      <div class="hint">คลิกแถวเพื่อดึงชั่วโมงมาใส่ในช่องด้านล่างอัตโนมัติ — หากปริมาณเอกสารจริงมากกว่านี้ ควรปรับชั่วโมงเพิ่มตามสัดส่วน ไม่ควรตรึงชั่วโมงต่ำไว้เพื่อกดราคา</div>
+
+      <div class="fieldrow">
+        <label>ชั่วโมงที่จะใช้ทำงานให้ลูกค้ารายนี้</label>
+        <input type="number" id="hoursjob" value="4" step="1">
+      </div>
+      <div class="fieldrow">
+        <label>ราคาที่กำลังจะเสนอลูกค้า</label>
+        <input type="number" id="proposed" value="2500" step="100">
+      </div>
+
+      <div class="divider"></div>
+      <div class="bigresult"><span class="lbl">จุดคุ้มทุนของงานนี้</span><span class="num"><span id="breakevenFee">-</span> <small>บาท/เดือน</small></span></div>
+      <div class="bigresult"><span class="lbl">ราคาขั้นต่ำแนะนำ</span><span class="num"><span id="minFee">-</span> <small>บาท/เดือน</small></span></div>
+
+      <div class="verdict" id="verdictBox">
+        <div class="vt" id="verdictTitle">-</div>
+        <div id="verdictBody">กรอกข้อมูลเพื่อเริ่มคำนวณ</div>
+      </div>
+    </div>
+
+    <footer>
+      อ้างอิง: จรรยาบรรณวิชาชีพบัญชี หมวด 330 (330.3 A1–A4) · พ.ร.บ.การแข่งขันทางการค้า พ.ศ. 2560 มาตรา 54(1) · ประกาศคณะกรรมการค่าจ้าง (ฉบับที่ 14)<br>
+      เป็นเกณฑ์คำนวณภายในของผู้ใช้งานแต่ละราย มิใช่ราคากลางของวิชาชีพ และมิใช่คำแนะนำทางกฎหมายที่มีผลผูกพัน
+    </footer>
+  </div>
+
+  <!-- ================= GUIDE PANEL ================= -->
+  <div class="panel guide" id="panel-guide">
+
+    <div class="card">
+      <h2>วัตถุประสงค์</h2>
+      <p>เครื่องมือนี้ช่วยให้ผู้ทำบัญชีคำนวณ "ราคาขั้นต่ำ" ของงานแต่ละรายจากต้นทุนจริงของตนเอง เพื่อป้องกันการเสนอราคาต่ำจนกระทบคุณภาพงานตามมาตรฐานวิชาชีพ (Lowballing) โดยไม่ใช่การกำหนดราคากลางร่วมกันของวิชาชีพ ซึ่งจะขัดต่อกฎหมายการแข่งขันทางการค้า</p>
+    </div>
+
+    <div class="card">
+      <h2>หลักการที่อ้างอิง</h2>
+      <ul>
+        <li><b>หมวด 330.3 A2</b> — เสนอราคาต่ำกว่าผู้ประกอบวิชาชีพรายอื่นไม่ผิดจรรยาบรรณ แต่ถ้าต่ำจนยากจะปฏิบัติงานตามมาตรฐาน จะเกิดอุปสรรคจากผลประโยชน์ส่วนตนต่อหลักความรู้ความสามารถและความเอาใจใส่ทางวิชาชีพ</li>
+        <li><b>มาตรา 54(1) พ.ร.บ.การแข่งขันทางการค้า พ.ศ. 2560</b> — ห้ามผู้ประกอบธุรกิจตกลงร่วมกันกำหนดราคาสินค้า/บริการ เครื่องมือนี้จึงใช้ต้นทุนของแต่ละคน ไม่ใช่ราคากลาง</li>
+        <li><b>ประกาศคณะกรรมการค่าจ้าง (ฉบับที่ 14)</b> — ใช้เป็นฐานอ้างอิงต้นทุนแรงงานขั้นต่ำตามกฎหมาย</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>วิธีใช้งานทีละขั้นตอน</h2>
+
+      <div class="step">
+        <div class="stepnum">1</div>
+        <div class="stepbody"><b>ต้นทุนแรงงาน</b> — ใส่เงินเดือนขั้นต่ำที่ใช้เป็นฐาน Junior (ค่าเริ่มต้น 15,000 บาท/เดือน สะท้อนงานที่มีทักษะเฉพาะทางมากกว่าค่าแรงขั้นต่ำรายวันทั่วไป) พร้อมจำนวนวันทำงาน/เดือนและชั่วโมงทำงาน/วัน ระบบจะแปลงเป็นอัตรารายชั่วโมงให้อัตโนมัติ จากนั้นระบุตัวคูณของ Senior/Manager (ค่าเริ่มต้น 2 เท่า และ 3 เท่า ปรับได้ตามโครงสร้างเงินเดือนจริง) แล้วกำหนด % สัดส่วนเวลาที่แต่ละระดับลงมือทำงานจ็อบนี้ (ปรับตัวหนึ่ง อีกสองตัวจะขยับชดเชยให้รวม 100% เสมอ) ระบบจะคำนวณ "อัตราค่าแรงถัวเฉลี่ย" ให้อัตโนมัติ — งานพื้นฐานทั่วไปมักตั้ง Junior 100% ส่วนงานที่ต้องมีหัวหน้าตรวจทานให้ปรับสัดส่วน Senior/Manager เพิ่มตามจริง</div>
+      </div>
+
+      <div class="step">
+        <div class="stepnum">2</div>
+        <div class="stepbody"><b>โสหุ้ยการผลิต</b> — ปรับตัวเลขแต่ละรายการ (ค่าเช่า ซอฟต์แวร์ ประกันวิชาชีพ CPD ฯลฯ) ให้ตรงกับต้นทุนจริงของสำนักงาน ระบบจะรวมยอดและเฉลี่ยตาม "จำนวนลูกค้าที่รับผิดชอบต่อเดือน" ที่กรอกไว้ ยิ่งรับลูกค้ามาก ส่วนแบ่งต้นทุนต่อรายยิ่งลดลง</div>
+      </div>
+
+      <div class="step">
+        <div class="stepnum">3</div>
+        <div class="stepbody"><b>กำไรขั้นต่ำ</b> — เลื่อนเปอร์เซ็นต์กำไรที่ต้องการเผื่อความเสี่ยงและการเติบโตของกิจการ</div>
+      </div>
+
+      <div class="step">
+        <div class="stepnum">4</div>
+        <div class="stepbody"><b>ชั่วโมงทำงาน</b> — ดูตารางที่มาของชั่วโมงตามขนาดกิจการ คลิกแถวที่ตรงกับลูกค้ารายนี้เพื่อดึงชั่วโมงมาใส่อัตโนมัติ หากปริมาณเอกสารจริงมากกว่าเกณฑ์ในตาราง ให้ปรับชั่วโมงเพิ่มขึ้นตามสัดส่วน เพื่อไม่ให้ชั่วโมงต่ำจนกระทบคุณภาพงาน</div>
+      </div>
+
+      <div class="step">
+        <div class="stepnum">5</div>
+        <div class="stepbody"><b>ราคาที่จะเสนอ</b> — ใส่ราคาที่กำลังพิจารณาเสนอลูกค้า ระบบจะเทียบกับจุดคุ้มทุนและราคาขั้นต่ำที่แนะนำทันที</div>
+      </div>
+
+      <div class="step">
+        <div class="stepnum">6</div>
+        <div class="stepbody"><b>แจ้งเกณฑ์ค่าธรรมเนียมให้ลูกค้ารับทราบ</b> — ก่อนตกลงราคา ควรแจ้งลูกค้าให้ทราบถึงเกณฑ์ที่ใช้กำหนดค่าธรรมเนียมและขอบเขตของบริการที่ค่าธรรมเนียมนั้นครอบคลุม (เช่น จำนวนชั่วโมง/รายการเอกสารที่รวมอยู่ในราคา) เพื่อความโปร่งใสและลดอุปสรรคจากผลประโยชน์ส่วนตนตามหมวด 330.3 A3</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>การตีความผลลัพธ์</h2>
+      <p>กล่องสรุปด้านล่างผลลัพธ์จะแสดงสีตามสถานะราคา:</p>
+      <div class="colorkey">
+        <span class="k-danger">แดง — ต่ำกว่าจุดคุ้มทุน ไม่ควรเสนอ</span>
+        <span class="k-warn">เหลือง — คุ้มทุนแต่กำไรต่ำกว่าเป้า</span>
+        <span class="k-safe">เขียว — ปลอดภัย เสนอได้</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>ข้อควรระวัง</h2>
+      <ul>
+        <li>ตัวเลขทั้งหมดเป็น<b>ค่าเริ่มต้นโดยประมาณ</b> ต้องปรับให้ตรงกับต้นทุนจริงของแต่ละสำนักงานก่อนใช้งานจริง</li>
+        <li>ผลลัพธ์เป็น<b>เกณฑ์แนะนำส่วนบุคคล</b>ของผู้ใช้งานแต่ละราย <b>ไม่ใช่ข้อบังคับหรือราคากลางของวิชาชีพ</b> — ห้ามนำไปเผยแพร่หรือสื่อสารในลักษณะที่ให้สมาชิกทุกคนต้องใช้ราคาเดียวกัน เพราะอาจเข้าข่ายการสร้างแรงกดดันต่อผู้ประกอบวิชาชีพบัญชีรายอื่นให้เสนอราคาในระดับหนึ่ง ซึ่งเป็นตัวอย่างอุปสรรคต้องห้ามตามหมวด 270.3 A2</li>
+        <li>เครื่องมือนี้ไม่ใช่คำแนะนำทางกฎหมายหรือบัญชีที่มีผลผูกพัน</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function num(id){ const v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
+function round50(n){ return Math.round(n/50)*50; }
+function fmt(n){ return n.toLocaleString('th-TH', {maximumFractionDigits:0}); }
+
+// --- linked tier-percentage sliders (always sum to 100) ---
+const tierIds = ['pctJunior','pctSenior','pctManager'];
+let tierBalancing = false;
+function balanceTiers(changedId){
+  if (tierBalancing) return;
+  tierBalancing = true;
+  const others = tierIds.filter(id => id !== changedId);
+  const changedVal = num(changedId);
+  const remaining = 100 - changedVal;
+  const o1 = num(others[0]), o2 = num(others[1]);
+  const otherSum = o1 + o2;
+  let n1, n2;
+  if (otherSum <= 0) {
+    n1 = remaining / 2; n2 = remaining / 2;
+  } else {
+    n1 = remaining * (o1 / otherSum);
+    n2 = remaining * (o2 / otherSum);
+  }
+  document.getElementById(others[0]).value = Math.round(n1);
+  document.getElementById(others[1]).value = Math.round(n2);
+  // rounding fix so total is exactly 100
+  const total = changedVal + Math.round(n1) + Math.round(n2);
+  if (total !== 100) {
+    const fixId = others[Math.round(n1) >= Math.round(n2) ? 0 : 1];
+    document.getElementById(fixId).value = num(fixId) + (100 - total);
+  }
+  tierBalancing = false;
+}
+tierIds.forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    balanceTiers(id);
+    calculate();
+  });
+});
+
+function calculate(){
+  const ovIds = ['ov1','ov2','ov3','ov4','ov5','ov6','ov7'];
+  const overheadTotal = ovIds.reduce((s,id)=> s + num(id), 0);
+  document.getElementById('ovTotal').textContent = fmt(overheadTotal) + ' บาท';
+
+  const clients = Math.max(num('clients'), 1);
+  const overheadPerClient = overheadTotal / clients;
+  document.getElementById('ovPerClient').textContent = fmt(overheadPerClient);
+
+  const marginPct = num('margin');
+  document.getElementById('marginval').textContent = marginPct + '%';
+
+  // blended labor rate across Junior / Senior / Manager
+  const monthlySalary = num('wage');
+  const workdays = Math.max(num('workdays'), 1);
+  const hoursday = Math.max(num('hoursday'), 1);
+  const wageHourJunior = monthlySalary / workdays / hoursday;
+  document.getElementById('rateJuniorHint').textContent = fmt(Math.round(wageHourJunior));
+  const multSenior = num('multSenior');
+  const multManager = num('multManager');
+  const rateJunior = wageHourJunior;
+  const rateSenior = wageHourJunior * multSenior;
+  const rateManager = wageHourJunior * multManager;
+
+  const pJunior = num('pctJunior'), pSenior = num('pctSenior'), pManager = num('pctManager');
+  document.getElementById('pctJuniorVal').textContent = pJunior + '%';
+  document.getElementById('pctSeniorVal').textContent = pSenior + '%';
+  document.getElementById('pctManagerVal').textContent = pManager + '%';
+
+  document.getElementById('rateJunior').textContent = fmt(Math.round(rateJunior));
+  document.getElementById('rateSenior').textContent = fmt(Math.round(rateSenior));
+  document.getElementById('rateManager').textContent = fmt(Math.round(rateManager));
+
+  const blendedRate = (rateJunior*pJunior + rateSenior*pSenior + rateManager*pManager) / 100;
+  document.getElementById('blendedRate').textContent = fmt(Math.round(blendedRate)) + ' บาท/ชม.';
+
+  const hoursJob = Math.max(num('hoursjob'), 0);
+  const proposed = num('proposed');
+
+  const laborCost = blendedRate * hoursJob;
+  const costPerClient = laborCost + overheadPerClient;
+
+  const breakevenFee = round50(costPerClient);
+  const minFee = round50(costPerClient * (1 + marginPct/100));
+
+  document.getElementById('breakevenFee').textContent = fmt(breakevenFee);
+  document.getElementById('minFee').textContent = fmt(minFee);
+
+  document.querySelectorAll('#refTable tr[data-h]').forEach(tr=>{
+    tr.classList.toggle('activerow', parseInt(tr.dataset.h,10) === Math.round(hoursJob));
+  });
+
+  const box = document.getElementById('verdictBox');
+  const title = document.getElementById('verdictTitle');
+  const body = document.getElementById('verdictBody');
+  box.className = 'verdict';
+
+  if (proposed < breakevenFee) {
+    box.classList.add('danger');
+    title.textContent = 'ต่ำกว่าจุดคุ้มทุน — ไม่ควรเสนอราคานี้';
+    body.innerHTML = 'ราคานี้ต่ำกว่าต้นทุนจริง อาจกระทบคุณภาพงานตามมาตรฐานวิชาชีพ' +
+      '<span class="cite">อ้างอิง 330.3 A2 — ค่าธรรมเนียมต่ำจนยากจะปฏิบัติงานตามมาตรฐาน ก่อให้เกิดอุปสรรคจากผลประโยชน์ส่วนตน</span>';
+  } else if (proposed < minFee) {
+    box.classList.add('warn');
+    title.textContent = 'สูงกว่าจุดคุ้มทุน แต่ต่ำกว่าเป้ากำไร';
+    body.textContent = 'ยังไม่ขาดทุน แต่กำไรต่ำกว่าเป้าที่ตั้งไว้ ควรพิจารณาขอบเขตงานหรือมาตรการป้องกันเพิ่มเติม';
+  } else {
+    box.classList.add('safe');
+    title.textContent = 'ราคาปลอดภัย';
+    body.textContent = 'ราคาครอบคลุมต้นทุนและกำไรเป้าหมายแล้ว เสนอราคานี้ได้';
+  }
+}
+
+document.querySelectorAll('#refTable tr[data-h]').forEach(tr=>{
+  tr.style.cursor='pointer';
+  tr.addEventListener('click', ()=>{
+    document.getElementById('hoursjob').value = tr.dataset.h;
+    calculate();
+  });
+});
+
+document.querySelectorAll('.tabbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+document.querySelectorAll('input').forEach(el => el.addEventListener('input', calculate));
+calculate();
+</script>
+</body>
+</html>
