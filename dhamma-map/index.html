@@ -210,6 +210,14 @@ h1{font-family:'Srisakdi',cursive;font-weight:700;font-size:clamp(2rem,5vw,3.1re
 .zoom-modal-header button{background:var(--gold);color:#1a1a2e;border:none;border-radius:8px;padding:8px 14px;font-family:'Sarabun';font-weight:600;cursor:pointer;flex-shrink:0}
 .zoom-modal-content{flex:1;overflow:auto;touch-action:pinch-zoom pan-x pan-y;-webkit-overflow-scrolling:touch;padding:20px;display:flex;align-items:flex-start;justify-content:center}
 .zoom-modal-content svg{width:200%;max-width:900px;height:auto;display:block}
+.qa-modal{display:none;position:fixed;inset:0;z-index:1000;background:var(--bg);flex-direction:column}
+.qa-modal.show{display:flex}
+.qa-modal-header{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-shrink:0}
+.qa-modal-header .qa-back{background:var(--gold);color:#1a1405;border:none;border-radius:8px;padding:9px 12px;font-family:'Sarabun';font-weight:700;font-size:.84rem;cursor:pointer;flex-shrink:0}
+.qa-modal-header .qa-ext{background:none;border:1px solid var(--line);color:var(--ivory);border-radius:8px;padding:8px 10px;font-family:'Sarabun';font-size:.78rem;cursor:pointer;flex-shrink:0}
+.qa-modal-title{flex:1;min-width:0;font-size:.8rem;color:var(--gold-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qa-modal-hint{padding:5px 12px;font-size:.7rem;color:var(--dim);background:var(--panel2);flex-shrink:0}
+.qa-frame{flex:1;width:100%;border:0;background:#1b1a17}
 .v1-line{font-size:.82rem;color:#c9cde4;background:var(--panel2);border-radius:8px;padding:8px 12px;margin-bottom:12px}
 .v2-details summary.visuddhi-title{cursor:pointer;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
 .v2-details summary::-webkit-details-marker{display:none}
@@ -386,6 +394,15 @@ footer a{color:var(--indigo-soft)}
     <button id="zoomModalClose">✕ ปิด</button>
   </div>
   <div id="zoomModalContent" class="zoom-modal-content"></div>
+</div>
+<div id="qaViewModal" class="qa-modal" role="dialog" aria-label="ถาม-ตอบ AT">
+  <div class="qa-modal-header">
+    <button class="qa-back" id="qaBack">← กลับแผนที่</button>
+    <span class="qa-modal-title" id="qaViewTitle">ถาม-ตอบ AT</span>
+    <button class="qa-ext" id="qaExt">↗ เปิดในเบราว์เซอร์</button>
+  </div>
+  <div class="qa-modal-hint">คำตอบ AT จากคลังต้นฉบับ · ถ้าหน้าว่างหรือไม่โหลด กด "↗ เปิดในเบราว์เซอร์"</div>
+  <div id="qaFrameBox" style="flex:1;display:flex;min-height:0"></div>
 </div>
 <div id="scanModal">
   <div class="modal-panel">
@@ -1007,7 +1024,7 @@ footer a{color:var(--indigo-soft)}
 
     <details class="v2-details" id="qaATCard" style="border-left-color:#8bb4e0;margin-top:14px">
       <summary class="visuddhi-title" style="cursor:pointer">🔎 ถาม-ตอบ AT <span class="v2-hint">— ลิงก์ไปคลังต้นฉบับ แตะเพื่อย่อ/ขยาย</span></summary>
-      <div class="v12-note" style="margin-top:10px;border-left-color:#8bb4e0">🗣 <b>คำตอบ AT</b> — เป็นคำตอบของอาจารย์ผู้ช่วย (AT) ในแนวทาง อ.โกเอ็นก้า ไม่ใช่ถ้อยคำ อ.โกเอ็นก้าโดยตรง และไม่ใช่พระสูตร ไฟล์นี้เก็บเฉพาะลิงก์ไปคลัง "ธรรมมรรคา" (dhammamagga.pages.dev) ไม่ได้คัดลอกเนื้อหามา — ลิงก์เปิดในแท็บใหม่ และอาจเปลี่ยนตามเว็บต้นทาง</div>
+      <div class="v12-note" style="margin-top:10px;border-left-color:#8bb4e0">🗣 <b>คำตอบ AT</b> — เป็นคำตอบของอาจารย์ผู้ช่วย (AT) ในแนวทาง อ.โกเอ็นก้า ไม่ใช่ถ้อยคำ อ.โกเอ็นก้าโดยตรง และไม่ใช่พระสูตร ไฟล์นี้เก็บเฉพาะลิงก์ไปคลัง "ธรรมมรรคา" (dhammamagga.pages.dev) ไม่ได้คัดลอกเนื้อหามา — ลิงก์เปิดซ้อนในแผนที่ มีปุ่ม "← กลับแผนที่" (ปุ่มย้อนกลับของมือถือก็ปิดหน้าซ้อนได้) และอาจเปลี่ยนตามเว็บต้นทาง</div>
 
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">ค้นคำถาม</div>
       <div style="display:flex;gap:8px;margin-top:6px">
@@ -1022,26 +1039,26 @@ footer a{color:var(--indigo-soft)}
 
       <div class="v12-note" style="margin-top:14px;border-left-color:#e8c93a">⚠️ <b>เรื่องที่โยงกับแผนที่ของเรา</b> — จับคู่จากชื่อเรื่อง ยังไม่ได้อ่านเต็มทุกเรื่อง (เรื่อง 004 อ่านเต็มแล้ว) ควรอ่านต้นฉบับก่อนนำไปอ้างอิง</div>
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">วิญญาณ · สังขาร · ภวังค์</div>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/004/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>004</b> · วิญญาณคืออะไร? (วิญญาณ ในขันธ์ 5)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เทียบกับ "วิญญาณ 3 มุม"</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/050/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>050</b> · สังขารในการปฏิบัติ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เทียบกับ "สังขาร 3 ความหมาย"</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/182/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>182</b> · สังขาร กรรม วิบาก กิเลส<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: สังขารเก่า · กรรมวัฏฏ์</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/144/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>144</b> · ภวังคจิต<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: โหนด "ภวังคจิต" · จิตไร้สำนึก</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/004/" target="_blank" rel="noopener noreferrer" data-title="004 · วิญญาณคืออะไร? (วิญญาณ ในขันธ์ 5)" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>004</b> · วิญญาณคืออะไร? (วิญญาณ ในขันธ์ 5)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เทียบกับ "วิญญาณ 3 มุม"</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/050/" target="_blank" rel="noopener noreferrer" data-title="050 · สังขารในการปฏิบัติ" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>050</b> · สังขารในการปฏิบัติ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เทียบกับ "สังขาร 3 ความหมาย"</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/182/" target="_blank" rel="noopener noreferrer" data-title="182 · สังขาร กรรม วิบาก กิเลส" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>182</b> · สังขาร กรรม วิบาก กิเลส<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: สังขารเก่า · กรรมวัฏฏ์</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/144/" target="_blank" rel="noopener noreferrer" data-title="144 · ภวังคจิต" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>144</b> · ภวังคจิต<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: โหนด "ภวังคจิต" · จิตไร้สำนึก</small></a>
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">ความตาย · ภพภูมิ · กรรม</div>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/059/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>059</b> · ตายแล้วต้องเกิดทันที<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: จุติ → ปฏิสนธิ (Workflow 3)</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/025/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>025</b> · กรรมที่ให้ผลนำไปเกิด<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: มรณาสันนวิถี · ภวสังขาร</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/178/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>178</b> · ความเข้าใจเกี่ยวกับ ผี วิญญาณ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: 31 ภพภูมิ</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/196/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>196</b> · หากทุกอย่างเป็นอนัตตาแล้ว...ใครเป็นผู้ทำกรรมและรับผลแห่งกรรม<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ไตรลักษณ์ · กรรม</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/059/" target="_blank" rel="noopener noreferrer" data-title="059 · ตายแล้วต้องเกิดทันที" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>059</b> · ตายแล้วต้องเกิดทันที<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: จุติ → ปฏิสนธิ (Workflow 3)</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/025/" target="_blank" rel="noopener noreferrer" data-title="025 · กรรมที่ให้ผลนำไปเกิด" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>025</b> · กรรมที่ให้ผลนำไปเกิด<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: มรณาสันนวิถี · ภวสังขาร</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/178/" target="_blank" rel="noopener noreferrer" data-title="178 · ความเข้าใจเกี่ยวกับ ผี วิญญาณ" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>178</b> · ความเข้าใจเกี่ยวกับ ผี วิญญาณ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: 31 ภพภูมิ</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/196/" target="_blank" rel="noopener noreferrer" data-title="196 · หากทุกอย่างเป็นอนัตตาแล้ว...ใครเป็นผู้ทำกรรมและรับผลแห่งกรรม" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>196</b> · หากทุกอย่างเป็นอนัตตาแล้ว...ใครเป็นผู้ทำกรรมและรับผลแห่งกรรม<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ไตรลักษณ์ · กรรม</small></a>
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">เวทนา · อุเบกขา · ภังคะ</div>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/279/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>279</b> · อทุกขมสุขเวทนา กับ อุเบกขา เหมือนกัน หรือต่างกัน<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เวทนา 3 มุม · อุเบกขาเจตสิก</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/264/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>264</b> · อธิบาย ภังคะ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ภังคะ vs ภังคญาณ</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/240/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>240</b> · Bhanga (ภังคญาณ จะรู้สึกอย่างไร)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ภังคะ vs ภังคญาณ · สแกน Level 3</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/279/" target="_blank" rel="noopener noreferrer" data-title="279 · อทุกขมสุขเวทนา กับ อุเบกขา เหมือนกัน หรือต่างกัน" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>279</b> · อทุกขมสุขเวทนา กับ อุเบกขา เหมือนกัน หรือต่างกัน<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: เวทนา 3 มุม · อุเบกขาเจตสิก</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/264/" target="_blank" rel="noopener noreferrer" data-title="264 · อธิบาย ภังคะ" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>264</b> · อธิบาย ภังคะ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ภังคะ vs ภังคญาณ</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/240/" target="_blank" rel="noopener noreferrer" data-title="240 · Bhanga (ภังคญาณ จะรู้สึกอย่างไร)" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>240</b> · Bhanga (ภังคญาณ จะรู้สึกอย่างไร)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ภังคะ vs ภังคญาณ · สแกน Level 3</small></a>
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">สมาธิ · ฌาน</div>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/260/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>260</b> · สัมมาสมาธิ มิจฉาสมาธิ (อธิบายความแตกต่าง)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: สมาธิ 3 ระดับ</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/169/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>169</b> · ใช่ฌานหรือไม่<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ฌาน · นิมิต</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/260/" target="_blank" rel="noopener noreferrer" data-title="260 · สัมมาสมาธิ มิจฉาสมาธิ (อธิบายความแตกต่าง)" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>260</b> · สัมมาสมาธิ มิจฉาสมาธิ (อธิบายความแตกต่าง)<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: สมาธิ 3 ระดับ</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/169/" target="_blank" rel="noopener noreferrer" data-title="169 · ใช่ฌานหรือไม่" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>169</b> · ใช่ฌานหรือไม่<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ฌาน · นิมิต</small></a>
       <div style="margin-top:12px;font-size:.78rem;font-weight:700;color:var(--gold-soft)">ตอนนั่งแล้วหลง (โยงแผนที่หลง–รู้ตัว)</div>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/084/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>084</b> · โทสะ เพ่งโทษ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: กลุ่มโทสมูล</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/276/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>276</b> · ความง่วงไม่ใช่ศัตรู แต่ความไม่รู้ตัวว่ากำลังง่วงต่างหากที่เป็นปัญหา<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ถีนมิทธะ</small></a>
-      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/234/" target="_blank" rel="noopener noreferrer" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>234</b> · ความฟุ้งไม่เคยเป็นอุปสรรค เว้นเสียแต่เราจะทุกข์กับมัน<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: กลุ่มโมหมูล · อุทธัจจะ</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/084/" target="_blank" rel="noopener noreferrer" data-title="084 · โทสะ เพ่งโทษ" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>084</b> · โทสะ เพ่งโทษ<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: กลุ่มโทสมูล</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/276/" target="_blank" rel="noopener noreferrer" data-title="276 · ความง่วงไม่ใช่ศัตรู แต่ความไม่รู้ตัวว่ากำลังง่วงต่างหากที่เป็นปัญหา" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>276</b> · ความง่วงไม่ใช่ศัตรู แต่ความไม่รู้ตัวว่ากำลังง่วงต่างหากที่เป็นปัญหา<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: ถีนมิทธะ</small></a>
+      <a class="lh-btn" href="https://dhammamagga.pages.dev/a/234/" target="_blank" rel="noopener noreferrer" data-title="234 · ความฟุ้งไม่เคยเป็นอุปสรรค เว้นเสียแต่เราจะทุกข์กับมัน" onclick="return qaLink(this,event)" style="display:block;text-decoration:none;color:var(--ivory);margin-top:6px"><b>234</b> · ความฟุ้งไม่เคยเป็นอุปสรรค เว้นเสียแต่เราจะทุกข์กับมัน<small style="display:block;color:var(--dim);font-size:.72rem;margin-top:2px">โยงกับ: กลุ่มโมหมูล · อุทธัจจะ</small></a>
     </details>
   </details>
   <div class="main">
@@ -5157,17 +5174,43 @@ function openJavanaInfo(){
 }
 document.getElementById('cittaFlowClose').addEventListener('click',closeCittaFlowModal);
 
-/* ============ ถาม-ตอบ AT: ลิงก์ไปคลังต้นฉบับ (ไม่คัดลอกเนื้อหา) ============ */
+/* ============ ถาม-ตอบ AT: ลิงก์ไปคลังต้นฉบับ (ไม่คัดลอกเนื้อหา) — เปิดซ้อนในแผนที่ มีปุ่มกลับ ============ */
 const QA_BASE='https://dhammamagga.pages.dev/';
 const QA_TAGS=['สมาธิ-วิปัสสนา','อาการขณะปฏิบัติ','เวทนา','อุเบกขา','สติ-สัมปชัญญะ','อานาปานสติ','อารมณ์-กิเลส','หลักธรรม','กรรม-วิบาก','ความเชื่อ-ภพภูมิ','เจ็บป่วย-ความตาย','ชีวิตประจำวัน','ศีล','เมตตา','บุญ-ทาน','คอร์ส-หลักสูตร','ครอบครัว-ความสัมพันธ์','งาน-อาชีพ'];
-function qaOpen(url){
+let qaViewOpen=false, qaViewUrl=QA_BASE;
+function qaOpen(url){   // เปิดแท็บใหม่ (ใช้กับปุ่ม ↗)
   try{ const w=window.open(url,'_blank','noopener,noreferrer'); if(!w){ location.href=url; } }
   catch(e){ location.href=url; }
+}
+function qaView(url,title){   // เปิดซ้อนในแผนที่
+  qaViewUrl=url;
+  document.getElementById('qaViewTitle').textContent=title||'ถาม-ตอบ AT';
+  const box=document.getElementById('qaFrameBox');
+  box.innerHTML='';
+  const f=document.createElement('iframe');
+  f.className='qa-frame'; f.title=title||'ถาม-ตอบ AT';
+  f.setAttribute('sandbox','allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox allow-forms');
+  f.setAttribute('referrerpolicy','no-referrer');
+  f.src=url;
+  box.appendChild(f);
+  document.getElementById('qaViewModal').classList.add('show');
+  if(!qaViewOpen){ qaViewOpen=true; try{ history.pushState({qa:1},''); }catch(e){} }
+}
+function qaViewClose(){
+  document.getElementById('qaViewModal').classList.remove('show');
+  document.getElementById('qaFrameBox').innerHTML='';
+  qaViewOpen=false;
+}
+function qaLink(a,e){
+  if(e && (e.ctrlKey||e.metaKey||e.shiftKey||e.button===1)) return true;
+  if(e) e.preventDefault();
+  qaView(a.href, a.getAttribute('data-title')||'');
+  return false;
 }
 function qaSearch(){
   const el=document.getElementById('qaInput');
   const q=((el&&el.value)||'').trim();
-  qaOpen(q ? QA_BASE+'?q='+encodeURIComponent(q) : QA_BASE);
+  qaView(q ? QA_BASE+'?q='+encodeURIComponent(q) : QA_BASE, q ? 'ค้น: '+q : 'คลังถาม-ตอบ AT');
 }
 (function buildQA(){
   const box=document.getElementById('qaTagChips');
@@ -5175,13 +5218,16 @@ function qaSearch(){
     QA_TAGS.forEach(t=>{
       const b=document.createElement('button');
       b.className='chip'; b.textContent=t;
-      b.addEventListener('click',()=>qaOpen(QA_BASE+'?tag='+encodeURIComponent(t)));
+      b.addEventListener('click',()=>qaView(QA_BASE+'?tag='+encodeURIComponent(t),'หมวด: '+t));
       box.appendChild(b);
     });
   }
   const go=document.getElementById('qaGo'); if(go) go.addEventListener('click',qaSearch);
   const inp=document.getElementById('qaInput'); if(inp) inp.addEventListener('keydown',e=>{ if(e.key==='Enter') qaSearch(); });
-  const home=document.getElementById('qaHome'); if(home) home.addEventListener('click',()=>qaOpen(QA_BASE));
+  const home=document.getElementById('qaHome'); if(home) home.addEventListener('click',()=>qaView(QA_BASE,'คลังถาม-ตอบ AT'));
+  document.getElementById('qaBack').addEventListener('click',qaViewClose);
+  document.getElementById('qaExt').addEventListener('click',()=>qaOpen(qaViewUrl));
+  window.addEventListener('popstate',()=>{ if(qaViewOpen) qaViewClose(); });
 })();
 
 </script>
