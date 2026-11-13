@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<title>AMT Work Style Profile</title>
+<style>
+:root{--navy:#14304f;--teal:#1b8a8f;--orange:#e8833a;--bg:#eef3f8;--card:#fff;--line:#dbe2ea;--mut:#5d6b7a;--ink:#1c2733}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Sarabun","Noto Sans Thai",Tahoma,sans-serif;background:linear-gradient(180deg,#e6f0f8 0%,#f7f9fc 60%);color:var(--ink);line-height:1.6;min-height:100vh}
+.wrap{max-width:780px;margin:0 auto;padding:14px}
+header{background:var(--navy);color:#fff;padding:16px}
+header .in{max-width:780px;margin:0 auto}
+header h1{margin:0;font-size:20px}header p{margin:2px 0 0;font-size:13px;opacity:.85}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 4px 14px rgba(20,48,79,.06)}
+h2{margin:0 0 8px;font-size:18px;color:var(--navy)}h3{margin:14px 0 6px;font-size:15px;color:var(--navy)}
+label{display:block;font-size:14px;margin:10px 0 4px;font-weight:600}
+input[type=text],select{width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;font-size:15px;font-family:inherit}
+.btn{background:var(--teal);color:#fff;border:0;border-radius:12px;padding:12px 22px;font-size:16px;font-family:inherit;cursor:pointer;transition:transform .12s}
+.btn:hover{transform:translateY(-1px)}
+.btn.sec{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+.note{font-size:13px;color:var(--mut)}
+.consent{background:#e8f4f4;border-radius:12px;padding:12px;font-size:14px;margin-top:12px}
+.consent label{font-weight:400;display:flex;gap:8px;margin:8px 0 0;align-items:flex-start}
+.hidden{display:none!important}
+.err{color:#b3261e;font-size:13px}
+.minis{display:flex;justify-content:center;gap:6px;margin:4px 0 10px}
+.minis div{width:62px;height:74px}.minis svg{width:100%;height:100%;display:block}
+.hero-t{text-align:center;font-size:20px;font-weight:700;color:var(--navy);margin:2px 0}
+
+/* ---------- Quiz ---------- */
+.track{margin:6px 2px 0}
+.track .top{display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:6px}
+.track .top b{color:var(--navy)}
+.pbar{position:relative;height:10px;background:#dfe7ef;border-radius:8px}
+.pbar i{position:absolute;left:0;top:0;bottom:0;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--orange));width:0;transition:width .35s}
+.pbar span{position:absolute;top:-9px;font-size:20px;transform:translateX(-50%);transition:left .35s}
+.pbar em{position:absolute;top:-3px;width:2px;height:16px;background:#b8c4d0}
+.toast{margin:12px auto 0;max-width:420px;text-align:center;background:var(--navy);color:#fff;border-radius:999px;padding:7px 16px;font-size:14px;animation:pop .35s}
+.qcard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:18px;margin:14px 0;box-shadow:0 6px 18px rgba(20,48,79,.08);animation:slidein .3s}
+.qicon{width:56px;height:56px;border-radius:50%;background:#eef3f8;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 6px}
+.qtext{font-size:18px;font-weight:700;text-align:center;color:var(--navy);margin:4px 4px 2px}
+.qlead{text-align:center;color:var(--mut);font-size:14px;margin-bottom:12px}
+.vs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch}
+.side{border-radius:16px;padding:14px 12px;position:relative;font-size:15px;display:flex;flex-direction:column;gap:6px}
+.side.a{background:#e3f4f4;border:2px solid var(--teal)}
+.side.b{background:#fdeee1;border:2px solid var(--orange)}
+.side .tag{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+.side.a .tag{background:var(--teal)}.side.b .tag{background:var(--orange)}
+.side p{margin:0}
+.vsb{align-self:center;background:var(--navy);color:#fff;font-weight:700;font-size:13px;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center}
+.ask{text-align:center;font-weight:600;color:var(--navy);margin:16px 0 8px;font-size:15px}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;position:relative}
+.scale:before{content:"";position:absolute;left:12%;right:12%;top:30px;height:4px;background:linear-gradient(90deg,var(--teal) 0 50%,var(--orange) 50% 100%);opacity:.35;border-radius:4px}
+.sc{display:flex;flex-direction:column;align-items:center;gap:6px;background:none;border:0;cursor:pointer;font-family:inherit;padding:0}
+.dot{width:46px;height:46px;border-radius:50%;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:transform .15s;position:relative}
+.sc.big .dot{width:60px;height:60px;font-size:20px}
+.sc.a .dot{background:var(--teal)}.sc.b .dot{background:var(--orange)}
+.sc:hover .dot{transform:scale(1.1)}
+.sc.sel .dot{transform:scale(1.15);outline:4px solid var(--navy)}
+.sc small{font-size:12px;color:var(--mut);text-align:center;line-height:1.2}
+.sc{min-height:84px;justify-content:flex-start}
+.sc .dotbox{height:60px;display:flex;align-items:center}
+.keys{text-align:center;font-size:12px;color:#8a97a5;margin-top:8px}
+@media(max-width:620px){
+ .vs{grid-template-columns:1fr;gap:6px}
+ .vsb{margin:-2px auto}
+ .qtext{font-size:17px}
+ .sc.big .dot{width:54px;height:54px}.dot{width:42px;height:42px}
+ .keys{display:none}
+}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+@keyframes slidein{from{transform:translateX(24px);opacity:0}to{transform:none;opacity:1}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ---------- Result ---------- */
+.rhero{text-align:center}
+.avatar{width:200px;height:240px;margin:0 auto;animation:float 3s ease-in-out infinite}
+.avatar svg{width:100%;height:100%;display:block;filter:drop-shadow(0 6px 10px rgba(20,48,79,.18))}
+.code{font-size:42px;font-weight:800;letter-spacing:6px;color:var(--navy);margin:0}
+.tname{font-size:20px;font-weight:700;margin:0}
+.gbadge{display:inline-block;color:#fff;border-radius:999px;padding:3px 14px;font-size:13px;margin:6px 0}
+.dim{margin:14px 0}.dim .l{display:flex;justify-content:space-between;font-size:13px;color:var(--mut)}
+.dim .tt{font-size:14px;font-weight:600}
+.dim .t{height:14px;background:#e3e9ef;border-radius:8px;position:relative;margin-top:3px}
+.dim .t i{position:absolute;top:0;bottom:0;border-radius:8px}
+.dim .m{position:absolute;left:50%;top:-3px;bottom:-3px;width:2px;background:#889}
+.sec{border-radius:14px;padding:14px;margin:10px 0}
+.sec h3{margin:0 0 6px}
+.s1{background:#eaf7ee}.s2{background:#fff4e0}.s3{background:#eaf1fb}.s4{background:#f3ecfb}.s5{background:#f2f4f7}.s6{background:#fff0f3}.s7{background:#fdf6d8}
+.herocard{border-top:6px solid var(--gc,#14304f);text-align:center}
+.cls{font-size:26px;font-weight:800;margin:0;color:var(--gc,#14304f)}
+.skillbar{display:inline-block;background:#fff8e1;border:2px dashed #e3b341;border-radius:14px;padding:8px 14px;margin:10px 0 2px;font-weight:700;color:#7a5a00}
+.party{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}.party .pm{flex:1;min-width:140px;background:#fff;border-radius:12px;padding:8px;text-align:center;border:1px solid #e3d9f3}.party .pm svg{width:80px;height:96px;display:block;margin:0 auto}.party .pm b{display:block;font-size:14px}.party .pm span{font-size:12px;color:var(--mut)}
+.gtip{margin-top:8px;font-size:14px;background:#fff;border-radius:10px;padding:8px 10px;border:1px dashed #c9b9a0}
+ul{margin:4px 0 4px 20px;padding:0}li{margin:4px 0}
+.status{font-size:14px;padding:10px;border-radius:10px;margin-top:10px}
+.ok{background:#e6f5ea;color:#1d6b34}.warn{background:#fff4e0;color:#8a5a00}
+@media print{header,.noprint{display:none}.card{border:0;box-shadow:none}.avatar{animation:none}}
+</style>
+</head>
+<body>
+<header><div class="in"><h1>AMT Work Style Profile</h1><p>แบบประเมินสไตล์การทำงานภายในของ AMT Group · 24 สถานการณ์ · ประมาณ 10 นาที</p></div></header>
+<div class="wrap">
+
+<!-- เริ่มต้น -->
+<section id="s-start" class="card">
+  <div class="minis" id="minis"></div>
+  <div class="hero-t">ค้นหาสไตล์การทำงานของคุณ</div>
+  <p style="text-align:center;margin-top:4px">24 สถานการณ์จากงานตรวจสอบภายใน ทุกข้อ <b>ไม่มีคำตอบถูกหรือผิด</b> เลือกสิ่งที่ "คุณมักจะทำจริง" ไม่ใช่สิ่งที่ "ควรทำ"</p>
+  <label for="name">ชื่อเล่น</label>
+  <input type="text" id="name" maxlength="40" placeholder="เช่น ตูน" autocomplete="off">
+  <div id="code-box" class="hidden">
+    <label for="acode">รหัสเข้าทำแบบประเมิน <span class="note" style="font-weight:400">(ขอจากผู้ดูแล)</span></label>
+    <input type="text" id="acode" maxlength="40" placeholder="กรอกรหัสที่ได้รับ" autocomplete="off">
+  </div>
+  <label for="level">ระดับตำแหน่ง <span class="note" style="font-weight:400">(ใช้ปรับบทบาทในสถานการณ์ให้ตรงกับงานของคุณ)</span></label>
+  <select id="level">
+    <option value="">— เลือกระดับ —</option>
+    <option>J1</option><option>J2</option><option>J3</option>
+    <option>S1</option><option>S2</option><option>S3</option>
+    <option>SM</option><option>M1</option><option>Partner</option><option>CEO</option>
+  </select>
+  <div class="consent">
+    <b>ความยินยอมตาม PDPA</b>
+    <p style="margin:6px 0 0">ผลสรุป (ชื่อเล่น ระดับตำแหน่ง รหัส 4 ตัว คะแนนรายมิติ วันที่) จะถูกส่งเข้าไฟล์ Google Sheet ที่เปิดดูได้เฉพาะผู้บริหาร AMT โดย <b>ไม่เก็บคำตอบรายข้อ</b> ใช้เพื่อการสื่อสารและวางแผนทีมเท่านั้น <b>ไม่ใช้ตัดสินการจ้าง การประเมินผลงาน หรือการเลื่อนตำแหน่ง</b> คุณขอลบข้อมูลของตนเองได้ตลอดเวลา</p>
+    <label><input type="checkbox" id="consent"> ข้าพเจ้าได้อ่านและยินยอมให้เก็บและใช้ข้อมูลตามวัตถุประสงค์ข้างต้น</label>
+  </div>
+  <p class="note">หมายเหตุ: เป็นแบบประเมินภายในของ AMT ที่อิงโครง 4 มิติแบบ MBTI ไม่ใช่ MBTI ฉบับทางการ ผลอาจไม่ตรงกับที่เคยทำมา ใช้เพื่อทำความเข้าใจสไตล์การทำงาน ไม่ใช่การวัดความสามารถ</p>
+  <p id="e-start" class="err"></p>
+  <div style="text-align:center"><button class="btn" id="btn-start">เริ่มผจญภัยค้นหาสไตล์ ▶</button></div>
+</section>
+
+<!-- คำถาม -->
+<section id="s-quiz" class="hidden">
+  <div class="track">
+    <div class="top"><span id="stage-t"></span><span id="prog-t"></span></div>
+    <div class="pbar"><i id="prog"></i><em style="left:25%"></em><em style="left:50%"></em><em style="left:75%"></em><span id="walker">🏃</span></div>
+  </div>
+  <div id="toast" class="toast hidden"></div>
+  <div class="qcard" id="qcard">
+    <div class="qicon" id="q-icon"></div>
+    <div class="qtext" id="q-text"></div>
+    <div class="qlead">คุณมักจะ…</div>
+    <div class="vs">
+      <div class="side a"><span class="tag">A</span><p id="o1-text"></p></div>
+      <div class="vsb">VS</div>
+      <div class="side b"><span class="tag">B</span><p id="o2-text"></p></div>
+    </div>
+    <div class="ask">แตะจุดที่ตรงกับคุณที่สุด 👇</div>
+    <div class="scale" id="scale">
+      <button class="sc a big" data-p="-2"><span class="dotbox"><span class="dot">A</span></span><small>A<br>ใช่เลย</small></button>
+      <button class="sc a" data-p="-1"><span class="dotbox"><span class="dot">A</span></span><small>A<br>ค่อนข้างใช่</small></button>
+      <button class="sc b" data-p="1"><span class="dotbox"><span class="dot">B</span></span><small>B<br>ค่อนข้างใช่</small></button>
+      <button class="sc b big" data-p="2"><span class="dotbox"><span class="dot">B</span></span><small>B<br>ใช่เลย</small></button>
+    </div>
+    <div class="keys">ลัด: กดปุ่ม 1 2 3 4 บนคีย์บอร์ดได้</div>
+  </div>
+  <button class="btn sec" id="btn-back">◀ ย้อนกลับ</button>
+</section>
+
+<!-- ผลลัพธ์ -->
+<section id="s-result" class="hidden">
+  <div class="card herocard" id="r-hero">
+    <div class="note" id="r-who"></div>
+    <div class="avatar" id="r-avatar"></div>
+    <p class="code" id="r-code"></p>
+    <p class="cls" id="r-cls"></p>
+    <span class="gbadge" id="r-group"></span>
+    <p id="r-sum" style="margin:4px 0 0"></p>
+    <div class="skillbar" id="r-skill"></div>
+  </div>
+  <div class="card">
+    <h2>📊 ค่าสถานะผู้กล้าของคุณ</h2>
+    <div id="r-dims"></div>
+    <div id="r-note" class="note"></div>
+  </div>
+  <div class="card">
+    <div class="sec s1"><h3>✨ พลังพิเศษของคุณ</h3><ul id="r-str"></ul></div>
+    <div class="sec s2"><h3>🌟 ลองเติมพลังอีกนิด (ทางที่จะเก่งขึ้นต่อ)</h3><ul id="r-grow"></ul><div class="gtip" id="r-gtip"></div></div>
+    <div class="sec s7"><h3>🎯 ภารกิจ 2 สัปดาห์</h3><p id="r-mission" style="margin:0"></p></div>
+    <div class="sec s3"><h3>💬 สื่อสารกับหัวหน้างานให้ลื่น</h3><ul id="r-com"></ul></div>
+    <div class="sec s6"><h3>🤝 คู่หูในปาร์ตี้ (สไตล์ที่เสริมกัน)</h3><div class="party" id="r-party"></div></div>
+    <div class="sec s4"><h3>🧭 ทำงานกับคนที่สไตล์ต่างจากเรา</h3><ul id="r-col"></ul></div>
+    <div class="sec s5"><h3>🌱 ชวนคิดต่อ</h3><ul id="r-ask"></ul></div>
+  </div>
+  <div class="card noprint">
+    <div id="r-status" class="status warn">กำลังส่งผลสรุปเข้า Google Sheet…</div>
+    <p class="note">ผลนี้บอก "ความถนัดในการทำงาน" ไม่ใช่ความสามารถ ทุกสไตล์เก่งได้ และสไตล์ของคุณเติบโตเปลี่ยนไปตามบทบาทและประสบการณ์ได้ ผลนี้ไม่ใช้ตัดสินการจ้าง การประเมินผลงาน หรือการเลื่อนตำแหน่ง</p>
+    <button class="btn sec" onclick="window.print()">พิมพ์ / บันทึกเป็น PDF</button>
+    <button class="btn sec" id="btn-retry" style="display:none">ส่งอีกครั้ง</button>
+  </div>
+</section>
+</div>
+
+<script>
+/* ===== ตั้งค่า (พี่เต้น/ทีม IT แก้หลัง Deploy Apps Script) =====
+ SCRIPT_URL    = Web app URL จาก Apps Script
+ TOKEN         = ค่าเดียวกับ TOKEN ใน Code.gs (กันส่งมั่ว ไม่ใช่ความลับ)
+ REQUIRE_CODE  = true เมื่อต้องการให้พนักงานกรอกรหัสเข้า (รหัสจริงเก็บ/ตรวจที่ Apps Script ฝั่งเซิร์ฟเวอร์ ไม่อยู่ในไฟล์นี้) */
+const CONFIG = {
+  SCRIPT_URL: "",
+  TOKEN: "CHANGE_ME_2026",
+  REQUIRE_CODE: false
+};
+
+/* ===== คำถาม =====
+ d = มิติ (EI: A=I,B=E · SN: A=S,B=N · TF: A=T,B=F · JP: A=J,B=P)
+ i = ไอคอน · t/a/b = ถ้อยคำมาตรฐาน (กลุ่ม S: S1-S3, SM)
+ v = ถ้อยคำเฉพาะกลุ่ม J (J1-J3) และ M (M1, Partner, CEO) */
+const Q = [
+ // พลังงาน
+ {d:"EI",i:"📂",t:"ลูกค้าส่งเอกสารหลายร้อยหน้าตอนเย็น เช้ามีประชุมสรุปกับทีม",a:"อ่านคนเดียวให้จบ แล้วนำข้อสรุปไปคุยกับทีม",b:"แบ่งทีมอ่านและโทรแลกเปลี่ยนระหว่างอ่าน"},
+ {d:"EI",i:"🤖",t:"ทีมเริ่มใช้เครื่องมือ AI ช่วยสรุปเอกสารในงานตรวจ",a:"ลองใช้คนเดียวจนเข้าใจ แล้วค่อยแชร์ทีม",b:"ชวนทีมลองด้วยกัน เรียนรู้ผ่านการคุยกัน"},
+ {d:"EI",i:"💡",t:"ต้องหาทางออกให้ประเด็นที่ยังไม่มีแนวทางชัด",a:"ตกผลึกเองก่อนแล้วค่อยเสนอ",b:"ยกขึ้นโต๊ะคุยกับทีมตั้งแต่ต้น"},
+ {d:"EI",i:"🔥",t:"ช่วง Busy Season ที่กดดัน",a:"ขอเวลาเงียบๆ ทำงานของตัวเองให้ผ่านไป",b:"คุยกับเพื่อนร่วมทีมให้เบาใจและได้ไอเดีย"},
+ {d:"EI",i:"🎓",t:"ต้องสอนน้องใหม่ในเวลาจำกัด",a:"เตรียมเอกสารให้น้องอ่านก่อน แล้วเปิดให้ถาม",b:"นั่งทำไปด้วยกัน พูดคุยระหว่างทาง",
+  v:{J:{t:"ต้องเรียนรู้ Job ใหม่ในเวลาจำกัด",a:"อ่านเอกสารและกระดาษทำการเก่าด้วยตัวเองก่อน แล้วค่อยถามพี่ในทีม",b:"ขอให้พี่ในทีมนั่งทำไปด้วยกัน คุยไปทำไป"},
+     M:{t:"ต้องถ่ายทอดแนวทางสำคัญให้ทีมหัวหน้างานในเวลาจำกัด",a:"เตรียมเอกสารแนวทางให้อ่านก่อน แล้วเปิดให้ถาม",b:"นั่งคุยและทำไปด้วยกัน"}}},
+ {d:"EI",i:"🤝",t:"ประชุมปิดการตรวจกับผู้บริหารระดับสูงของลูกค้า",a:"เตรียมประเด็นล่วงหน้าละเอียด และพูดตามที่เตรียม",b:"เตรียมกรอบหลักไว้ แล้วปรับตามบรรยากาศในห้อง",
+  v:{J:{t:"ต้องร่วมประชุมปิดการตรวจกับผู้บริหารของลูกค้า",a:"เตรียมประเด็นส่วนที่ตัวเองรับผิดชอบไว้ละเอียด และพูดตามที่เตรียม",b:"เตรียมกรอบหลักไว้ แล้วปรับตามบรรยากาศและคำถามในห้อง"}}},
+ // การรับข้อมูล
+ {d:"SN",i:"🎤",t:"ผู้จัดการฝ่ายลูกค้าเล่าเรื่องยาวที่ดูไม่ตรงคำถาม",a:"จดข้อเท็จจริง ชื่อเอกสาร ตัวเลข วันที่ ให้ครบ",b:"จับว่าเรื่องเล่านี้สะท้อนปัญหาเชิงระบบหรือวัฒนธรรมอย่างไร"},
+ {d:"SN",i:"🤖",t:"เครื่องมือ AI สรุปเอกสารมาให้ 1 ฉบับ",a:"เทียบกับต้นฉบับทีละจุดก่อนนำไปใช้",b:"ดูว่าภาพรวมสอดคล้องกับที่เข้าใจไหม แล้วเจาะเฉพาะจุดที่รู้สึกแปลก"},
+ {d:"SN",i:"🧭",t:"เริ่ม Job ใหม่ในธุรกิจที่ไม่คุ้นเคย",a:"อ่านขั้นตอน เอกสาร และข้อมูลจริงก่อน",b:"ทำความเข้าใจโมเดลธุรกิจและเป้าหมายของลูกค้าก่อน"},
+ {d:"SN",i:"🔍",t:"พบตัวเลขผิดปกติในบัญชีหนึ่ง",a:"ไล่ดูรายการที่เกี่ยวข้องให้ครบก่อนสรุป",b:"ถอยดูว่าแนวโน้มนี้บอกอะไรเกี่ยวกับกระบวนการ"},
+ {d:"SN",i:"📋",t:"น้องมารายงานความคืบหน้า",a:"อยากได้ข้อเท็จจริงและหลักฐานก่อน",b:"อยากได้ข้อสรุปและมุมมองของน้องก่อน",
+  v:{J:{t:"หัวหน้างานถามความคืบหน้างานที่คุณรับผิดชอบ",a:"ตอบด้วยข้อเท็จจริง หลักฐาน และรายการที่ทำเสร็จแล้วก่อน",b:"ตอบด้วยข้อสรุปและมุมมองของคุณก่อน"},
+     M:{t:"หัวหน้างานมารายงานความคืบหน้า Job",a:"อยากได้ข้อเท็จจริงและหลักฐานก่อน",b:"อยากได้ข้อสรุปและมุมมองของหัวหน้างานก่อน"}}},
+ {d:"SN",i:"🛠️",t:"องค์กรเปลี่ยนไปใช้เครื่องมือใหม่ที่มีคู่มือมาให้",a:"อ่านคู่มือทีละขั้นแล้วลงมือตาม",b:"ลองกดเล่นให้จับหลักการ แล้วค่อยกลับไปดูคู่มือ"},
+ // การตัดสินใจ
+ {d:"TF",i:"🩺",t:"น้องส่งกระดาษทำการช้า 2 วัน เพราะดูแลครอบครัวป่วย และกำหนดส่งรายงานใกล้เข้ามา",a:"ยืนยันกำหนดเดิม แล้วช่วยหาวิธีให้ทัน",b:"ปรับแผนทีมให้น้องมีพื้นที่ แล้วเจรจากำหนดส่งกับลูกค้า",
+  v:{J:{t:"งานของคุณจะส่งช้า 2 วัน เพราะดูแลครอบครัวป่วย และกำหนดส่งรายงานใกล้เข้ามา",a:"แจ้งหัวหน้างานว่าจะพยายามส่งให้ทันกำหนดเดิม และขอความช่วยเหลือเฉพาะส่วนที่จำเป็น",b:"แจ้งสถานการณ์ตามจริง และขอให้หัวหน้างานปรับแผนงานของทีมและกำหนดส่ง"},
+     M:{t:"หัวหน้างานแจ้งว่า Job จะส่งช้า 2 วัน เพราะสมาชิกทีมต้องดูแลครอบครัวป่วย และกำหนดส่งรายงานใกล้เข้ามา",a:"ยืนยันกำหนดเดิมกับลูกค้า แล้วช่วยหาวิธีเพิ่มกำลังคนให้ทัน",b:"ให้ทีมปรับแผน แล้วเจรจากำหนดส่งกับลูกค้าใหม่"}}},
+ {d:"TF",i:"🤖",t:"เครื่องมือ AI ทำให้งานบางส่วนของน้องลดลง น้องกังวลเรื่องบทบาทตัวเอง",a:"อธิบายด้วยข้อมูลว่างานและทักษะใดที่ยังจำเป็น",b:"ฟังความรู้สึกก่อน แล้วค่อยคุยแผนพัฒนาด้วยกัน",
+  v:{J:{t:"เครื่องมือ AI ทำให้งานบางส่วนของคุณลดลง คุณเริ่มกังวลเรื่องบทบาทตัวเอง",a:"หาข้อมูลว่างานและทักษะใดที่ยังจำเป็น แล้วเสนอหัวหน้างานว่าจะพัฒนาอะไร",b:"คุยกับหัวหน้างานถึงความรู้สึก แล้วหาแผนพัฒนาไปด้วยกัน"},
+     M:{t:"เครื่องมือ AI ทำให้งานบางส่วนของทีมลดลง สมาชิกทีมกังวลเรื่องบทบาทตัวเอง",a:"อธิบายด้วยข้อมูลว่างานและทักษะใดที่ยังจำเป็น",b:"ฟังความรู้สึกก่อน แล้วออกแบบแผนพัฒนาร่วมกัน"}}},
+ {d:"TF",i:"😟",t:"ลูกค้าไม่พอใจข้อตรวจพบ",a:"ยืนยันด้วยเกณฑ์และหลักฐานที่มี",b:"รับฟังความกังวลของเขา แล้วหาวิธีสื่อสารที่เขารับได้"},
+ {d:"TF",i:"⚖️",t:"หัวหน้าทีมเห็นต่างจากคุณ",a:"ถกด้วยเหตุผลและข้อมูล",b:"ถามที่มาและความกังวลเบื้องหลังมุมมองของเขา",
+  v:{J:{t:"หัวหน้างานเห็นต่างจากคุณในประเด็นหนึ่ง",a:"นำเหตุผลและข้อมูลมาอธิบายและถกกัน",b:"ถามที่มาและความกังวลเบื้องหลังมุมมองของเขาก่อน"},
+     M:{t:"Partner หรือหัวหน้างานอาวุโสเห็นต่างจากคุณ",a:"ถกด้วยเหตุผลและข้อมูล",b:"ถามที่มาและความกังวลเบื้องหลังมุมมองของเขา"}}},
+ {d:"TF",i:"📝",t:"ต้องให้ feedback น้องที่ส่งงานคุณภาพต่ำ",a:"ชี้จุดบกพร่องตรงๆ ตามเกณฑ์",b:"เริ่มจากสิ่งที่ทำได้ดีและบริบทที่น้องเจอ",
+  v:{J:{t:"หัวหน้างานชี้ว่างานที่คุณส่งมีคุณภาพต่ำกว่าที่ควร",a:"อยากให้ชี้จุดบกพร่องตรงๆ ตามเกณฑ์ เพื่อแก้ให้ถูกจุด",b:"อยากให้เริ่มจากสิ่งที่ทำได้ดี และรับฟังบริบทที่เจอก่อน"},
+     M:{t:"ต้องให้ feedback หัวหน้างานที่ส่งงานคุณภาพต่ำกว่ามาตรฐาน",a:"ชี้จุดบกพร่องตรงๆ ตามเกณฑ์",b:"เริ่มจากสิ่งที่ทำได้ดีและบริบทที่เขาเจอ"}}},
+ {d:"TF",i:"🧩",t:"ต้องเลือกคนลง Job ใหม่",a:"เลือกตามความเหมาะสมของทักษะ",b:"เลือกโดยคำนึงถึงโอกาสเติบโตและความเข้ากับทีม",
+  v:{J:{t:"ได้เลือกว่าจะขอรับ Job ใหม่ตัวไหน",a:"เลือก Job ที่ตรงกับทักษะที่มี และทำได้ดีที่สุด",b:"เลือก Job ที่ได้เรียนรู้ และทีมที่เข้ากันได้"},
+     M:{t:"ต้องเลือกหัวหน้างานและทีมลง Job สำคัญใหม่",a:"เลือกตามความเหมาะสมของทักษะ",b:"เลือกโดยคำนึงถึงโอกาสเติบโตและความเข้ากับทีม"}}},
+ // การจัดการงาน
+ {d:"JP",i:"➕",t:"ผู้บริหารลูกค้าขอเพิ่มขอบเขต 1 กระบวนการแบบกะทันหัน",a:"ขอเวลาปรับแผน ตารางคน และงบเวลาใหม่ก่อนตอบรับ",b:"ตอบรับเบื้องต้น แล้วปรับแผนตามหน้างาน",
+  v:{J:{t:"หัวหน้างานขอให้คุณรับงานเพิ่มอีก 1 กระบวนการแบบกะทันหัน",a:"ขอเวลาปรับตารางงานและเวลาของตัวเองใหม่ก่อนตอบรับ",b:"ตอบรับเบื้องต้น แล้วปรับตารางไปตามหน้างาน"}}},
+ {d:"JP",i:"📜",t:"นโยบายการใช้ AI ของลูกค้าเปลี่ยนกลางงาน กระทบวิธีที่ทีมทำอยู่",a:"หยุดจัดวิธีทำงานใหม่ให้ชัดก่อนทำต่อ",b:"ปรับทีละขั้นตามที่เจอ ทำไปเรียนรู้ไป"},
+ {d:"JP",i:"📅",t:"Busy Season มีหลายงานชนกัน",a:"ทำตารางจัดลำดับล่วงหน้าทั้งช่วง",b:"จัดลำดับตามความเร่งด่วนรายวัน"},
+ {d:"JP",i:"⏰",t:"พบประเด็นสำคัญใกล้วันส่งรายงาน",a:"จัดแผนส่งใหม่ทั้งชุดให้ชัดเจน",b:"แก้เท่าที่จำเป็น และเก็บทางเลือกไว้ก่อน"},
+ {d:"JP",i:"🚀",t:"ได้รับมอบ Job ใหม่ที่ไม่คุ้นเคย",a:"วางโครงและเป้าหมายแต่ละช่วงก่อนเริ่ม",b:"เริ่มลงมือ เรียนรู้ แล้วปรับแผนระหว่างทาง"},
+ {d:"JP",i:"⏳",t:"ลูกค้าถ่วงเวลาส่งข้อมูล",a:"กำหนดเส้นตายและขั้นตอนติดตามให้ชัด",b:"ย้ายไปทำส่วนอื่นก่อน แล้วดูท่าทีลูกค้า"}
+];
+const POLES = {EI:["I","E"],SN:["S","N"],TF:["T","F"],JP:["J","P"]};
+const DIMNAME = {EI:["ลงลึกคนเดียว","คิดผ่านทีม"],SN:["รายละเอียดและหลักฐาน","ภาพรวมและความเชื่อมโยง"],TF:["เกณฑ์และมาตรฐาน","บริบทและผลต่อคน"],JP:["วางแผนล่วงหน้า","ยืดหยุ่นตามหน้างาน"]};
+const DIMTITLE = {EI:"พลังงาน",SN:"การรับข้อมูล",TF:"การตัดสินใจ",JP:"การจัดการงาน"};
+const DIMCOL = {EI:["#5b6dd6","#e0558a"],SN:["#5b6dd6","#e0558a"],TF:["#5b6dd6","#e0558a"],JP:["#5b6dd6","#e0558a"]};
+
+const STAGES=[["ด่าน 1","วอร์มอัพ"],["ด่าน 2","หน้างานจริง"],["ด่าน 3","พลิกสถานการณ์"],["ด่าน 4","ด่านสุดท้าย"]];
+const TOASTS={6:"ผ่านด่าน 1 แล้ว! 🎉 เข้าสู่หน้างานจริง",12:"ผ่านครึ่งทางแล้ว! 💪",18:"เหลืออีกด่านเดียว สู้ๆ! 🔥",23:"ข้อสุดท้ายแล้ว! 🏁"};
+
+function groupOf(level){
+  if(["J1","J2","J3"].includes(level)) return "J";
+  if(["M1","Partner","CEO"].includes(level)) return "M";
+  return "S";
+}
+function getQ(i,g){const b=Q[i];const v=b.v&&b.v[g];return v?Object.assign({},b,v):b;}
+
+/* ===== ผลลัพธ์: เนื้อหา ===== */
+const RPG = {"INTJ": {"cls": "จอมวางแผน", "skill": "มองทะลุแผนล่วงหน้าหลายขั้น", "g": "NT", "partner": ["ENFP", "ENTP"], "m": {"J": "เปิดแผนงานส่วนของคุณให้พี่ในทีมช่วยเติมมุมมอง 1 ครั้ง", "S": "เปิดแผนของ Job ให้ทีมช่วยเติมมุมมองก่อนเริ่มงาน 1 ครั้ง", "M": "ชวนหัวหน้างาน 1 คนมาวิจารณ์แผนยุทธศาสตร์ของคุณ แล้วปรับตามสิ่งที่ได้"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"จอมวางแผน\"><defs><radialGradient id=\"bgINTJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#ede7ff\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgINTJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#251c4d\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#3b2f6b\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#3b2f6b\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#3b2f6b\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#c9a23a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#c9a23a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#e8b88a\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#e8b88a\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#2b2a3a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#2b2a3a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"118\" cy=\"92\" r=\"12\" fill=\"#fff\" fill-opacity=\".25\" stroke=\"#c9a23a\" stroke-width=\"3\"/><path d=\"M128 100 Q140 120 134 140\" stroke=\"#c9a23a\" stroke-width=\"2\" fill=\"none\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#2b2a3a\"/><rect x=\"140\" y=\"146\" width=\"40\" height=\"52\" rx=\"4\" fill=\"#f3e6c3\" stroke=\"#a37b45\" stroke-width=\"3\"/><path d=\"M148 160 L158 172 L150 184 L168 178\" stroke=\"#6c4bd4\" stroke-width=\"3\" fill=\"none\"/><circle cx=\"168\" cy=\"160\" r=\"4\" fill=\"#d33\"/></svg>"}, "INTP": {"cls": "นักเล่นแร่แปรธาตุ", "skill": "แกะระบบซับซ้อนให้เหลือหลักการ", "g": "NT", "partner": ["ENTJ", "ESTJ"], "m": {"J": "สรุปสิ่งที่ค้นพบในงานเป็น 3 บรรทัดให้หัวหน้างานอ่านง่าย", "S": "สรุปข้อค้นพบของ Job เป็น 3 บรรทัดให้ทีมและลูกค้าอ่านง่าย", "M": "เปลี่ยนความเข้าใจเชิงระบบของคุณเป็นหลักการ 1 หน้าให้ทีมนำไปใช้"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักเล่นแร่แปรธาตุ\"><defs><radialGradient id=\"bgINTP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#ede7ff\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgINTP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#f2f2f2\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#f2f2f2\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#f2f2f2\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#2ea39a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#2ea39a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#f6d3b3\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#f6d3b3\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#7a4b2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#7a4b2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><circle cx=\"82\" cy=\"92\" r=\"12\" fill=\"#fff\" fill-opacity=\".25\" stroke=\"#3b3b4a\" stroke-width=\"3\"/><circle cx=\"118\" cy=\"92\" r=\"12\" fill=\"#fff\" fill-opacity=\".25\" stroke=\"#3b3b4a\" stroke-width=\"3\"/><path d=\"M94 92 L106 92\" stroke=\"#3b3b4a\" stroke-width=\"3\"/><path d=\"M60 86 L52 56 L72 62 L74 40 L94 54 L104 34 L116 54 L136 42 L134 62 L148 58 L140 88 Q130 66 100 66 Q70 66 60 86 Z\" fill=\"#7a4b2a\"/><path d=\"M158 140 L158 158 L142 190 Q140 198 150 198 L170 198 Q180 198 174 190 L158 158\" fill=\"#e9fbff\" stroke=\"#6b7a86\" stroke-width=\"3\"/><path d=\"M146 186 Q158 178 172 186 L176 192 Q178 198 170 198 L150 198 Q142 198 146 190 Z\" fill=\"#35c9a8\"/><circle cx=\"156\" cy=\"132\" r=\"5\" fill=\"#35c9a8\" opacity=\".7\"/><circle cx=\"164\" cy=\"122\" r=\"3.5\" fill=\"#35c9a8\" opacity=\".7\"/></svg>"}, "ENTJ": {"cls": "แม่ทัพ", "skill": "จัดทัพให้เดินสู่เป้าหมาย", "g": "NT", "partner": ["INTP", "INFP"], "m": {"J": "ถามความเห็นพี่ในทีมก่อนสรุปวิธีทำงานของคุณ 1 ครั้ง", "S": "ถามความเห็นน้องในทีมก่อนสรุปแผน 1 ครั้งต่อสัปดาห์", "M": "ฟังหัวหน้างาน 1 คนเล่าอุปสรรค 10 นาทีโดยไม่ตัดสิน ก่อนสั่งการ"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"แม่ทัพ\"><defs><radialGradient id=\"bgENTJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#ede7ff\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgENTJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M132 70 Q166 74 160 120 Q150 100 136 96 Z\" fill=\"#1f1a1a\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#7a1f1f\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#b53535\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#b53535\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#b53535\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#e8c34a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#e8c34a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#9a6540\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#9a6540\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#9a6540\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#1f1a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#1f1a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#1f1a1a\"/><path d=\"M62 62 Q100 48 138 62\" stroke=\"#e8c34a\" stroke-width=\"6\" fill=\"none\"/><circle cx=\"100\" cy=\"53\" r=\"5\" fill=\"#d33\"/><rect x=\"156\" y=\"30\" width=\"5\" height=\"190\" fill=\"#8a6a3b\"/><path d=\"M161 36 L198 36 L190 56 L198 76 L161 76 Z\" fill=\"#b53535\"/><polygon points=\"178,44 181,52 189,52 183,57 185,66 178,61 171,66 173,57 167,52 175,52\" fill=\"#e8c34a\"/></svg>"}, "ENTP": {"cls": "จอมเวทผู้พลิกเกม", "skill": "เปลี่ยนทางตันเป็นทางใหม่", "g": "NT", "partner": ["INFJ", "INTJ"], "m": {"J": "เลือกไอเดียเด่น 1 ข้อ แล้วทำให้จบก่อนขยับไปไอเดียถัดไป", "S": "เลือกไอเดียปรับกระบวนการ 1 ข้อ ทดลองใน Job แล้วสรุปผลให้ทีม", "M": "เลือกไอเดียใหม่ 1 ข้อ มอบหมายเจ้าของและกำหนดวันติดตามผล"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"จอมเวทผู้พลิกเกม\"><defs><radialGradient id=\"bgENTP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#ede7ff\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgENTP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#5a3fb5\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#5a3fb5\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#5a3fb5\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#e8c34a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#e8c34a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#c98f60\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#c98f60\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#c98f60\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M88 106 Q100 122 112 106 Z\" fill=\"#7a2b2b\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#3a2a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#3a2a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#3a2a1a\"/><path d=\"M66 60 Q92 52 100 8 Q112 30 118 50 Q140 56 140 62 Q100 72 66 62 Z\" fill=\"#4b2fa0\"/><ellipse cx=\"102\" cy=\"62\" rx=\"52\" ry=\"9\" fill=\"#4b2fa0\"/><path d=\"M62 60 Q102 70 142 60\" stroke=\"#e8c34a\" stroke-width=\"5\" fill=\"none\"/><polygon points=\"100,26 103,34 111,34 105,39 107,47 100,42 93,47 95,39 89,34 97,34\" fill=\"#e8c34a\"/><rect x=\"158\" y=\"40\" width=\"5\" height=\"182\" fill=\"#8a6a3b\"/><polygon points=\"160,14 166,30 184,30 169,40 175,57 160,47 145,57 151,40 136,30 154,30\" fill=\"#f4c430\"/></svg>"}, "INFJ": {"cls": "นักพยากรณ์", "skill": "เห็นศักยภาพของคนก่อนใคร", "g": "NF", "partner": ["ENTP", "ENFP"], "m": {"J": "บอกสิ่งดีที่คุณเห็นในเพื่อนร่วมทีม 1 เรื่อง ให้เขารู้", "S": "บอกสิ่งที่คุณเห็นในศักยภาพของน้อง 1 คน พร้อมงานที่ช่วยให้เขาเติบโต", "M": "วางเส้นทางพัฒนาให้หัวหน้างาน 1 คน แล้วนัดคุยกับเขา"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักพยากรณ์\"><defs><radialGradient id=\"bgINFJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3f6ea\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgINFJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M58 84 Q54 150 70 160 L130 160 Q146 150 142 84 Z\" fill=\"#c9d2e0\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#1d4a4a\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#2f6f6f\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#2f6f6f\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#2f6f6f\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#e8c34a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#e8c34a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#f6d3b3\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#f6d3b3\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#c9d2e0\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#c9d2e0\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#c9d2e0\"/><path d=\"M54 96 Q50 34 100 32 Q150 34 146 96 L136 96 Q136 62 100 60 Q64 62 64 96 Z\" fill=\"#245858\"/><circle cx=\"160\" cy=\"166\" r=\"20\" fill=\"#9be7ff\" opacity=\".85\" stroke=\"#fff\" stroke-width=\"3\"/><ellipse cx=\"153\" cy=\"159\" rx=\"6\" ry=\"4\" fill=\"#fff\" opacity=\".7\"/><path d=\"M146 186 L174 186 L170 196 L150 196 Z\" fill=\"#8a6a3b\"/></svg>"}, "INFP": {"cls": "กวีนักเดินทาง", "skill": "ยึดคุณค่าและความหมายของงาน", "g": "NF", "partner": ["ENFJ", "ENTJ"], "m": {"J": "เล่าเหตุผลเบื้องหลังข้อเสนอแนะของคุณให้หัวหน้างานฟัง 1 เรื่อง", "S": "เล่าเหตุผลและคุณค่าเบื้องหลังข้อเสนอแนะ ให้ผู้รับงานเข้าใจ", "M": "เล่าคุณค่าของงานตรวจสอบให้ทีมฟัง 1 ครั้งผ่านเรื่องจริงจากหน้างาน"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"กวีนักเดินทาง\"><defs><radialGradient id=\"bgINFP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3f6ea\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgINFP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M58 84 Q54 124 72 128 L128 128 Q146 124 142 84 Z\" fill=\"#6b3f2a\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#4f9a5b\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#4f9a5b\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#4f9a5b\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#f3e6c3\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#f3e6c3\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#e8b88a\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#e8b88a\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#6b3f2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#6b3f2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#6b3f2a\"/><path d=\"M62 66 Q100 36 140 62 Q120 56 100 58 Q80 58 62 66 Z\" fill=\"#2f7a45\"/><path d=\"M128 56 Q156 24 160 12 Q148 30 122 52 Z\" fill=\"#e85d75\"/><rect x=\"136\" y=\"150\" width=\"34\" height=\"44\" rx=\"3\" fill=\"#7a4f9a\" stroke=\"#fff\" stroke-width=\"2\"/><path d=\"M168 118 Q192 130 170 166 Q170 140 162 128 Z\" fill=\"#f3e6c3\"/><path d=\"M164 160 L168 140\" stroke=\"#fff\" stroke-width=\"2\"/></svg>"}, "ENFJ": {"cls": "พาลาดินผู้ปลุกใจ", "skill": "เสริมพลังให้ทั้งทีม", "g": "NF", "partner": ["INFP", "ISFP"], "m": {"J": "กันเวลาพักฟื้นให้ตัวเอง 1 ช่วงต่อสัปดาห์ แม้งานจะยุ่ง", "S": "กันเวลาพักฟื้นให้ตัวเอง 1 ช่วงต่อสัปดาห์ และให้น้อง 1 คนช่วยดูแลทีมแทน", "M": "มอบหมายให้หัวหน้างาน 1 คนนำเรื่องหนึ่ง แล้วคุณเป็นโค้ชอยู่ข้างๆ"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"พาลาดินผู้ปลุกใจ\"><defs><radialGradient id=\"bgENFJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3f6ea\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgENFJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#b8862b\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#e6c352\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#e6c352\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#e6c352\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#fff4c7\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#fff4c7\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#6e4430\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#6e4430\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#6e4430\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#6e4430\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#6e4430\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#1a1414\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#1a1414\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#1a1414\"/><rect x=\"162\" y=\"64\" width=\"7\" height=\"110\" rx=\"2\" fill=\"#dfe6ee\" stroke=\"#8793a0\" stroke-width=\"2\"/><rect x=\"150\" y=\"170\" width=\"31\" height=\"7\" rx=\"2\" fill=\"#9a6b1f\"/><path d=\"M26 150 L62 150 L62 188 Q44 204 26 188 Z\" fill=\"#f4d36a\" stroke=\"#9a6b1f\" stroke-width=\"3\"/><circle cx=\"44\" cy=\"168\" r=\"8\" fill=\"#9a6b1f\"/></svg>"}, "ENFP": {"cls": "นักเล่านิทาน", "skill": "จุดประกายไอเดียและพลังทีม", "g": "NF", "partner": ["INFJ", "INTJ"], "m": {"J": "จดไอเดียไว้ แล้วเลือกลงมือจริงเพียง 1 เรื่อง", "S": "เลือกไอเดีย 1 เรื่องใส่แผน Job พร้อมกำหนดวันเสร็จ", "M": "เลือกไอเดียเชิงระบบ 1 เรื่อง ตั้งผู้รับผิดชอบและตัวชี้วัด"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักเล่านิทาน\"><defs><radialGradient id=\"bgENFP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3f6ea\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgENFP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><circle cx=\"62\" cy=\"70\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"56\" cy=\"88\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"64\" cy=\"104\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"138\" cy=\"70\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"144\" cy=\"88\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"136\" cy=\"104\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"80\" cy=\"52\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"100\" cy=\"46\" r=\"13\" fill=\"#2a1c18\"/><circle cx=\"120\" cy=\"52\" r=\"13\" fill=\"#2a1c18\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#e86a8f\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#e86a8f\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#e86a8f\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#ffd54a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#ffd54a\"/><path d=\"M74 128 Q100 150 126 128 L120 140 Q100 158 80 140 Z\" fill=\"#ffb02e\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#c98f60\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#c98f60\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#c98f60\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M88 106 Q100 122 112 106 Z\" fill=\"#7a2b2b\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#2a1c18\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#2a1c18\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#2a1c18\"/><g transform=\"rotate(-20 156 180)\"><rect x=\"153\" y=\"122\" width=\"7\" height=\"46\" fill=\"#7a4f22\"/><rect x=\"149\" y=\"114\" width=\"15\" height=\"11\" rx=\"3\" fill=\"#7a4f22\"/><ellipse cx=\"156\" cy=\"186\" rx=\"17\" ry=\"21\" fill=\"#c98a4a\" stroke=\"#7a4f22\" stroke-width=\"3\"/><circle cx=\"156\" cy=\"186\" r=\"6\" fill=\"#4a2f16\"/><path d=\"M154 126V190M158 126V190\" stroke=\"#fff\" stroke-width=\"1.5\"/><circle cx=\"150\" cy=\"118\" r=\"2\" fill=\"#ffd54a\"/><circle cx=\"163\" cy=\"118\" r=\"2\" fill=\"#ffd54a\"/></g></svg>"}, "ISTJ": {"cls": "อัศวินผู้พิทักษ์", "skill": "ปกป้องมาตรฐานไม่ให้สั่นคลอน", "g": "SJ", "partner": ["ESFP", "ESTP"], "m": {"J": "ลองวิธีใหม่ในงานเล็กๆ 1 เรื่อง แล้วจดว่าได้ผลอย่างไร", "S": "ให้น้อง 1 คนเสนอวิธีทำใหม่ในงานเล็กๆ แล้วดูผลร่วมกัน", "M": "เปิดโอกาสให้ทีมทดลองวิธีใหม่ใน Job ความเสี่ยงต่ำ 1 งาน"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"อัศวินผู้พิทักษ์\"><defs><radialGradient id=\"bgISTJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3eefc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgISTJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#3b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#3b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#222c3d\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#222c3d\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#6f86a6\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#6f86a6\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#6f86a6\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#dfe6ee\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#dfe6ee\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#e8b88a\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#e8b88a\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#3a2e26\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#3a2e26\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#3a2e26\"/><path d=\"M58 78 Q56 36 100 34 Q144 36 142 78 L132 74 Q100 62 68 74 Z\" fill=\"#9fb0c6\"/><rect x=\"96\" y=\"34\" width=\"8\" height=\"30\" fill=\"#2f6fcb\"/><path d=\"M100 34 Q92 14 112 10 Q104 22 108 34 Z\" fill=\"#2f6fcb\"/><path d=\"M24 138 L66 138 L66 190 Q45 216 24 190 Z\" fill=\"#2f6fcb\" stroke=\"#dfe6ee\" stroke-width=\"4\"/><path d=\"M45 146 L45 200 M30 164 L60 164\" stroke=\"#dfe6ee\" stroke-width=\"4\"/><rect x=\"160\" y=\"70\" width=\"7\" height=\"104\" rx=\"2\" fill=\"#dfe6ee\" stroke=\"#8793a0\" stroke-width=\"2\"/></svg>"}, "ISFJ": {"cls": "ผู้รักษา", "skill": "ดูแลทีมและงานอย่างสม่ำเสมอ", "g": "SJ", "partner": ["ESFP", "ESTP"], "m": {"J": "บอกความต้องการของตัวเองกับหัวหน้างานตรงๆ 1 เรื่อง", "S": "บอกทีมว่าคุณต้องการอะไรเพื่อทำงานได้ดี 1 เรื่อง", "M": "ให้ทีมแบ่งงานดูแลกันเอง 1 เรื่อง แทนที่คุณจะรับไว้ทั้งหมด"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"ผู้รักษา\"><defs><radialGradient id=\"bgISFJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3eefc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgISFJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#cfd8e3\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#cfd8e3\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#ffffff\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#ffffff\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#ffffff\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#4aa86a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#4aa86a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#f6d3b3\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#f6d3b3\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#8a5a3a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#8a5a3a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#8a5a3a\"/><circle cx=\"100\" cy=\"38\" r=\"14\" fill=\"#8a5a3a\"/><rect x=\"158\" y=\"44\" width=\"5\" height=\"178\" fill=\"#c9a36a\"/><circle cx=\"160\" cy=\"34\" r=\"14\" fill=\"#fff\" stroke=\"#3fae6a\" stroke-width=\"4\"/><path d=\"M160 26 L160 42 M152 34 L168 34\" stroke=\"#3fae6a\" stroke-width=\"5\"/><rect x=\"34\" y=\"168\" width=\"30\" height=\"24\" rx=\"5\" fill=\"#a86b3a\"/><path d=\"M44 168 Q49 158 54 168\" stroke=\"#7a4f22\" stroke-width=\"3\" fill=\"none\"/><path d=\"M45 180 L53 180 M49 176 L49 184\" stroke=\"#fff\" stroke-width=\"3\"/></svg>"}, "ESTJ": {"cls": "ผู้คุมหอคอย", "skill": "จัดคน จัดงาน ให้เป็นระบบ", "g": "SJ", "partner": ["INTP", "ISTP"], "m": {"J": "ลองรับวิธีทำงานที่ต่างจากแนวเดิม 1 วิธี แล้วดูผลลัพธ์", "S": "เปิดรับวิธีทำงานที่ต่างจากระเบียบ 1 วิธี แล้วลองดูผล", "M": "ตั้งพื้นที่ทดลองนอกระเบียบ 1 เรื่อง พร้อมเกณฑ์วัดผลที่ชัด"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"ผู้คุมหอคอย\"><defs><radialGradient id=\"bgESTJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3eefc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgESTJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#27406e\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#27406e\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#27406e\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#e8c34a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#e8c34a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#9a6540\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#9a6540\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#9a6540\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#1c1c1c\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#1c1c1c\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M66 100 Q70 134 100 138 Q130 134 134 100 Q124 118 100 118 Q76 118 66 100 Z\" fill=\"#1c1c1c\"/><path d=\"M90 108 Q100 112 110 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#1c1c1c\"/><path d=\"M60 70 Q64 40 104 42 Q142 42 142 70 Q100 60 60 70 Z\" fill=\"#1d2f52\"/><path d=\"M104 62 Q130 66 150 72 Q128 76 104 70 Z\" fill=\"#1d2f52\"/><circle cx=\"84\" cy=\"56\" r=\"5\" fill=\"#e8c34a\"/><rect x=\"138\" y=\"140\" width=\"38\" height=\"52\" rx=\"3\" fill=\"#f3e6c3\" stroke=\"#a37b45\" stroke-width=\"3\"/><path d=\"M146 152 L168 152 M146 162 L168 162 M146 172 L160 172\" stroke=\"#8a6a3b\" stroke-width=\"2.5\"/><rect x=\"150\" y=\"178\" width=\"22\" height=\"12\" rx=\"3\" fill=\"#c33\"/><rect x=\"157\" y=\"168\" width=\"8\" height=\"12\" rx=\"2\" fill=\"#8a6a3b\"/></svg>"}, "ESFJ": {"cls": "เจ้าของโรงเตี๊ยมผู้ประสาน", "skill": "เชื่อมคนและบรรยากาศทุกฝ่าย", "g": "SJ", "partner": ["ISTP", "ISFP"], "m": {"J": "พูดประเด็นที่ไม่สบายใจกับพี่ในทีมอย่างอ่อนโยน 1 เรื่อง", "S": "พูดประเด็นที่ไม่สบายใจตรงๆ อย่างอ่อนโยนกับเพื่อนร่วมทีม 1 เรื่อง", "M": "ให้ feedback ที่ยากแต่จำเป็นกับหัวหน้างาน 1 คน ด้วยข้อเท็จจริงและความใส่ใจ"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"เจ้าของโรงเตี๊ยมผู้ประสาน\"><defs><radialGradient id=\"bgESFJ\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#e3eefc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgESFJ)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M58 84 Q54 150 70 160 L130 160 Q146 150 142 84 Z\" fill=\"#4a2a1a\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#c46f3f\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#c46f3f\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#c46f3f\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#f7e6c8\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#f7e6c8\"/><path d=\"M70 150 L130 150 L136 206 L64 206 Z\" fill=\"#fff3e0\" opacity=\".95\"/><path d=\"M86 150 L86 206 M114 150 L114 206\" stroke=\"#e8c9a0\" stroke-width=\"2\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#c98f60\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#c98f60\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#c98f60\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#c98f60\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M88 106 Q100 122 112 106 Z\" fill=\"#7a2b2b\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#4a2a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#4a2a1a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#4a2a1a\"/><path d=\"M64 110 Q52 150 66 190\" stroke=\"#4a2a1a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M58 74 Q56 38 100 38 Q144 38 142 74 Q100 56 58 74 Z\" fill=\"#e0b64a\"/><circle cx=\"82\" cy=\"52\" r=\"3\" fill=\"#c46f3f\"/><circle cx=\"104\" cy=\"46\" r=\"3\" fill=\"#c46f3f\"/><circle cx=\"124\" cy=\"54\" r=\"3\" fill=\"#c46f3f\"/><rect x=\"142\" y=\"150\" width=\"30\" height=\"34\" rx=\"6\" fill=\"#d9a85b\" stroke=\"#8a6a3b\" stroke-width=\"3\"/><path d=\"M172 158 Q188 160 172 176\" stroke=\"#8a6a3b\" stroke-width=\"5\" fill=\"none\"/><path d=\"M144 150 Q150 138 158 146 Q166 138 170 150 Z\" fill=\"#fff\"/></svg>"}, "ISTP": {"cls": "ช่างกลผู้แก้ปัญหา", "skill": "ซ่อมปัญหาหน้างานอย่างใจเย็น", "g": "SP", "partner": ["ESTJ", "ESFJ"], "m": {"J": "เล่าวิธีแก้ปัญหาของคุณให้เพื่อนร่วมทีม 1 คนฟัง", "S": "สอนวิธีแก้ปัญหาหน้างานของคุณให้น้อง 1 คน", "M": "จดวิธีแก้ปัญหาที่ใช้ซ้ำๆ เป็นแนวปฏิบัติ 1 หน้าให้ทีม"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"ช่างกลผู้แก้ปัญหา\"><defs><radialGradient id=\"bgISTP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#fff0dc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgISTP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#3a3f4a\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#3a3f4a\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#e8801e\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#e8801e\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#e8801e\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#3a3a3a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#3a3a3a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#9a6540\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#9a6540\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#9a6540\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#9a6540\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#2a2018\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#2a2018\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#2a2018\"/><rect x=\"58\" y=\"56\" width=\"84\" height=\"9\" rx=\"4\" fill=\"#3a3a3a\"/><circle cx=\"82\" cy=\"58\" r=\"11\" fill=\"#cfeaff\" stroke=\"#8a8a8a\" stroke-width=\"5\"/><circle cx=\"118\" cy=\"58\" r=\"11\" fill=\"#cfeaff\" stroke=\"#8a8a8a\" stroke-width=\"5\"/><rect x=\"158\" y=\"96\" width=\"9\" height=\"106\" rx=\"4\" fill=\"#b8c1cc\" stroke=\"#6d7783\" stroke-width=\"2\"/><path d=\"M150 98 Q150 80 162 80 Q174 80 174 98 L168 98 L168 90 L156 90 L156 98 Z\" fill=\"#b8c1cc\" stroke=\"#6d7783\" stroke-width=\"2\"/><circle cx=\"162\" cy=\"212\" r=\"9\" fill=\"#b8c1cc\" stroke=\"#6d7783\" stroke-width=\"2\"/><circle cx=\"162\" cy=\"212\" r=\"3.5\" fill=\"#fff\"/></svg>"}, "ISFP": {"cls": "นักธนูแห่งป่า", "skill": "ลงมือประณีตเงียบๆ ปรับตัวเก่ง", "g": "SP", "partner": ["ENFJ", "ESFJ"], "m": {"J": "นำเสนอผลงานของตัวเองในที่ประชุมทีม 1 ครั้ง", "S": "นำเสนอผลงานของทีมในที่ประชุม 1 ครั้ง", "M": "แชร์มุมมองของคุณในที่ประชุมผู้บริหาร 1 เรื่อง"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักธนูแห่งป่า\"><defs><radialGradient id=\"bgISFP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#fff0dc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgISFP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M58 84 Q54 150 70 160 L130 160 Q146 150 142 84 Z\" fill=\"#7a4b2a\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#2f6a3a\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#6a5a3a\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#6a5a3a\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#4f8a4a\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#4f8a4a\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#4f8a4a\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#d9c58a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#d9c58a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#e8b88a\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#e8b88a\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#e8b88a\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M90 106 Q100 116 110 106\" stroke=\"#7a2b2b\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#7a4b2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#7a4b2a\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#7a4b2a\"/><path d=\"M64 110 Q52 150 66 190\" stroke=\"#7a4b2a\" stroke-width=\"10\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M54 96 Q50 34 100 32 Q150 34 146 96 L136 96 Q136 62 100 60 Q64 62 64 96 Z\" fill=\"#2f6a3a\"/><path d=\"M168 62 Q196 140 168 222\" stroke=\"#8a5a2b\" stroke-width=\"6\" fill=\"none\"/><path d=\"M168 62 L168 222\" stroke=\"#f3e6c3\" stroke-width=\"2\"/><path d=\"M140 142 L172 142\" stroke=\"#8a5a2b\" stroke-width=\"3\"/><polygon points=\"136,142 146,137 146,147\" fill=\"#6d7783\"/></svg>"}, "ESTP": {"cls": "นักดาบผู้ว่องไว", "skill": "ตัดสินใจเร็ว รับมือเหตุเร่งด่วน", "g": "SP", "partner": ["ISTJ", "ISFJ"], "m": {"J": "หยุดคิดผลกระทบ 5 นาที ก่อนตัดสินใจเรื่องสำคัญ", "S": "หยุดคิดผลกระทบ 5 นาที ก่อนสั่งงานเรื่องสำคัญ", "M": "ก่อนตัดสินใจเชิงกลยุทธ์ ฟังมุมมองระยะยาวจากคนในทีม 1 คน"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักดาบผู้ว่องไว\"><defs><radialGradient id=\"bgESTP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#fff0dc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgESTP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><path d=\"M64 130 Q40 190 46 226 L154 226 Q160 190 136 130 Z\" fill=\"#8c2a1d\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#4b4a63\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#c6402e\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#c6402e\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#c6402e\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#2a2a2a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#2a2a2a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#f6d3b3\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#f6d3b3\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#f6d3b3\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M88 106 Q100 122 112 106 Z\" fill=\"#7a2b2b\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#b5651d\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#b5651d\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#b5651d\"/><path d=\"M58 70 Q100 44 142 70 L142 78 Q100 58 58 78 Z\" fill=\"#2a2a2a\"/><path d=\"M140 70 L160 62 L156 80 L146 78 Z\" fill=\"#2a2a2a\"/><path d=\"M160 100 L170 150 L160 156 L150 150 Z\" fill=\"#e5ebf2\" stroke=\"#8793a0\" stroke-width=\"2\"/><rect x=\"146\" y=\"154\" width=\"28\" height=\"7\" rx=\"3\" fill=\"#e8c34a\"/><rect x=\"156\" y=\"161\" width=\"8\" height=\"20\" rx=\"3\" fill=\"#7a4f22\"/></svg>"}, "ESFP": {"cls": "นักแสดงกายกรรม", "skill": "ทำให้ทีมผ่านช่วงกดดันด้วยพลังบวก", "g": "SP", "partner": ["ISTJ", "ISFJ"], "m": {"J": "วางแผนล่วงหน้าสำหรับงานสำคัญ 1 งาน แล้วเช็กความคืบหน้ารายสัปดาห์", "S": "ทำแผนรายสัปดาห์ให้ Job แล้วใช้พลังบวกของคุณชวนทีมทำตาม", "M": "ตั้ง milestone และผู้ติดตามให้งานใหญ่ 1 งาน แล้วใช้พลังบวกขับเคลื่อนทีม"}, "svg": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 240\" role=\"img\" aria-label=\"นักแสดงกายกรรม\"><defs><radialGradient id=\"bgESFP\" cx=\"50%\" cy=\"55%\" r=\"60%\"><stop offset=\"0\" stop-color=\"#fff\"/><stop offset=\"1\" stop-color=\"#fff0dc\"/></radialGradient></defs><rect width=\"200\" height=\"240\" rx=\"22\" fill=\"url(#bgESFP)\"/><ellipse cx=\"100\" cy=\"232\" rx=\"56\" ry=\"7\" fill=\"#000\" opacity=\".12\"/><circle cx=\"62\" cy=\"70\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"56\" cy=\"88\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"64\" cy=\"104\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"138\" cy=\"70\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"144\" cy=\"88\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"136\" cy=\"104\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"80\" cy=\"52\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"100\" cy=\"46\" r=\"13\" fill=\"#2a1420\"/><circle cx=\"120\" cy=\"52\" r=\"13\" fill=\"#2a1420\"/><rect x=\"74\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#7e57c2\"/><rect x=\"104\" y=\"200\" width=\"22\" height=\"26\" rx=\"6\" fill=\"#7e57c2\"/><rect x=\"70\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><rect x=\"102\" y=\"220\" width=\"28\" height=\"12\" rx=\"6\" fill=\"#3a2a22\"/><path d=\"M66 134 Q50 160 54 184 L68 184 Q70 160 78 144 Z\" fill=\"#f06292\"/><path d=\"M134 134 Q150 156 152 176 L138 178 Q134 158 124 144 Z\" fill=\"#f06292\"/><path d=\"M68 130 Q100 118 132 130 L138 206 L62 206 Z\" fill=\"#f06292\"/><rect x=\"62\" y=\"190\" width=\"76\" height=\"9\" fill=\"#ffd54a\"/><rect x=\"94\" y=\"188\" width=\"12\" height=\"13\" rx=\"2\" fill=\"#e8c34a\"/><path d=\"M80 128 Q100 146 120 128 L116 124 Q100 136 84 124 Z\" fill=\"#ffd54a\"/><circle cx=\"60\" cy=\"186\" r=\"8\" fill=\"#6e4430\"/><circle cx=\"148\" cy=\"178\" r=\"8\" fill=\"#6e4430\"/><ellipse cx=\"100\" cy=\"88\" rx=\"38\" ry=\"36\" fill=\"#6e4430\"/><ellipse cx=\"62\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#6e4430\"/><ellipse cx=\"138\" cy=\"92\" rx=\"5\" ry=\"8\" fill=\"#6e4430\"/><ellipse cx=\"82\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><ellipse cx=\"118\" cy=\"92\" rx=\"5.5\" ry=\"7\" fill=\"#2b2230\"/><circle cx=\"84\" cy=\"89\" r=\"2\" fill=\"#fff\"/><circle cx=\"120\" cy=\"89\" r=\"2\" fill=\"#fff\"/><ellipse cx=\"72\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><ellipse cx=\"128\" cy=\"106\" rx=\"7\" ry=\"4\" fill=\"#ff8aa0\" opacity=\".35\"/><path d=\"M88 106 Q100 122 112 106 Z\" fill=\"#7a2b2b\"/><path d=\"M92 108 Q100 112 108 108\" stroke=\"#fff\" stroke-width=\"2\" fill=\"none\"/><path d=\"M74 80 Q82 76 90 80\" stroke=\"#2a1420\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M110 80 Q118 76 126 80\" stroke=\"#2a1420\" stroke-width=\"3\" fill=\"none\" stroke-linecap=\"round\"/><path d=\"M61 88 Q56 44 100 44 Q144 44 139 88 Q132 66 108 64 Q96 74 78 70 Q66 74 61 88 Z\" fill=\"#2a1420\"/><path d=\"M62 66 Q40 40 36 22 Q60 32 84 50 Z\" fill=\"#7e57c2\"/><path d=\"M138 66 Q160 40 164 22 Q140 32 116 50 Z\" fill=\"#ffb300\"/><path d=\"M62 66 Q100 44 138 66 Q100 58 62 66 Z\" fill=\"#7e57c2\"/><circle cx=\"36\" cy=\"22\" r=\"6\" fill=\"#ffb300\"/><circle cx=\"164\" cy=\"22\" r=\"6\" fill=\"#7e57c2\"/><rect x=\"164\" y=\"140\" width=\"5\" height=\"40\" rx=\"2\" fill=\"#8a6a3b\"/><path d=\"M166 140 Q196 110 176 88 Q150 70 166 46 Q186 70 192 92 Q196 120 168 146\" stroke=\"#ff5c8a\" stroke-width=\"7\" fill=\"none\" stroke-linecap=\"round\"/><polygon points=\"30,128 33,136 41,136 35,141 37,149 30,144 23,149 25,141 19,136 27,136\" fill=\"#ffd54a\"/></svg>"}};
+const GROUPS = {
+ NT:{c:"#6c4bd4",n:"สายวางแผน"}, NF:{c:"#1f9a5a",n:"สายสร้างแรงบันดาลใจ"},
+ SJ:{c:"#2f6fcb",n:"สายพิทักษ์ระบบ"}, SP:{c:"#e6821e",n:"สายลุยหน้างาน"}
+};
+function avatar(code){ return RPG[code].svg; }
+const TYPES = {
+ INTJ:["ผู้วางกลยุทธ์เงียบๆ","มองระบบทั้งหมดล่วงหน้า วางแผนเป็นขั้น และตัดสินด้วยเหตุผล"],
+ INTP:["นักวิเคราะห์เชิงระบบ","ชอบแกะปัญหาซับซ้อน หาหลักการเบื้องหลัง และยืดหยุ่นกับวิธีทำ"],
+ ENTJ:["ผู้นำขับเคลื่อนเป้าหมาย","จัดทีมและทรัพยากรให้เดินไปสู่เป้าหมายอย่างเป็นระบบ"],
+ ENTP:["นักคิดปรับกระบวนการ","ชอบตั้งคำถามกับวิธีเดิม ทดลองแนวทางใหม่ผ่านการคุยกับทีม"],
+ INFJ:["ผู้หยั่งรู้และพัฒนาคน","เห็นภาพรวมและใส่ใจคน วางแผนเพื่อให้ทีมเติบโตไปด้วยกัน"],
+ INFP:["ผู้ประสานคุณค่าและความหมาย","ทำงานเงียบๆ ด้วยความจริงใจ ใส่ใจผลต่อคนและความถูกต้องในใจ"],
+ ENFJ:["โค้ชประจำทีม","ดึงศักยภาพคน สื่อสารให้ทีมเข้าใจตรงกัน และวางแผนให้งานเดินได้"],
+ ENFP:["ผู้จุดประกายทีม","สร้างพลังและไอเดียให้ทีม ปรับตัวเก่ง เปิดรับสิ่งใหม่"],
+ ISTJ:["ผู้พิทักษ์มาตรฐาน","ละเอียด มีระเบียบ ยึดหลักฐานและเกณฑ์ ปิดงานอย่างเชื่อถือได้"],
+ ISFJ:["ผู้ดูแลงานและคนอย่างใส่ใจ","รอบคอบ ละเอียด ดูแลทีมและลูกค้าอย่างสม่ำเสมอ"],
+ ESTJ:["ผู้จัดระเบียบหน้างาน","จัดงาน จัดคน และกำกับให้เป็นไปตามแผนและมาตรฐาน"],
+ ESFJ:["ผู้เชื่อมทีมและลูกค้า","ประสานคนได้ดี ดูแลบรรยากาศ และทำให้งานเดินตามขั้นตอน"],
+ ISTP:["ผู้แก้ปัญหาหน้างาน","ใจเย็น ดูข้อเท็จจริง ลงมือแก้เฉพาะหน้าได้คล่องและเงียบๆ"],
+ ISFP:["ผู้ทำงานเงียบอย่างประณีต","ใส่ใจรายละเอียดและคน ปรับตัวง่าย ทำงานอย่างอ่อนโยนแต่จริงจัง"],
+ ESTP:["ผู้รับมือสถานการณ์เร่งด่วน","ตัดสินใจเร็ว เก่งหน้างาน ใช้ข้อเท็จจริงเฉพาะหน้าและพลังจากทีม"],
+ ESFP:["ผู้สร้างบรรยากาศทีม","เข้ากับคนง่าย ปรับตัวเก่ง ช่วยให้ทีมผ่านช่วงกดดันได้ดี"]
+};
+const POLE = {
+ I:{s:"ลงลึกกับเอกสารและประเด็นได้ดีเมื่อมีเวลาคิดคนเดียว",g:"ลองส่งอัปเดตสั้นๆ ให้ทีมระหว่างทาง ทีมจะเห็นความคืบหน้าและช่วยคุณได้ทันเวลา",c:"ส่งข้อสรุปหรือประเด็นเป็นข้อความก่อนประชุม และขอเวลาคิดก่อนตอบเรื่องใหญ่"},
+ E:{s:"สร้างความเข้าใจร่วมและพลังทีมผ่านการคุย ช่วยคลี่คลายประเด็นได้เร็ว",g:"ลองบอกทีมว่าตอนนี้คือ 'ไอเดีย' หรือ 'ข้อสรุป' ทุกคนจะต่อยอดให้ได้ตรงจุดขึ้น",c:"ชวนคุยสั้นๆ ก่อนลงมือ และสรุปเป็นลายลักษณ์อักษรหลังคุยเสมอ"},
+ S:{s:"ละเอียด อิงหลักฐาน จับความผิดปกติในรายละเอียดได้แม่น",g:"ลองถอยมามองภาพรวมวันละ 5 นาที จะเห็นรูปแบบที่ทำให้ข้อค้นพบของคุณทรงพลังขึ้น",c:"รายงานด้วยข้อเท็จจริง เอกสารอ้างอิง และตัวเลขที่ชัดเจน"},
+ N:{s:"เห็นรูปแบบและสาเหตุเชิงระบบ เชื่อมประเด็นข้ามกระบวนการได้",g:"ลองเพิ่มขั้นเช็กรายละเอียดก่อนส่ง ไอเดียเชิงระบบของคุณจะมีหลักฐานหนุนแน่นขึ้น",c:"เริ่มจากภาพรวมและข้อสรุป แล้วค่อยตามด้วยหลักฐานสนับสนุน"},
+ T:{s:"ตัดสินอย่างตรงไปตรงมาตามเกณฑ์ ช่วยให้ผลตรวจน่าเชื่อถือและสม่ำเสมอ",g:"ลองเติมบริบทและน้ำเสียงอบอุ่นในข้อเสนอ เกณฑ์ที่แม่นของคุณจะถูกยอมรับได้ง่ายขึ้น",c:"เสนอด้วยเหตุผล เกณฑ์ และข้อมูลที่ตรวจสอบได้"},
+ F:{s:"อ่านบรรยากาศและความกังวลของคนได้ดี ช่วยให้ลูกค้าและทีมยอมรับข้อตรวจพบได้ง่ายขึ้น",g:"ลองแยก 'ข้อเท็จจริงของงาน' ออกจาก 'ความรู้สึกของคน' แล้วยืนหยัดตามเกณฑ์ ความใส่ใจของคุณจะยิ่งมีน้ำหนัก",c:"เล่าบริบทและผลกระทบต่อคนควบคู่กับข้อเท็จจริง"},
+ J:{s:"วางแผน กำหนดเส้นตาย และปิดงานได้ตามกำหนด ทีมมองเห็นทิศทางชัด",g:"ลองเผื่อช่องว่างในแผนไว้ 10–20% เมื่อขอบเขตเปลี่ยน คุณจะรับมือได้สบายใจขึ้น",c:"ให้ขอบเขต กำหนดเวลา และลำดับงานที่ชัดเจนล่วงหน้า"},
+ P:{s:"ปรับตัวกับหน้างานที่เปลี่ยนเร็วได้ดี รับมือกับลูกค้าและสถานการณ์ไม่แน่นอนได้ยืดหยุ่น",g:"ลองตั้ง milestone กลางทางให้ตัวเอง 1–2 จุด ความยืดหยุ่นของคุณจะไปถึงเส้นชัยได้อย่างมั่นใจ",c:"ให้เป้าหมายหลักและกรอบเวลา แล้วเปิดช่องให้เลือกวิธีทำเอง"}
+};
+const GTIP = {
+ J:"ในบทบาทปฏิบัติการ: ลองถามหัวหน้างานตรงๆ ว่าอยากให้รายงานความคืบหน้าแบบไหน แล้วใช้สไตล์ของคุณเป็นจุดแข็งในการทำงาน",
+ S:"ในบทบาทหัวหน้างาน: สไตล์นี้ช่วยให้คุณมอบหมายและสอนน้องได้ ลองถามน้องแต่ละคนว่าอยากให้สื่อสารแบบไหน",
+ M:"ในบทบาทผู้บริหาร: ใช้ผลนี้ช่วยจัดทีมในปาร์ตี้ให้ครบสมดุล และดูแลแต่ละ Job ให้สไตล์เสริมกัน"
+};
+const COLLAB = {
+ EI:["กับคนสไตล์ 'คิดผ่านทีม': ขอให้สรุปสิ่งที่คุยเป็นข้อความ และบอกว่าคุณต้องการเวลาคิดก่อนตอบ","กับคนสไตล์ 'ลงลึกคนเดียว': อย่าเร่งคำตอบทันที ส่งประเด็นล่วงหน้าแล้วให้เวลาเขาตกผลึก"],
+ SN:["กับคนสไตล์ 'ภาพรวม': ถามว่าข้อสรุปของเขาอิงหลักฐานใดบ้าง และขอให้เล่าภาพรวมก่อนลงรายละเอียด","กับคนสไตล์ 'รายละเอียด': เริ่มจากข้อเท็จจริงที่เขาเห็น แล้วค่อยชวนเชื่อมไปสู่ภาพรวม"],
+ TF:["กับคนสไตล์ 'บริบทและคน': รับฟังบริบทก่อนแล้วจึงคุยเกณฑ์ เขาจะเปิดรับข้อเสนอได้ง่ายขึ้น","กับคนสไตล์ 'เกณฑ์': ใช้ข้อมูลและเหตุผลตรงๆ อย่าอ้อม แต่บอกผลกระทบต่อคนประกอบด้วย"],
+ JP:["กับคนสไตล์ 'ยืดหยุ่น': ตกลงเส้นตายและ milestone กลางทางร่วมกัน แล้วให้อิสระในวิธีทำ","กับคนสไตล์ 'วางแผน': แจ้งการเปลี่ยนแปลงให้เร็วที่สุด พร้อมบอกเหตุผลและผลต่อแผน"]
+};
+const ASK = {
+ EI:["ช่วงนี้คุณใช้เวลาคิดคนเดียว กับคิดผ่านการคุย สมดุลกับงานที่ทำอยู่หรือไม่"],
+ SN:["งานล่าสุดที่คุณทำ คุณถอยมาดูภาพรวม และตรวจรายละเอียด ครบทั้งสองอย่างหรือยัง"],
+ TF:["ครั้งล่าสุดที่คุณต้องตัดสินใจเรื่องคน คุณใช้เกณฑ์กับบริบทอย่างละเท่าไร"],
+ JP:["Job ถัดไปของคุณ จุดไหนควรวางแผนให้แน่น และจุดไหนควรเปิดช่องไว้ปรับ"]
+};
+function grp(code){ return RPG[code].g; }
+
+/* ===== Logic ===== */
+const $ = id => document.getElementById(id);
+let order=[], flip=[], ans=[], idx=0, user={}, grpKey="S", toastTimer=null;
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+// ตัวละครตัวอย่างหน้าแรก
+(function(){ $("minis").innerHTML=["INTJ","ENFP","ISTJ","ESTP"].map(c=>`<div>${avatar(c)}</div>`).join(""); })();
+
+if(CONFIG.REQUIRE_CODE) $("code-box").classList.remove("hidden");
+
+async function checkCode(c){
+  if(!CONFIG.REQUIRE_CODE||!CONFIG.SCRIPT_URL) return {ok:true};
+  try{
+    const r=await fetch(CONFIG.SCRIPT_URL+"?check="+encodeURIComponent(c));
+    const t=(await r.text()).trim();
+    return {ok:t==="ok"};
+  }catch(e){ return {ok:false,net:true}; }
+}
+
+$("btn-start").onclick=async()=>{
+  const name=$("name").value.trim(), level=$("level").value, access=($("acode").value||"").trim();
+  if(!name||!level){$("e-start").textContent="กรุณากรอกชื่อเล่นและเลือกระดับตำแหน่ง";return;}
+  if(CONFIG.REQUIRE_CODE&&!access){$("e-start").textContent="กรุณากรอกรหัสเข้าทำแบบประเมิน";return;}
+  if(!$("consent").checked){$("e-start").textContent="กรุณาติ๊กยินยอมก่อนเริ่มทำแบบประเมิน";return;}
+  $("e-start").textContent="";
+  const btn=$("btn-start"); btn.disabled=true; const old=btn.textContent; btn.textContent="กำลังตรวจสอบ…";
+  const chk=await checkCode(access);
+  btn.disabled=false; btn.textContent=old;
+  if(!chk.ok){$("e-start").textContent=chk.net?"เชื่อมต่อไม่ได้ กรุณาตรวจอินเทอร์เน็ตแล้วลองใหม่":"รหัสเข้าไม่ถูกต้อง กรุณาตรวจสอบกับผู้ดูแล";return;}
+  user={name,level,access,consent:true,sid:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random().toString(16).slice(2))};
+  grpKey=groupOf(level);
+  order=shuffle(Q.map((_,i)=>i));
+  flip=order.map(()=>Math.random()<0.5);
+  ans=new Array(order.length).fill(null);
+  idx=0;
+  $("s-start").classList.add("hidden");$("s-quiz").classList.remove("hidden");
+  show();
+};
+
+function showToast(msg){
+  const t=$("toast"); t.textContent=msg; t.classList.remove("hidden");
+  t.style.animation="none"; void t.offsetWidth; t.style.animation="";
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.add("hidden"),2200);
+}
+
+function show(){
+  const q=getQ(order[idx],grpKey), f=flip[idx];
+  const st=STAGES[Math.min(3,Math.floor(idx/6))];
+  $("stage-t").innerHTML=`<b>${st[0]}</b> · ${st[1]}`;
+  $("prog-t").textContent=`ข้อ ${idx+1} / ${order.length}`;
+  const pct=idx/order.length*100;
+  $("prog").style.width=pct+"%"; $("walker").style.left=Math.max(2,pct)+"%";
+  $("q-icon").textContent=q.i;
+  $("q-text").textContent=q.t;
+  $("o1-text").textContent=f?q.b:q.a;   // การ์ด A (ซ้าย/บน)
+  $("o2-text").textContent=f?q.a:q.b;   // การ์ด B (ขวา/ล่าง)
+  document.querySelectorAll(".sc").forEach(b=>b.classList.toggle("sel",!!ans[idx]&&+b.dataset.p===ans[idx].p));
+  $("btn-back").style.visibility=idx===0?"hidden":"visible";
+  const c=$("qcard"); c.style.animation="none"; void c.offsetWidth; c.style.animation="";
+  if(TOASTS[idx]) showToast(TOASTS[idx]);
+  window.scrollTo(0,0);
+}
+
+/* p = ตำแหน่งที่แตะบนสเกล (-2,-1 = ฝั่ง A | 1,2 = ฝั่ง B) → ค่าคะแนน: ลบ = ขั้วแรกของมิติ, บวก = ขั้วหลัง */
+function toValue(p,flipped){ return flipped ? -p : p; }
+
+function answer(p){
+  ans[idx]={p:p,v:toValue(p,flip[idx])};
+  document.querySelectorAll(".sc").forEach(b=>b.classList.toggle("sel",+b.dataset.p===p));
+  setTimeout(()=>{ if(idx<order.length-1){idx++;show();} else finish(); },240);
+}
+document.querySelectorAll(".sc").forEach(b=>b.onclick=()=>answer(+b.dataset.p));
+document.addEventListener("keydown",e=>{
+  if($("s-quiz").classList.contains("hidden")) return;
+  const m={"1":-2,"2":-1,"3":1,"4":2};
+  if(m[e.key]!==undefined) answer(m[e.key]);
+});
+$("btn-back").onclick=()=>{if(idx>0){idx--;show();}};
+
+function score(){
+  const sums={EI:0,SN:0,TF:0,JP:0};
+  ans.forEach((a,i)=>{sums[Q[order[i]].d]+=a.v;});
+  const res={}; let code="";
+  for(const d of ["EI","SN","TF","JP"]){
+    const s=sums[d];
+    const pick = s>0?1:0;                              // เสมอ = ขั้วแรก
+    const pct = Math.round(50+Math.abs(s)/12*50);      // สูงสุด 12 คะแนนต่อมิติ => 100%
+    res[d]={pole:POLES[d][pick],pct:Math.min(100,pct),sum:s,tie:s===0};
+    code+=POLES[d][pick];
+  }
+  return {code,res};
+}
+
+function finish(){
+  $("prog").style.width="100%"; $("walker").style.left="98%";
+  const {code,res}=score();
+  $("s-quiz").classList.add("hidden");$("s-result").classList.remove("hidden");
+  window.scrollTo(0,0);
+  const R=RPG[code], g=GROUPS[R.g];
+  $("r-hero").style.setProperty("--gc",g.c);
+  $("r-who").textContent=`การ์ดผู้กล้าของ ${user.name} (${user.level})`;
+  $("r-avatar").innerHTML=avatar(code);
+  $("r-code").textContent=code;
+  $("r-cls").textContent=R.cls;
+  $("r-group").textContent=g.n; $("r-group").style.background=g.c;
+  $("r-sum").textContent=TYPES[code][0]+" · "+TYPES[code][1];
+  $("r-skill").textContent="⚔️ สกิลเด่น: "+R.skill;
+  let h="";
+  for(const d of ["EI","SN","TF","JP"]){
+    const r=res[d], isB=r.pole===POLES[d][1];
+    const w=r.pct-50, col=DIMCOL[d][isB?1:0];
+    const style=isB?`left:50%;width:${w}%;background:${col}`:`left:${50-w}%;width:${w}%;background:${col}`;
+    h+=`<div class="dim"><div class="tt">${DIMTITLE[d]}: ${r.pole} ${r.pct}%${r.tie?" (ใกล้สมดุล)":""}</div>
+    <div class="l"><span>${POLES[d][0]} · ${DIMNAME[d][0]}</span><span>${DIMNAME[d][1]} · ${POLES[d][1]}</span></div>
+    <div class="t"><i style="${style}"></i><span class="m"></span></div></div>`;
+  }
+  $("r-dims").innerHTML=h;
+  const near=Object.keys(res).filter(d=>res[d].pct<60).map(d=>DIMTITLE[d]);
+  $("r-note").textContent="ค่า % ยิ่งใกล้ 50% แสดงว่าคุณใช้ได้ทั้งสองขั้วใกล้เคียงกัน"+(near.length?` · มิติที่ค่อนข้างสมดุลของคุณ: ${near.join(", ")}`:"")+" · เป็นแบบประเมินภายในของ AMT ไม่ใช่ MBTI ฉบับทางการ";
+  const dims=["EI","SN","TF","JP"];
+  const li=a=>a.map(x=>`<li>${x}</li>`).join("");
+  $("r-str").innerHTML=li(dims.map(d=>POLE[res[d].pole].s));
+  $("r-grow").innerHTML=li(dims.map(d=>POLE[res[d].pole].g));
+  $("r-gtip").textContent=GTIP[grpKey];
+  $("r-mission").textContent=R.m[grpKey];
+  $("r-com").innerHTML=li(dims.map(d=>POLE[res[d].pole].c));
+  $("r-party").innerHTML=R.partner.map(p=>`<div class="pm">${RPG[p].svg}<b>${p} · ${RPG[p].cls}</b><span>${RPG[p].skill}</span></div>`).join("");
+  $("r-col").innerHTML=li(dims.map(d=>COLLAB[d][res[d].pole===POLES[d][0]?0:1]));
+  $("r-ask").innerHTML=li(dims.map(d=>ASK[d][0]));
+  submit(code,res);
+}
+
+function payload(code,res){
+  return {token:CONFIG.TOKEN,access:user.access||"",sid:user.sid,name:user.name,level:user.level,consent:"ยินยอม",code,
+    EI:res.EI.pole+" "+res.EI.pct,SN:res.SN.pole+" "+res.SN.pct,TF:res.TF.pole+" "+res.TF.pct,JP:res.JP.pole+" "+res.JP.pct};
+}
+async function submit(code,res){
+  const st=$("r-status"), rt=$("btn-retry");
+  rt.style.display="none";
+  if(!CONFIG.SCRIPT_URL){
+    st.className="status warn";
+    st.textContent="ยังไม่ได้ตั้งค่าปลายทาง Google Sheet (SCRIPT_URL) ผลนี้ยังไม่ถูกส่งไปยังผู้บริหาร กรุณาแจ้งผู้ดูแลระบบ";
+    return;
+  }
+  st.className="status warn";st.textContent="กำลังส่งผลสรุปเข้า Google Sheet…";
+  const fail=msg=>{st.className="status warn";st.textContent=msg;rt.style.display="inline-block";rt.onclick=()=>submit(code,res);};
+  try{
+    const r=await fetch(CONFIG.SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload(code,res))});
+    const t=(await r.text()).trim();
+    if(t==="ok"){st.className="status ok";st.textContent="ส่งผลสรุปเรียบร้อยแล้ว (ไม่ได้ส่งคำตอบรายข้อ) ขอบคุณที่ร่วมทำแบบประเมิน 🎉";}
+    else if(t==="unauthorized"||t==="bad code") fail("ส่งไม่สำเร็จ: รหัสหรือสิทธิ์ไม่ถูกต้อง กรุณาแจ้งผู้ดูแลระบบ (ถ่ายภาพหน้านี้ไว้ได้)");
+    else fail("ส่งไม่สำเร็จ ("+t.slice(0,40)+") กรุณากดส่งอีกครั้ง หรือแจ้งผู้ดูแลระบบ");
+  }catch(e){ fail("ส่งไม่สำเร็จ กรุณาตรวจสอบอินเทอร์เน็ตแล้วกดส่งอีกครั้ง (ส่งซ้ำได้ ระบบกันข้อมูลซ้ำให้)"); }
+}
+</script>
+</body>
+</html>
